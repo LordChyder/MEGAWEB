@@ -1,0 +1,19 @@
+/* Estilos adicionales para animaciones suaves */
+.transition-all {
+    transition-property: all;
+  }
+  
+  /* Ocultar la versión móvil en pantallas medianas y grandes */
+  @media (min-width: 768px) {
+    .md\:hidden {
+      display: none;
+    }
+  }
+  
+  /* Mostrar la versión de escritorio solo en pantallas medianas y grandes */
+  @media (max-width: 767px) {
+    .absolute.inset-0 {
+      display: none;
+    }
+  }
+  
