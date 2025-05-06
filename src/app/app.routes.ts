@@ -1,10 +1,39 @@
 import { Routes } from '@angular/router';
+import { PaginaWebComponent } from './pagina-web/pagina-web.component';
 
 export const routes: Routes = [
+  { path: '', pathMatch: 'full', redirectTo: '/inicio' },
+
   {
     path: '',
-    loadComponent: () =>
-      import('./pagina-web/pagina-web.component').then(m => m.PaginaWebComponent),
+    component: PaginaWebComponent,
+    children: [
+      {
+        path: 'inicio',
+        loadComponent: () =>
+          import('./pagina-web/PAGE/inicio/inicio.component').then(m => m.InicioComponent),
+      },
+      {
+        path: 'nosotros',
+        loadComponent: () =>
+          import('./pagina-web/PAGE/nosotros/nosotros.component').then(m => m.NosotrosComponent),
+      },
+      {
+        path: 'productos',
+        loadComponent: () =>
+          import('./pagina-web/PAGE/productos/productos.component').then(m => m.ProductosComponent),
+      },
+      {
+        path: 'consultas',
+        loadComponent: () =>
+          import('./pagina-web/PAGE/consultas/consultas.component').then(m => m.ConsultasComponent),
+      },
+      {
+        path: 'clientes',
+        loadComponent: () =>
+          import('./pagina-web/PAGE/clientes/clientes.component').then(m => m.ClientesComponent),
+      },
+    ],
   },
   {
     path: 'login',
