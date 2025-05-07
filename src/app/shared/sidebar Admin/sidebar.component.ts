@@ -19,12 +19,12 @@ export class SidebarComponent {
   }
 
   menuItems = [
-    { label: 'Administradores', icon: 'mdi:account-cog', route: '/administrador' },
-    { label: 'Usuarios',       icon: 'mdi:account-multiple', route: '/usuarios' },
-    { label: 'Empresas',       icon: 'mdi:domain', route: '/empresas' },
-    { label: 'Clientes',       icon: 'mdi:account', route: '/clientes' },
-    { label: 'Productos',      icon: 'mdi:cube-outline', route: '/productos' },
-    { label: 'Consultas',      icon: 'mdi:clipboard-text', route: '/consultas' },
+    { label: 'Administradores', icon: 'mdi:account-cog', route: 'administradores' },
+    { label: 'Usuarios',       icon: 'mdi:account-multiple', route: 'usuarios' },
+    { label: 'Empresas',       icon: 'mdi:domain', route: 'empresa' },
+    { label: 'Clientes',       icon: 'mdi:account', route: 'clientes' },
+    { label: 'Productos',      icon: 'mdi:cube-outline', route: 'productos' },
+    { label: 'Consultas',      icon: 'mdi:clipboard-text', route: 'consultas' },
   ];
   menuItems2 = [
     { label2: 'Web',      icon: 'mdi:web', route: '/' },
