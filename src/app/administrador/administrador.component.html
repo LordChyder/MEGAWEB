@@ -1,19 +1,18 @@
 <!-- Contenedor general sin scroll horizontal -->
-<div class="overflow-x-hidden">
-
-    <!-- Tu toolbar existente -->
-    <app-toolbar></app-toolbar>
+<div class="overflow-hidden h-screen flex flex-col">
+  <!-- Tu toolbar existente -->
+  <app-toolbar class="flex-shrink-0 w-full"></app-toolbar>
   
-    <!-- Layout: sidebar + contenido -->
-    <div class="flex">
+  <!-- Layout: sidebar + contenido -->
+  <div class="flex flex-1 relative">
+    <!-- Sidebar con posición fija en pantallas pequeñas -->
+    <div class="flex-shrink-0 z-10">
       <app-sidebar></app-sidebar>
-  
-      <main class="flex-1 p-6 pl-16 flex items-center justify-center">
-        <img class="max-w-[50%] h-auto p-10" src="../../assets/Logo_Megayuntas2.png">
-        <router-outlet></router-outlet>
-        <!-- Aquí va el contenido de tu dashboard -->
-      </main>
     </div>
     
+    <!-- Contenido principal con margen izquierdo para el sidebar -->
+    <main class="flex-1 overflow-auto w-full pl-16">
+      <router-outlet></router-outlet>
+    </main>
   </div>
-  
+</div>
