@@ -24,6 +24,12 @@ export const routes: Routes = [
           import('./pagina-web/PAGE/productos/productos.component')
             .then(m => m.ProductosComponent)
       },
+      { 
+        path: 'productos/:nombre',
+        loadComponent: () =>
+          import('./pagina-web/PAGE/productos/vistaproducto/vistaproducto.component')
+            .then(m => m.VistaproductoComponent)
+      },      
       { path: 'consultas',
         loadComponent: () =>
           import('./pagina-web/PAGE/consultas/consultas.component')
