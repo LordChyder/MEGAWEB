@@ -1,1 +1,19 @@
-<p>empresa works!</p>
+<div class="flex flex-col h-full w-full bg-gray-100">
+    <!-- Cabecera con logo y título -->
+    <div class="p-5">
+      <img src="assets/Logo_Megayuntas2.png" alt="MegaYuntas logo" class="w-36 h-auto mb-3">
+      <h1 class="text-2xl font-bold text-gray-800">Empresa</h1>
+    </div>
+    
+    <!-- Contenido principal con sidebar y área de contenido -->
+    <div class="flex flex-1">
+      <!-- Sidebar -->
+      <app-sidebar-empresa class="flex-shrink-0"></app-sidebar-empresa>
+      
+      <!-- Área de contenido principal -->
+      <div class="flex-1  overflow-auto">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+  </div>
+  

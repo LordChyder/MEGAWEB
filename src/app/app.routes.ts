@@ -72,11 +72,10 @@ export const routes: Routes = [
             .then(m => m.UsuariosComponent)
       },
       {
-        path: 'empresa',
-        loadComponent: () =>
-          import('./administrador/Pages/empresa/empresa.component')
-            .then(m => m.EmpresaComponent)
+        path: "empresa",
+        loadChildren: () => import("./administrador/Pages/empresa/empresa.routes").then((m) => m.EMPRESA_ROUTES),
       },
+
       {
         path: 'clientes',
         loadComponent: () =>
