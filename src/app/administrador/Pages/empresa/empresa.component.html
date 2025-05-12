@@ -1,19 +1,18 @@
-<div class="flex flex-col h-full w-full bg-gray-100">
-    <!-- Cabecera con logo y título -->
-    <div class="p-5">
-      <img src="assets/Logo_Megayuntas2.png" alt="MegaYuntas logo" class="w-36 h-auto mb-3">
-      <h1 class="text-2xl font-bold text-gray-800">Empresa</h1>
-    </div>
-    
-    <!-- Contenido principal con sidebar y área de contenido -->
-    <div class="flex flex-1">
-      <!-- Sidebar -->
-      <app-sidebar-empresa class="flex-shrink-0"></app-sidebar-empresa>
-      
-      <!-- Área de contenido principal -->
-      <div class="flex-1  overflow-auto">
-        <router-outlet></router-outlet>
-      </div>
-    </div>
+<div class="flex flex-col h-full w-full bg-gray-100 pl-40 md:pl-40">
+  <!-- Título con espaciado responsivo -->
+  <div class="flex mt-4 md:mt-10 mb-2">
+    <div class="w-[60px] md:w-[70px]"></div> <!-- Espacio reducido -->
+    <h1 class="text-2xl md:text-3xl font-bold text-gray-800">Empresa</h1>
   </div>
   
+  <!-- Contenido principal con sidebar y área de contenido -->
+  <div class="flex flex-1 overflow-visible">
+    <!-- Sidebar -->
+    <app-sidebar-empresa class="flex-shrink-0"></app-sidebar-empresa>
+    
+    <!-- Área de contenido principal con padding responsivo -->
+    <div class="flex-1 overflow-auto pr-4 md:pr-10 pb-6 md:pb-10">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>

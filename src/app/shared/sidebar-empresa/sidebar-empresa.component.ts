@@ -1,13 +1,13 @@
 import { Component, CUSTOM_ELEMENTS_SCHEMA, Input, type OnInit } from "@angular/core"
 import { CommonModule } from "@angular/common"
-import { NavigationEnd, Router, RouterModule } from "@angular/router"
-import { filter } from "rxjs/operators"
+import { Router, RouterModule } from "@angular/router"
 
-export interface SidebarMenuItem {
-  icon: string
+
+interface MenuItem {
   label: string
+  icon: string
   route: string
-  color?: string
+  color: string
 }
 
 @Component({
@@ -16,69 +16,53 @@ export interface SidebarMenuItem {
   imports: [CommonModule, RouterModule],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   templateUrl: "./sidebar-empresa.component.html",
+  styleUrls: ['./sidebar-empresa.component.css']
 })
 export class SidebarEmpresaComponent implements OnInit {
-  @Input() menuItems: SidebarMenuItem[] = [
+
+  menuItems: MenuItem[] = [
     {
-      icon: "mdi:book-open-page-variant",
       label: "Presentación",
-      route: "/empresa/presentacion",
-      color: "bg-orange-400", // Color naranja para presentación
+      icon: "mdi:presentation",
+      route: "presentacion",
+      color: "bg-orange-400",
     },
     {
-      icon: "mdi:flag",
       label: "Misión",
+      icon: "mdi:flag",
       route: "/empresa/mision",
-      color: "bg-teal-500", // Color teal para misión
+      color: "bg-teal-500",
     },
     {
-      icon: "mdi:eye",
       label: "Visión",
+      icon: "mdi:eye",
       route: "/empresa/vision",
-      color: "bg-teal-500", // Color teal para visión
+      color: "bg-teal-500",
     },
     {
+      label: "Ubicación",
       icon: "mdi:map-marker",
-      label: "Dirección",
-      route: "/empresa/direccion",
-      color: "bg-teal-500", // Color teal para dirección
+      route: "/empresa/ubicacion",
+      color: "bg-teal-500",
     },
     {
+      label: "Contacto",
       icon: "mdi:phone",
-      label: "Teléfono",
-      route: "/empresa/telefono",
-      color: "bg-teal-500", // Color teal para teléfono
+      route: "/empresa/contacto",
+      color: "bg-teal-500",
     },
   ]
 
-  activeRoute = ""
-
   constructor(private router: Router) {}
-
   ngOnInit(): void {
-    // Detectar la ruta activa
-    this.router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe(() => {
-      this.updateActiveRoute()
-    })
-
-    // Inicializar la ruta activa
-    this.updateActiveRoute()
-  }
-
-  updateActiveRoute(): void {
-    const currentUrl = this.router.url
-    const activeItem = this.menuItems.find((item) => currentUrl.includes(item.route))
-
-    if (activeItem) {
-      this.activeRoute = activeItem.route
-    }
-  }
-
-  isActive(route: string): boolean {
-    return this.activeRoute === route
+    throw new Error("Method not implemented.")
   }
 
   navigateTo(route: string): void {
     this.router.navigate([route])
+  }
+
+  isActive(route: string): boolean {
+    return this.router.url === route
   }
 }

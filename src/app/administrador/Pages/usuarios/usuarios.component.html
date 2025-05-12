@@ -1,1 +1,105 @@
-<p>usuarios works!</p>
+<div class="bg-gray-100 min-h-full w-full p-4 md:p-6">
+    <div class="max-w-5xl mx-auto">
+      <!-- HEADER: logo + título + botón | buscador -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-6">
+        
+        <!-- IZQUIERDA: logo, título y botón Agregar -->
+        <div>
+          <img
+            src="../../../assets/Logo_Megayuntas2.png"
+            alt="MegaYuntas logo"
+            class="w-36 h-auto mb-4"
+          />
+  
+          <h1 class="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
+            Usuarios
+          </h1>
+  
+          <button
+            class="flex items-center space-x-2
+                   bg-teal-500 text-white
+                   px-4 py-2 rounded-full
+                   hover:bg-teal-600 transition"
+          >
+            <iconify-icon
+              icon="mdi:account-plus-outline"
+              class="text-2xl"
+            ></iconify-icon>
+            <span>Agregar</span>
+          </button>
+        </div>
+  
+        <!-- DERECHA: buscador -->
+        <div class="flex items-center justify-start lg:justify-end self-end">
+          <label for="buscar" class="text-sm font-medium mr-2 whitespace-nowrap">Buscar:</label>
+          <input
+            id="buscar"
+            type="text"
+            placeholder=""
+            class="border border-gray-300 rounded
+                   px-3 py-2 w-full max-w-xs
+                   focus:outline-none focus:ring-2 focus:ring-teal-500"
+          />
+        </div>
+      </div>
+  
+      <!-- TABLA -->
+      <div class="overflow-x-auto bg-white shadow rounded-lg">
+        <table class="w-full divide-y divide-gray-200">
+          <thead class="bg-gray-50">
+            <tr>
+              <th class="px-3 md:px-6 py-3 text-center text-xs font-medium text-gray-500">ID</th>
+              <th class="px-3 md:px-6 py-3 text-center text-xs font-medium text-gray-500">Nombre</th>
+              <th class="px-3 md:px-6 py-3 text-center text-xs font-medium text-gray-500">Apellido</th>
+              <th class="px-3 md:px-6 py-3 text-center text-xs font-medium text-gray-500">Email</th>
+              <th class="px-3 md:px-6 py-3 text-center text-xs font-medium text-gray-500">Perfil</th>
+              <th class="px-3 md:px-6 py-3 text-center text-xs font-medium text-gray-500">Status</th>
+              <th class="px-3 md:px-6 py-3 text-center text-xs font-medium text-gray-500">Acciones</th>
+            </tr>
+          </thead>
+          <tbody class="bg-white divide-y divide-gray-200">
+            <tr *ngFor="let Usuario of Usuarios">
+              <td class="px-3 md:px-6 py-4 text-center whitespace-nowrap text-sm">{{ Usuario.id }}</td>
+              <td class="px-3 md:px-6 py-4 text-center whitespace-nowrap text-sm">{{ Usuario.nombre }}</td>
+              <td class="px-3 md:px-6 py-4 text-center whitespace-nowrap text-sm">{{ Usuario.apellido }}</td>
+              <td class="px-3 md:px-6 py-4 text-center whitespace-nowrap text-sm">{{ Usuario.email }}</td>
+              <td class="px-3 md:px-6 py-4 text-center whitespace-nowrap text-sm">{{ Usuario.perfil }}</td>
+              <td class="px-3 md:px-6 py-4 text-center whitespace-nowrap text-sm">
+                <span
+                  [ngClass]="{
+                    'text-green-600 font-semibold': Usuario.status === 'ACTIVE',
+                    'text-red-600 font-semibold':   Usuario.status === 'INACTIVE'
+                  }"
+                >
+                  {{ Usuario.status }}
+                </span>
+              </td>
+              <td class="px-3 md:px-6 py-4 whitespace-nowrap text-right text-sm">
+                <!-- Edit -->
+                <button
+                  class="inline-flex items-center p-1 rounded hover:bg-gray-100 transition mr-2"
+                  aria-label="Editar"
+                >
+                  <iconify-icon
+                    icon="mdi:pencil-outline"
+                    class="text-2xl text-teal-600"
+                  ></iconify-icon>
+                </button>
+                <!-- Delete -->
+                <button
+                  class="inline-flex items-center p-1 rounded hover:bg-gray-100 transition"
+                  aria-label="Eliminar"
+                >
+                  <iconify-icon
+                    icon="mdi:delete-outline"
+                    class="text-2xl text-red-600"
+                  ></iconify-icon>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  

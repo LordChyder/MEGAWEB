@@ -1,0 +1,77 @@
+/* Estilo para los elementos del menú */
+.menu-item {
+  position: relative;
+  margin-bottom: 8px;
+  height: 50px;
+}
+
+/* Contenedor unificado que contiene tanto el icono como la etiqueta */
+.unified-container {
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 50px;
+  border-radius: 8px 0 0 8px;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  width: 60px; /* Ancho inicial (solo el icono) */
+  z-index: 2;
+  box-shadow: none;
+  border: none;
+}
+
+/* Parte del icono (siempre visible) */
+.icon-part {
+  width: 60px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* Parte de la etiqueta (expandible) */
+.label-part {
+  padding: 0 15px;
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.2s ease 0.1s;
+}
+
+/* Efectos al hacer hover */
+.menu-item:hover .unified-container {
+  width: 180px; /* Ancho expandido (icono + etiqueta) */
+}
+
+.menu-item:hover .label-part {
+  opacity: 1;
+}
+
+/* Estilo para los íconos */
+.iconify-icon {
+  transition: transform 0.2s ease;
+}
+
+.menu-item:hover .iconify-icon {
+  transform: scale(1.1);
+}
+
+/* Estilo para el elemento activo */
+.menu-item.active .unified-container {
+  width: 180px; /* Ancho expandido (icono + etiqueta) */
+}
+
+.menu-item.active .label-part {
+  opacity: 1;
+}
+
+/* Estilos específicos para cada color de fondo */
+.bg-orange-400 {
+  background-color: #f97316 !important;
+}
+
+.bg-teal-500 {
+  background-color: #14b8a6 !important;
+}

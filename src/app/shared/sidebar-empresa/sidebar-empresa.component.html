@@ -1,40 +1,25 @@
-<div class="w-[120px] bg-gray-50 h-full">
-    <div class="flex flex-col py-3">
-      <div 
-        *ngFor="let item of menuItems" 
-        class="relative cursor-pointer mb-2"
-        [class.active]="isActive(item.route)"
-        (click)="navigateTo(item.route)"
-      >
-        <!-- Botón normal (estado inactivo) -->
-        <div 
-          *ngIf="!isActive(item.route)"
-          class="w-[50px] h-[50px] rounded-full flex items-center justify-center mx-auto"
-          [ngClass]="item.color"
-        >
+<div class="w-[60px] h-full relative">
+  <!-- Lista de elementos del menú -->
+  <div class="flex flex-col py-2">
+    <!-- Elemento de menú (repetido para cada ítem) -->
+    <div 
+      *ngFor="let item of menuItems" 
+      class="menu-item mb-2 relative cursor-pointer" 
+      [class.active]="isActive(item.route)" 
+      (click)="navigateTo(item.route)">
+      
+      <!-- Contenedor unificado -->
+      <div class="unified-container" [ngClass]="item.color">
+        <!-- Icono (siempre visible) -->
+        <div class="icon-part">
           <iconify-icon [icon]="item.icon" class="text-2xl text-white"></iconify-icon>
         </div>
         
-        <!-- Bloque expandido (estado activo) -->
-        <div 
-          *ngIf="isActive(item.route)"
-          class="w-full h-[50px] rounded-r-md flex items-center pl-3"
-          [ngClass]="item.color"
-        >
-          <iconify-icon [icon]="item.icon" class="text-2xl text-white mr-2"></iconify-icon>
-          <span class="text-sm font-medium text-white">{{ item.label }}</span>
-        </div>
-        
-        <!-- Bloque expandido al hover (solo para inactivos) -->
-        <div 
-          *ngIf="!isActive(item.route)"
-          class="absolute top-0 left-0 w-full h-[50px] rounded-r-md flex items-center pl-3 opacity-0 hover:opacity-100 transition-opacity duration-200"
-          [ngClass]="item.color"
-        >
-          <iconify-icon [icon]="item.icon" class="text-2xl text-white mr-2"></iconify-icon>
-          <span class="text-sm font-medium text-white">{{ item.label }}</span>
+        <!-- Etiqueta (expandible) -->
+        <div class="label-part">
+          <span class="label-text text-sm font-medium text-white">{{ item.label }}</span>
         </div>
       </div>
     </div>
   </div>
-  
+</div>
