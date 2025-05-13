@@ -8,6 +8,7 @@ interface MenuItem {
   icon: string
   route: string
   color: string
+  activeColor : string
 }
 
 @Component({
@@ -19,7 +20,7 @@ interface MenuItem {
   styleUrls: ['./sidebar-empresa.component.css']
 })
 export class SidebarEmpresaComponent {
-  
+
   constructor(private router: Router) {}
 
 menuItems: MenuItem[] = [
@@ -27,31 +28,36 @@ menuItems: MenuItem[] = [
     label: "Presentación",
     icon: "mdi:presentation",
     route: "presentacion",
-    color: "bg-orange-400",
+    color: "bg-teal-500",
+    activeColor: "bg-orange-500"
   },
   {
     label: "Misión",
     icon: "mdi:flag",
     route: "mision",
     color: "bg-teal-500",
+    activeColor: "bg-orange-500"
   },
   {
     label: "Visión",
     icon: "mdi:eye",
     route: "vision",
     color: "bg-teal-500",
+    activeColor: "bg-orange-500"
   },
   {
     label: "Dirección",
     icon: "mdi:map-marker",
     route: "direccion",
     color: "bg-teal-500",
+    activeColor: "bg-orange-500"
   },
   {
     label: "Teléfono",
     icon: "mdi:phone",
     route: "telefono",
     color: "bg-teal-500",
+    activeColor: "bg-orange-500"
   },
 ];
 

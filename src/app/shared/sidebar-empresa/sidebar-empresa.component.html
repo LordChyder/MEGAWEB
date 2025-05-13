@@ -9,7 +9,8 @@
       (click)="navigateTo(item.route)">
       
       <!-- Contenedor unificado -->
-      <div class="unified-container" [ngClass]="item.color">
+      <div class="unified-container" [ngClass]="isActive(item.route) ? item.activeColor : item.color">
+
         <!-- Icono (siempre visible) -->
         <div class="icon-part">
           <iconify-icon [icon]="item.icon" class="text-2xl text-white"></iconify-icon>
