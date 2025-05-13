@@ -1,6 +1,6 @@
 import { Component, CUSTOM_ELEMENTS_SCHEMA, Input, type OnInit } from "@angular/core"
 import { CommonModule } from "@angular/common"
-import { Router, RouterModule } from "@angular/router"
+import { RouterModule, Router } from "@angular/router"
 
 
 interface MenuItem {
@@ -18,51 +18,50 @@ interface MenuItem {
   templateUrl: "./sidebar-empresa.component.html",
   styleUrls: ['./sidebar-empresa.component.css']
 })
-export class SidebarEmpresaComponent implements OnInit {
-
-  menuItems: MenuItem[] = [
-    {
-      label: "Presentación",
-      icon: "mdi:presentation",
-      route: "presentacion",
-      color: "bg-orange-400",
-    },
-    {
-      label: "Misión",
-      icon: "mdi:flag",
-      route: "/empresa/mision",
-      color: "bg-teal-500",
-    },
-    {
-      label: "Visión",
-      icon: "mdi:eye",
-      route: "/empresa/vision",
-      color: "bg-teal-500",
-    },
-    {
-      label: "Ubicación",
-      icon: "mdi:map-marker",
-      route: "/empresa/ubicacion",
-      color: "bg-teal-500",
-    },
-    {
-      label: "Contacto",
-      icon: "mdi:phone",
-      route: "/empresa/contacto",
-      color: "bg-teal-500",
-    },
-  ]
-
+export class SidebarEmpresaComponent {
+  
   constructor(private router: Router) {}
-  ngOnInit(): void {
-    throw new Error("Method not implemented.")
-  }
 
-  navigateTo(route: string): void {
-    this.router.navigate([route])
-  }
+menuItems: MenuItem[] = [
+  {
+    label: "Presentación",
+    icon: "mdi:presentation",
+    route: "presentacion",
+    color: "bg-orange-400",
+  },
+  {
+    label: "Misión",
+    icon: "mdi:flag",
+    route: "mision",
+    color: "bg-teal-500",
+  },
+  {
+    label: "Visión",
+    icon: "mdi:eye",
+    route: "vision",
+    color: "bg-teal-500",
+  },
+  {
+    label: "Dirección",
+    icon: "mdi:map-marker",
+    route: "direccion",
+    color: "bg-teal-500",
+  },
+  {
+    label: "Teléfono",
+    icon: "mdi:phone",
+    route: "telefono",
+    color: "bg-teal-500",
+  },
+];
 
-  isActive(route: string): boolean {
-    return this.router.url === route
-  }
+navigateTo(route: string): void {
+  this.router.navigate([route], { relativeTo: this.router.routerState.root.firstChild?.firstChild });
+}
+
+isActive(route: string): boolean {
+  return this.router.url.endsWith(route);
+}
+
+
 }
