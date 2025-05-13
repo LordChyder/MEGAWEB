@@ -26,7 +26,7 @@ export class SidebarEmpresaComponent {
 menuItems: MenuItem[] = [
   {
     label: "Presentación",
-    icon: "mdi:presentation",
+    icon: "mdi:book-open-page-variant",
     route: "presentacion",
     color: "bg-teal-500",
     activeColor: "bg-orange-500"

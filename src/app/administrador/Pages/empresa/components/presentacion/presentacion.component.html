@@ -7,8 +7,8 @@
     </div>
 
     <!-- Contenedor gris con altura fija -->
-    <div class="rounded-md px-4 py-2 w-full max-w-full mx-auto bg-gray-200" [style.height.px]="399">
-      <div class="text-gray-500 p-3 rounded-md text-sm h-full flex">
+    <div class="rounded-md px-4 py-2 w-full max-w-full mx-auto bg-gray-200" [style.height.px]="299">
+      <div class="rounded-md text-sm h-full" style="height: 100%;">
     
     <!-- Vista previa -->
     <ng-container *ngIf="!showEditor">
@@ -19,7 +19,8 @@
     <ng-container *ngIf="showEditor">
       <quill-editor
         [(ngModel)]="htmlContent"
-        class="bg-white w-full flex-1"
+        class="bg-white w-full flex-1 h-full ql-editor ql-blank"
+        [styles]="{ height: '70%' }"
       ></quill-editor>
     </ng-container>
 
