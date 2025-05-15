@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { AgregarClienteModalComponent } from './agregar-cliente-modal/agregar-cliente-modal.component';
 
   interface Cliente {
   id: number;
@@ -14,12 +15,13 @@ import { Component, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 @Component({
   selector: 'app-clientes',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, AgregarClienteModalComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   templateUrl: './clientes.component.html',
   styleUrl: './clientes.component.css'
 })
 export class ClientesComponent {
+  mostrarModalAgregar = false;
 
         Clientes: Cliente[] = [
     {
@@ -34,4 +36,12 @@ export class ClientesComponent {
     },
     // …otros registros…
   ];
+
+    abrirModalAgregar(): void {
+    this.mostrarModalAgregar = true;
+  }
+
+  cerrarModalAgregar(): void {
+    this.mostrarModalAgregar = false;
+  } 
 }

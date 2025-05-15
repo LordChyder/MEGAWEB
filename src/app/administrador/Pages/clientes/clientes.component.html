@@ -16,6 +16,7 @@
           </h1>
   
           <button
+            (click)="abrirModalAgregar()"
             class="flex items-center space-x-2
                    bg-teal-500 text-white
                    px-4 py-2 rounded-full
@@ -115,5 +116,10 @@
         </table>
       </div>
     </div>
+      <!-- Modal para agregar cliente -->
+  <app-agregar-cliente-modal 
+    *ngIf="mostrarModalAgregar"
+    (cerrar)="cerrarModalAgregar()"
+  ></app-agregar-cliente-modal>
   </div>
   
