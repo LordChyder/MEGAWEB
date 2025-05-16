@@ -92,6 +92,7 @@
                 </button>
                 <!-- Edit -->
                 <button
+                  (click)="abrirModalEditar()"
                   class="inline-flex items-center p-1 rounded hover:bg-gray-100 transition "
                   aria-label="Editar"
                 >
@@ -102,6 +103,7 @@
                 </button>
                 <!-- Delete -->
                 <button
+                  (click)="abrirModalEliminar(Cliente.id)"
                   class="inline-flex items-center p-1 rounded hover:bg-gray-100 transition"
                   aria-label="Eliminar"
                 >
@@ -116,10 +118,26 @@
         </table>
       </div>
     </div>
-      <!-- Modal para agregar cliente -->
+
+  <!-- Modal para agregar cliente -->
   <app-agregar-cliente-modal 
     *ngIf="mostrarModalAgregar"
     (cerrar)="cerrarModalAgregar()"
   ></app-agregar-cliente-modal>
+
+  <!-- Modal para editar cliente -->
+    <app-editar-cliente-modal 
+    *ngIf="mostrarModalEditar"
+    (cerrar)="cerrarModalEditar()"
+  ></app-editar-cliente-modal>
+
+  <!-- Modal para eliminar cliente -->
+    <app-eliminar-cliente-modal 
+    *ngIf="mostrarModalEliminar"
+    [clienteId]="clienteIdAEliminar"
+    (confirmar)="eliminarCliente(clienteIdAEliminar!)"
+    (cancelar)="cerrarModalEliminar()"
+  ></app-eliminar-cliente-modal>
+
   </div>
   
