@@ -1,5 +1,5 @@
 <div class="bg-gray-100 min-h-full w-full p-4 md:p-6">
-    <div class="max-w-7xl mx-auto">
+    <div class="max-w-6xl mx-auto">
       <!-- HEADER: logo + título + botón | buscador -->
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-6">
         
@@ -45,11 +45,11 @@
       </div>
   
       <!-- TABLA -->
-      <div class="overflow-x-auto bg-white shadow rounded-lg">
+      <div class="overflow-x-auto bg-white shadow rounded-lg lg:w-full">
         <table class="w-full divide-y divide-gray-200">
           <thead class="bg-gray-50">
             <tr>
-              <th class="px-3 md:px-6 py-3 text-center text-xs font-medium text-gray-500">ID</th>
+              <th class="px-3 md:px-3 py-3 text-center text-xs font-medium text-gray-500">ID</th>
               <th class="px-3 md:px-6 py-3 text-center text-sm font-medium text-gray-500">Empresa</th>
               <th class="px-3 md:px-6 py-3 text-center text-sm font-medium text-gray-500">Ruc</th>
               <th class="px-3 md:px-6 py-3 text-center text-sm font-medium text-gray-500">Telefono</th>
@@ -62,8 +62,8 @@
           </thead>
           <tbody class="bg-white divide-y divide-gray-200">
             <tr *ngFor="let Cliente of Clientes">
-              <td class="px-3 md:px-6 py-4 text-center whitespace-nowrap text-sm">{{ Cliente.id }}</td>
-              <td class="px-3 md:px-6 py-4 text-center whitespace-nowrap text-sm">{{ Cliente.Empresa }}</td>
+              <td class="px-3 md:px-3 py-4 text-center whitespace-nowrap text-sm">{{ Cliente.id }}</td>
+              <td class="px-3 md:px-6 py-4 text-center text-sm whitespace-normal break-words">{{ Cliente.Empresa }}</td>
               <td class="px-3 md:px-6 py-4 text-center whitespace-nowrap text-sm">{{ Cliente.Ruc }}</td>
               <td class="px-3 md:px-6 py-4 text-center whitespace-nowrap text-sm">{{ Cliente.Telefono }}</td>
               <td class="px-3 md:px-6 py-4 text-center whitespace-nowrap text-sm">{{ Cliente.Contacto }}</td>

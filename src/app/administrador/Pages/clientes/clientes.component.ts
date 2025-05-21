@@ -33,9 +33,9 @@ export class ClientesComponent {
         Clientes: Cliente[] = [
     {
       id: 1,
-      Empresa: 'CONSTRUCTORA INMOBILIARIA RIO HUALLAGA S.A.C CONSTRUCTORA INMOBILIARIA RIO HUALLAGA S.A.C',
-      Ruc: 'Rucoba Reategui',
-      Telefono: 'Soporte@megayuntas.com',
+      Empresa: 'CONSTRUCTORA INMOBILIARIA RIO HUALLAGA S.A.C',
+      Ruc: '20450278051',
+      Telefono: '960964632',
       Contacto: 'ADMINISTRADOR',
       Grupo: 'ADMINISTRADOR',
       Mostrar_en_Web: 'ADMINISTRADOR',
