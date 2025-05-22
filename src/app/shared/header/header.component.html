@@ -1,43 +1,55 @@
-<div class="flex h-[95%] w-full bg-white border-b"> <!-- header -->
-    <div class="w-[20%]">
-      <img src="../../../assets/Logo_Megayuntas2.png" class="h-16 w-30 ml-4 mt-2">
+<div class="w-full bg-white border-b md:px-2 md:py-1 lg:px-4 lg:py-2">
+  <!-- Contenedor general responsivo -->
+  <div class="flex  md:flex-row items-center justify-between">
+    
+    <!-- Logo -->
+    <div class="w-full md:w-auto flex justify-center md:justify-start mb-2 md:mb-0">
+      <img src="../../../assets/Logo_Megayuntas2.png" class="md:h-10 md:w-20 lg:h-16 lg:w-40 lg:ml-4" />
     </div>
 
-    <div class="flex w-[60%] justify-between">
-      <ul class="flex w-full text-[#E8866B] text-1xl gap-10 items-center justify-around font-semibold">
+    <!-- Menú -->
+    <div class="w-full md:w-auto">
+      <ul class="flex flex-col md:flex-row text-[#E8866B] text-sm md:text-xl gap-2 md:gap-6 lg:gap-10 items-center justify-center font-semibold">
         <li routerLink="/inicio" class="cursor-pointer">
-          <div routerLinkActive="border-b-[4px] border-[#007F6D] text-[#007F6D]" class="h-[75px] text-center flex items-center hover:text-[#007F6D] hover:border-b-[4px] hover:border-[#007F6D]">
-            <a >Inicio</a>
+          <div routerLinkActive="border-b-[4px] border-[#007F6D] text-[#007F6D]"
+               class="py-2 md:h-[75px] flex items-center hover:text-[#007F6D] hover:border-b-[4px] hover:border-[#007F6D]">
+            <a>Inicio</a>
           </div>
         </li>
         <li routerLink="/nosotros" class="cursor-pointer">
-          <div routerLinkActive="border-b-[4px] border-[#007F6D] text-[#007F6D]" class="h-[75px] text-center flex items-center hover:text-[#007F6D] hover:border-b-[4px] hover:border-[#007F6D]">
-            <a >Nosotros</a>
+          <div routerLinkActive="border-b-[4px] border-[#007F6D] text-[#007F6D]"
+               class="py-2 md:h-[75px] flex items-center hover:text-[#007F6D] hover:border-b-[4px] hover:border-[#007F6D]">
+            <a>Nosotros</a>
           </div>
         </li>
         <li routerLink="/productos" class="cursor-pointer">
-          <div routerLinkActive="border-b-[4px] border-[#007F6D] text-[#007F6D]" class="h-[75px] text-center flex items-center hover:text-[#007F6D] hover:border-b-[4px] hover:border-[#007F6D]">
-            <a >Productos</a>
+          <div routerLinkActive="border-b-[4px] border-[#007F6D] text-[#007F6D]"
+               class="py-2 md:h-[75px] flex items-center hover:text-[#007F6D] hover:border-b-[4px] hover:border-[#007F6D]">
+            <a>Productos</a>
           </div>
         </li>
         <li routerLink="/consultas" class="cursor-pointer">
-          <div routerLinkActive="border-b-[4px] border-[#007F6D] text-[#007F6D]" class="h-[75px] text-center flex items-center hover:text-[#007F6D] hover:border-b-[4px] hover:border-[#007F6D]">
-            <a >Consultas</a>
+          <div routerLinkActive="border-b-[4px] border-[#007F6D] text-[#007F6D]"
+               class="py-2 md:h-[75px] flex items-center hover:text-[#007F6D] hover:border-b-[4px] hover:border-[#007F6D]">
+            <a>Consultas</a>
           </div>
         </li>
         <li routerLink="/clientes" class="cursor-pointer">
-          <div routerLinkActive="border-b-[4px] border-[#007F6D] text-[#007F6D]" class="h-[75px] text-center flex items-center hover:text-[#007F6D] hover:border-b-[4px] hover:border-[#007F6D]">
-            <a >Clientes</a>
+          <div routerLinkActive="border-b-[4px] border-[#007F6D] text-[#007F6D]"
+               class="py-2 md:h-[75px] flex items-center hover:text-[#007F6D] hover:border-b-[4px] hover:border-[#007F6D]">
+            <a>Clientes</a>
           </div>
         </li>
       </ul>
     </div>
 
-    <div class="flex items-center justify-center text-1xl w-[20%] text-[#E8866B] font-semibold">
-      <svg width="25" height="25" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <!-- Iniciar sesión -->
+    <div class="w-full md:w-auto flex justify-center md:justify-end items-center mt-2 md:mt-0 text-sm md:text-xl text-[#E8866B] font-semibold gap-2">
+      <svg width="25" height="25" viewBox="0 0 24 24" fill="none">
         <circle cx="12" cy="6" r="4" fill="#E8866B"/>
         <path d="M20 17.5C20 19.9853 20 22 12 22C4 22 4 19.9853 4 17.5C4 15.0147 7.58172 13 12 13C16.4183 13 20 15.0147 20 17.5Z" fill="#E8866B"/>
       </svg>
       <span>Iniciar Sesión</span>
     </div>
   </div>
+</div>

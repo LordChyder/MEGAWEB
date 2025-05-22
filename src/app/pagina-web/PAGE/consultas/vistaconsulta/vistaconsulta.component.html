@@ -1,1 +1,98 @@
-<p>vistaconsulta works!</p>
+<div class="container mx-auto px-4 py-6 flex flex-col lg:flex-row gap-4">
+  <!-- Contenido Principal -->
+  <div class="w-full lg:w-3/4">
+    
+    <!-- Título y exportar -->
+    <div class="flex items-center justify-between">
+      <h2 class="text-lg font-semibold mb-2">{{ consulta?.titulo }}</h2>
+      <button class="flex items-center px-3 py-1 bg-orange-300 hover:bg-orange-400 rounded-md text-sm">
+        <span class="mr-1">📤</span> Exportar
+      </button>
+    </div>
+
+    <p class="text-xs text-gray-500">{{ consulta?.fuente }} | {{ consulta?.categoria }}</p>
+    <p class="mt-2 text-sm text-gray-700">{{ consulta?.descripcion }}</p>
+
+    <!-- Mostrar pasos -->
+    <div *ngFor="let paso of mostrarTodosLosPasos ? consulta?.pasos : consulta?.pasos.slice(0, 2)" class="border border-gray-300 p-3 rounded-md mt-4">
+      <div class="flex gap-4">
+        <img *ngIf="paso.imagen"
+             [src]="paso.imagen"
+             alt="Imagen paso"
+             class="w-32 h-auto object-contain border" />
+        <div>
+          <h3 class="font-semibold text-sm mb-1">{{ paso.titulo }}</h3>
+          <ul class="list-disc pl-4 text-sm text-gray-700">
+            <li *ngFor="let detalle of paso.detalles" [innerHTML]="detalle"></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Botón Ver más -->
+    <div *ngIf="consulta?.pasos.length > 2 && !mostrarTodosLosPasos" class="mt-2">
+      <button (click)="verMasPasos()"
+              class="px-3 py-1 bg-teal-400 hover:bg-teal-500 text-white text-sm rounded-md">
+        Ver más...
+      </button>
+    </div>
+
+    
+
+    <!-- Formulario de comentario -->
+    <div class="mt-6 border rounded-lg p-4">
+      <div class="flex items-start gap-3">
+        <!-- Icono usuario -->
+        <div class="text-3xl pt-2">👤</div>
+
+        <!-- Caja de comentario -->
+        <div class="flex-1 relative">
+          <textarea [(ngModel)]="comentario"
+                    placeholder="Escriba un comentario..."
+                    class="w-full h-28 resize-none border border-gray-300 rounded-md p-3 text-sm pr-24 focus:outline-none focus:ring-2 focus:ring-teal-300"></textarea>
+
+          <!-- Emoji y botón alineados -->
+          <div class="absolute bottom-3 left-3 right-3 flex items-center justify-between">
+            <span class="text-xl cursor-pointer">😊</span>
+            <button (click)="comentar()"
+                    class="bg-blue-500 hover:bg-blue-600 text-white text-sm px-4 py-1 rounded-md">
+              Comentar
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Comentarios -->
+    <div class="mt-10 border border-gray-400 rounded-md">
+      <div class="bg-orange-400 text-black font-semibold px-4 py-1 text-lg rounded-t-md">
+        Comentarios
+      </div>
+      <div class="bg-white px-4 py-2 space-y-3">
+        <div *ngFor="let c of comentarios" class="bg-gray-100 p-3 rounded-md shadow-sm">
+          <div class="flex items-start gap-3">
+            <div class="text-4xl">👤</div>
+            <div>
+              <p class="font-semibold text-sm">{{ c.nombre }}</p>
+              <p class="text-xs text-gray-500">{{ c.fecha }}</p>
+              <p class="text-sm mt-1 text-gray-800">{{ c.texto }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Búsquedas Recientes -->
+  <div class="w-full lg:w-1/4">
+    <div class="border border-gray-300 rounded-md p-3 bg-orange-100">
+      <h3 class="font-semibold text-sm mb-2 text-orange-900">🔎 Búsquedas Recientes</h3>
+      <ul class="list-disc pl-5 text-sm text-gray-800">
+        <li *ngFor="let busqueda of busquedasRecientes" class="mb-1 underline cursor-pointer">
+          {{ busqueda }}
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

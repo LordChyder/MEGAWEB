@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
+import { RouterModule } from '@angular/router';
 
 interface Consulta {
   titulo: string;
@@ -12,7 +13,7 @@ interface Consulta {
 @Component({
   selector: 'app-consultas',
   standalone: true,
-  imports: [CommonModule,HttpClientModule],
+  imports: [CommonModule,HttpClientModule,RouterModule],
   templateUrl: './consultas.component.html',
   styleUrls: ['./consultas.component.css']
 })
@@ -77,7 +78,6 @@ export class ConsultasComponent implements OnInit {
         fuente: 'SCOMERS.CPE',
         color: 'text-orange-500'
       },
-      // Puedes añadir más consultas si deseas probar la paginación
     ];
   }
 

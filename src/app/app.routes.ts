@@ -35,6 +35,11 @@ export const routes: Routes = [
           import('./pagina-web/PAGE/consultas/consultas.component')
             .then(m => m.ConsultasComponent)
       },
+      { path: 'consultas/:titulo',
+        loadComponent: () =>
+          import('./pagina-web/PAGE/consultas/vistaconsulta/vistaconsulta.component')
+            .then(m => m.VistaconsultaComponent)
+      },
       { path: 'clientes',
         loadComponent: () =>
           import('./pagina-web/PAGE/clientes/clientes.component')
