@@ -1,31 +1,25 @@
 <div class="bg-gray-100 w-full min-h-screen flex flex-col">
-<div class="w-full">
-      <img
-         src="../../../assets/Logo_Megayuntas2.png"
-          alt="MegaYuntas logo"
-          class="w-40 h-auto m-4 mt-4"/>
-  </div>
-<div class="flex-1 w-full p-1 md:p-2 ">
-    <div class="max-w-6xl mx-auto">
+<div class="flex-1 w-full mt-2 p-1 md:p-2 ">
+    <div class="max-w-6xl mx-5">
       <!-- HEADER: logo + título + botón | buscador -->
         <div>
-          <h1 class="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
+          <h1 class="text-2xl md:text-2xl font-bold text-gray-900 mb-4">
             Administradores
           </h1>
           <div class="grid grid-cols-2 gap-1 mb-6">
-            <div class="col-start-1 pr-11">
-          <button
-            class="flex items-center space-x-2 
-                   bg-teal-500 text-white
-                   px-3 py-1 rounded-full
-                   hover:bg-teal-600 transition "
-          >
-            <iconify-icon
-              icon="mdi:account-plus-outline"
-              class="text-2xl"
-            ></iconify-icon>
-            <span>Agregar</span>
-          </button>
+            <div class="col-start-1 pr-11 mt-[3px]">
+              <button
+                class="flex items-center space-x-2 
+                      bg-teal-500 text-white
+                      px-3 py-1 rounded
+                      hover:bg-teal-600 transition "
+              >
+                <iconify-icon
+                  icon="mdi:account-plus-outline"
+                  class="text-sm"
+                ></iconify-icon>
+                <span class="text-sm">Agregar</span>
+              </button>
           </div>
         <!-- DERECHA: buscador -->
          <div class="pl-10 ml-40 col-start-2 ">
@@ -48,23 +42,23 @@
         <table class="w-full divide-y divide-gray-200">
           <thead class="bg-gray-50">
             <tr>
-              <th class="px-3 md:px-6 py-3 text-center text-xs font-medium text-gray-500 ">ID</th>
-              <th class="px-3 md:px-6 py-3 text-center text-xs font-medium text-gray-500 ">Nombre</th>
-              <th class="px-3 md:px-6 py-3 text-center text-xs font-medium text-gray-500 ">Apellido</th>
-              <th class="px-3 md:px-6 py-3 text-center text-xs font-medium text-gray-500 ">Email</th>
-              <th class="px-3 md:px-6 py-3 text-center text-xs font-medium text-gray-500 ">Perfil</th>
-              <th class="px-3 md:px-6 py-3 text-center text-xs font-medium text-gray-500 ">Status</th>
-              <th class="px-3 md:px-6 py-3 text-center text-xs font-medium text-gray-500 ">Acciones</th>
+              <th class="px-3 md:px-6 py-2 text-center text-xs font-medium text-gray-500 ">ID</th>
+              <th class="px-3 md:px-6 py-2 text-center text-xs font-medium text-gray-500 ">Nombre</th>
+              <th class="px-3 md:px-6 py-2 text-center text-xs font-medium text-gray-500 ">Apellido</th>
+              <th class="px-3 md:px-6 py-2 text-center text-xs font-medium text-gray-500 ">Email</th>
+              <th class="px-3 md:px-6 py-2 text-center text-xs font-medium text-gray-500 ">Perfil</th>
+              <th class="px-3 md:px-6 py-2 text-center text-xs font-medium text-gray-500 ">Status</th>
+              <th class="px-3 md:px-6 py-2 text-center text-xs font-medium text-gray-500 ">Acciones</th>
             </tr>
           </thead>
           <tbody class="bg-white divide-y divide-gray-200">
             <tr *ngFor="let admin of admins">
-              <td class="px-3 md:px-6 py-4 text-center whitespace-nowrap text-sm">{{ admin.id }}</td>
-              <td class="px-3 md:px-6 py-4 text-center whitespace-nowrap text-sm">{{ admin.nombre }}</td>
-              <td class="px-3 md:px-6 py-4 text-center whitespace-nowrap text-sm">{{ admin.apellido }}</td>
-              <td class="px-3 md:px-6 py-4 text-center whitespace-nowrap text-sm">{{ admin.email }}</td>
-              <td class="px-3 md:px-6 py-4 text-center whitespace-nowrap text-sm">{{ admin.perfil }}</td>
-              <td class="px-3 md:px-6 py-4 text-center whitespace-nowrap text-sm">
+              <td class="px-3 md:px-6 text-center whitespace-nowrap text-xs">{{ admin.id }}</td>
+              <td class="px-3 md:px-6 text-center whitespace-nowrap text-xs">{{ admin.nombre }}</td>
+              <td class="px-3 md:px-6 text-center whitespace-nowrap text-xs">{{ admin.apellido }}</td>
+              <td class="px-3 md:px-6 text-center whitespace-nowrap text-xs">{{ admin.email }}</td>
+              <td class="px-3 md:px-6 text-center whitespace-nowrap text-xs">{{ admin.perfil }}</td>
+              <td class="px-3 md:px-6 text-center whitespace-nowrap text-xs">
                 <span
                   [ngClass]="{
                     'text-green-600 font-semibold': admin.status === 'ACTIVE',
@@ -74,7 +68,7 @@
                   {{ admin.status }}
                 </span>
               </td>
-              <td class="px-3 md:px-6 py-4 whitespace-nowrap text-center text-sm">
+              <td class="px-3 md:px-6 whitespace-nowrap text-center text-xs">
                 <!-- Edit -->
                 <button
                   class="inline-flex items-center p-1 rounded hover:bg-gray-100 transition mr-2"

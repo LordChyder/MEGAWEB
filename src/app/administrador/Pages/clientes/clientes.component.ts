@@ -38,7 +38,7 @@ export class ClientesComponent {
       Telefono: '960964632',
       Contacto: 'ADMINISTRADOR',
       Grupo: 'ADMINISTRADOR',
-      Mostrar_en_Web: 'ADMINISTRADOR',
+      Mostrar_en_Web: 'SI',
       status: 'ACTIVE'
     },
     // …otros registros…

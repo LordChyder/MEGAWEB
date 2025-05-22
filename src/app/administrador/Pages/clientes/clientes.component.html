@@ -1,48 +1,46 @@
-<div class="bg-gray-100 min-h-full w-full p-4 md:p-6">
-    <div class="max-w-6xl mx-auto">
-      <!-- HEADER: logo + título + botón | buscador -->
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-6">
-        
-        <!-- IZQUIERDA: logo, título y botón Agregar -->
-        <div>
+<div class="bg-gray-100 w-full min-h-screen flex flex-col">
+    <div class="w-full">
           <img
             src="../../../assets/Logo_Megayuntas2.png"
-            alt="MegaYuntas logo"
-            class="w-36 h-auto mb-4"
-          />
-  
+              alt="MegaYuntas logo"
+              class="w-40 h-auto m-4 mt-4"/>
+      </div>
+      <!-- HEADER: logo + título + botón | buscador -->
+      <div class="flex-1 w-full p-1 md:p-2">
+        <div class="max-w-6xl mx-auto">
           <h1 class="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
             Clientes
           </h1>
-  
+      
+      <div class="grid grid-cols-2 gap-1 mb-6"> 
+        <div class="col-start-1 pr-11 mt-[2px]">   
           <button
             (click)="abrirModalAgregar()"
-            class="flex items-center space-x-2
-                   bg-teal-500 text-white
-                   px-4 py-2 rounded-full
-                   hover:bg-teal-600 transition"
+            class="flex items-center space-x-2 
+                      bg-teal-500 text-white
+                      px-3 py-1 rounded-full
+                      hover:bg-teal-600 transition"
           >
-            <iconify-icon
-              icon="mdi:account-plus-outline"
-              class="text-2xl"
-            ></iconify-icon>
-            <span>Agregar</span>
-          </button>
-        </div>
-  
+                <iconify-icon
+                  icon="mdi:account-plus-outline"
+                  class="text-2xl"
+                ></iconify-icon>
+              <span>Agregar</span>
+            </button>
+          </div>
         <!-- DERECHA: buscador -->
-        <div class="flex items-center justify-start lg:justify-end self-end">
+        <div class="pl-10 ml-40 col-start-2">
           <label for="buscar" class="text-sm font-medium mr-2 whitespace-nowrap">Buscar:</label>
           <input
             id="buscar"
             type="text"
             placeholder=""
             class="border border-gray-300 rounded
-                   px-3 py-2 w-full max-w-xs
+                   px-3 py-1 w-full max-w-xs
                    focus:outline-none focus:ring-2 focus:ring-teal-500"
           />
         </div>
-      </div>
+        </div>
   
       <!-- TABLA -->
       <div class="overflow-x-auto bg-white shadow rounded-lg lg:w-full">
@@ -110,14 +108,17 @@
                   <iconify-icon
                     icon="mdi:delete-outline"
                     class="text-2xl text-red-600"
-                  ></iconify-icon>
-                </button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+                    ></iconify-icon>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
+ </div>
+
 
   <!-- Modal para agregar cliente -->
   <app-agregar-cliente-modal 
@@ -139,5 +140,5 @@
     (cancelar)="cerrarModalEliminar()"
   ></app-eliminar-cliente-modal>
 
-  </div>
+
   
