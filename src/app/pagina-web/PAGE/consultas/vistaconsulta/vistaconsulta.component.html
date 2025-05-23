@@ -1,7 +1,6 @@
 <div class="container mx-auto px-4 py-6 flex flex-col lg:flex-row gap-4">
   <!-- Contenido Principal -->
   <div class="w-full lg:w-3/4">
-    
     <!-- Título y exportar -->
     <div class="flex items-center justify-between">
       <h2 class="text-lg font-semibold mb-2">{{ consulta?.titulo }}</h2>
@@ -37,8 +36,6 @@
       </button>
     </div>
 
-    
-
     <!-- Formulario de comentario -->
     <div class="mt-6 border rounded-lg p-4">
       <div class="flex items-start gap-3">
@@ -68,7 +65,8 @@
       <div class="bg-orange-400 text-black font-semibold px-4 py-1 text-lg rounded-t-md">
         Comentarios
       </div>
-      <div class="bg-white px-4 py-2 space-y-3">
+      <!-- Comentarios / Scroll Añadido -->
+      <div class="bg-white px-4 py-2 space-y-3 max-h-72 overflow-y-auto">
         <div *ngFor="let c of comentarios" class="bg-gray-100 p-3 rounded-md shadow-sm">
           <div class="flex items-start gap-3">
             <div class="text-4xl">👤</div>
@@ -81,7 +79,6 @@
         </div>
       </div>
     </div>
-
   </div>
 
   <!-- Búsquedas Recientes -->

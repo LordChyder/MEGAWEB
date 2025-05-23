@@ -74,6 +74,16 @@ export class VistaconsultaComponent implements OnInit {
         texto: 'Este sistema ha impulsado a mi empresa como nunca...'
       },
       {
+        nombre: 'Harold S. López',
+        fecha: '10 de Abril del 2025 03:20pm',
+        texto: 'Este sistema ha impulsado a mi empresa como nunca...'
+      },
+      {
+        nombre: 'Yder C. Yalico',
+        fecha: '09 de Abril del 2025 05:27pm',
+        texto: 'Este sistema ha impulsado a mi empresa como nunca...'
+      },
+      {
         nombre: 'Nixon H. Fernandez',
         fecha: '07 de Marzo del 2025 07:45am',
         texto: 'El sistema Yupai es muy práctico, agradezco a esta empresa...'
