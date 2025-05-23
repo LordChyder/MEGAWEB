@@ -21,12 +21,6 @@
           </div>
   
           <form class="w-full max-w-md">
-            
-            <ng-container *ngIf="!isLoginMode">
-              <div class="mb-4">
-                <input type="text" placeholder="Nombre" class="w-full border px-4 py-2 rounded-md focus:outline-none bg-gray-100">
-              </div>
-            </ng-container>
             <div class="mb-4">
               <input type="email" placeholder="Correo" class="w-full border px-4 py-2 rounded-md focus:outline-none bg-gray-100">
             </div>
@@ -35,13 +29,29 @@
             </div>
             <ng-container *ngIf="!isLoginMode">
               <div class="mb-4">
+                <input
+                  type="text" placeholder="Nombre" class="w-full border px-4 py-2 rounded-md focus:outline-none bg-gray-100">
+              </div>
+            </ng-container>
+            <ng-container *ngIf="!isLoginMode">
+            <div class="mb-4">
+              <input type="email" placeholder="Correo" class="w-full border px-4 py-2 rounded-md focus:outline-none bg-gray-100">
+            </div>
+            </ng-container>
+            <ng-container *ngIf="!isLoginMode">
+            <div class="mb-4">
+              <input type="password" placeholder="Contraseña" class="w-full border px-4 py-2 rounded-md focus:outline-none bg-gray-100">
+            </div>
+            </ng-container>
+            <ng-container *ngIf="!isLoginMode">
+              <div class="mb-4">
                 <input type="password" placeholder="Confirmar contraseña" class="w-full border px-4 py-2 rounded-md focus:outline-none bg-gray-100">
               </div>
             </ng-container>
             <div class="mb-4 text-sm text-gray-500 text-center" *ngIf="isLoginMode">
               ¿Olvidaste tu contraseña?
             </div>
-            <button type="button" (click)="onSubmit()"
+            <button type="button" 
                     class="w-full py-3 rounded-full text-white text-lg font-semibold transition duration-300"
                     [ngClass]="isLoginMode ? 'bg-[#F28C7F] hover:bg-[#e07a6e]' : 'bg-[#00A89D] hover:bg-[#009387]'">
               {{ isLoginMode ? 'Iniciar sesión' : 'Registrarse' }}
@@ -88,7 +98,7 @@
                 <div class="mb-4 text-sm text-gray-500 text-center">
                   ¿Olvidaste tu contraseña?
                 </div>
-                <button type="button" (click)="onSubmit()"
+                <button type="button" (click)="onLogin()"
                         class="w-full py-3 rounded-full text-white text-lg font-semibold transition duration-300
                                bg-[#F28C7F] hover:bg-[#e07a6e]">
                   Iniciar sesión
@@ -124,7 +134,7 @@
                 <div class="mb-4">
                   <input type="password" placeholder="Confirmar contraseña" class="w-full border px-4 py-2 rounded-md focus:outline-none bg-gray-100">
                 </div>
-                <button type="button" (click)="onSubmit()"
+                <button type="button" 
                         class="w-full py-3 rounded-full text-white text-lg font-semibold transition duration-300
                                bg-[#00A89D] hover:bg-[#009387]">
                   Registrarse
