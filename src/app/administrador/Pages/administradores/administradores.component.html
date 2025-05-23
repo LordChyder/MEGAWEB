@@ -1,14 +1,15 @@
 <div class="bg-gray-100 w-full min-h-screen flex flex-col">
 <div class="flex-1 w-full mt-2 p-1 md:p-2 ">
-    <div class="max-w-6xl mx-5">
+    <div class="max-w-screen mx-5 ">
       <!-- HEADER: logo + título + botón | buscador -->
         <div>
           <h1 class="text-2xl md:text-2xl font-bold text-gray-900 mb-4">
             Administradores
           </h1>
-          <div class="grid grid-cols-2 gap-1 mb-6">
-            <div class="col-start-1 pr-11 mt-[3px]">
+          <div class="grid grid-cols-2 gap-4 mb-3">
+            <div class="pr-11 mt-[5px]">
               <button
+                (click)="abrirModalAgregar()"
                 class="flex items-center space-x-2 
                       bg-teal-500 text-white
                       px-3 py-1 rounded
@@ -22,7 +23,7 @@
               </button>
           </div>
         <!-- DERECHA: buscador -->
-         <div class="pl-10 ml-40 col-start-2 ">
+         <div class="text-right">
           <label for="buscar" class="text-sm font-medium mr-2 whitespace-nowrap">Buscar:</label>
           <input
             id="buscar"
@@ -37,7 +38,8 @@
       </div>
   
       <!-- TABLA -->
-      <div class="bg-white shadow rounded-lg overflow-hidden">
+      <div class="">
+      <div class="bg-white shadow rounded-lg overflow-hidden ">
         <div class="overflow-x-auto ">
         <table class="w-full  divide-y divide-gray-200">
           <thead class="bg-gray-50">
@@ -71,6 +73,7 @@
               <td class="px-3 md:px-6 whitespace-nowrap text-center text-xs">
                 <!-- Edit -->
                 <button
+                (click)="abrirModalEditar()"
                   class="inline-flex items-center p-1 rounded hover:bg-gray-100 transition mr-2"
                   aria-label="Editar"
                 >
@@ -81,6 +84,7 @@
                 </button>
                 <!-- Delete -->
                 <button
+                (click)="abrirModalEliminar(admin.id)"
                   class="inline-flex items-center p-1 rounded hover:bg-gray-100 transition"
                   aria-label="Eliminar"
                 >
@@ -98,4 +102,22 @@
     </div>
   </div>
 </div>
-  
+
+<!-- Modal para agregar cliente -->
+<app-agregar-administradores-modal 
+  *ngIf="mostrarModalAgregar"
+  (cerrar)="cerrarModalAgregar()"
+></app-agregar-administradores-modal>
+
+<app-editar-administradores-modal 
+  *ngIf="mostrarModalEditar"
+  (cerrar)="cerrarModalEditar()"
+></app-editar-administradores-modal>
+
+<app-eliminar-administradores-modal 
+  *ngIf="mostrarModalEliminar"
+  [adminsId]="adminsIdAEliminar"
+  (confirmar)="eliminarAdministrador($event)"
+  (cancelar)="cerrarModalEliminar()"
+></app-eliminar-administradores-modal>
+

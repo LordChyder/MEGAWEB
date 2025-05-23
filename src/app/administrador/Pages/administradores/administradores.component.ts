@@ -1,5 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { AgregarAdministradoresModalComponent } from './agregar-administradores-modal/agregar-administradores-modal.component';
+import { EditarAdministradoresModalComponent } from './editar-administradores-modal/editar-administradores-modal.component';
+import { EliminarAdministradoresModalComponent } from './eliminar-administradores-modal/eliminar-administradores-modal.component';
 
 interface Admin {
   id: number;
@@ -13,11 +16,17 @@ interface Admin {
 @Component({
   selector: 'app-administradores',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule,AgregarAdministradoresModalComponent,
+              EditarAdministradoresModalComponent, EliminarAdministradoresModalComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   templateUrl: './administradores.component.html',
 })
 export class AdministradoresComponent {
+  mostrarModalAgregar = false;
+  mostrarModalEditar = false;
+  mostrarModalEliminar = false;
+  adminsIdAEliminar: number | null = null
+
   admins: Admin[] = [
     {
       id: 1,
@@ -108,4 +117,35 @@ export class AdministradoresComponent {
 
     // …otros registros…
   ];
+
+  //FUNCION DE AGREGAR CLIENTE
+  abrirModalAgregar(): void {
+    this.mostrarModalAgregar = true;
+  }
+  cerrarModalAgregar(): void {
+    this.mostrarModalAgregar = false;
+  } 
+
+  //FUNCION DE EDITAR CLIENTE
+  abrirModalEditar(): void {
+    this.mostrarModalEditar = true;
+  }
+  cerrarModalEditar(): void {
+    this.mostrarModalEditar = false;
+  }
+
+  //FUNCION DE ELIMINAR CLIENTE  
+  abrirModalEliminar(adminsId: number): void {
+  this.adminsIdAEliminar = adminsId
+  this.mostrarModalEliminar = true
+  }
+  cerrarModalEliminar(): void {
+    this.mostrarModalEliminar = false
+    this.adminsIdAEliminar = null
+  }
+  eliminarAdministrador(adminsId: number): void {
+    console.log("Eliminando cliente con ID:", adminsId)
+    this.admins = this.admins.filter((admin) => admin.id !== adminsId)
+    this.cerrarModalEliminar()
+  }
 }
