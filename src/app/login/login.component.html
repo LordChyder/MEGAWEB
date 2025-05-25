@@ -2,7 +2,6 @@
 <div class="min-h-screen w-full h-screen bg-white font-sans">
     <div class="relative w-full h-full overflow-hidden">
 
-
       <!-- Contenedor principal con posición relativa -->
       <div class="absolute inset-0 flex w-full h-full md:flex">
   
@@ -20,43 +19,77 @@
             <button class="bg-gray-200 flex items-center justify-center w-[60px] h-[60px] rounded-full shadow-sm"><iconify-icon icon="simple-icons:apple" width="38px" height="38px"></iconify-icon></button>
           </div>
   
-          <form class="w-full max-w-md">
+          <!-- FORMULARIO DE LOGIN -->
+          <form class="w-full max-w-md" *ngIf="isLoginMode" (ngSubmit)="onLogin()">
             <div class="mb-4">
-              <input type="email" placeholder="Correo" class="w-full border px-4 py-2 rounded-md focus:outline-none bg-gray-100">
+              <input type="username" 
+                     name="loginEmail"
+                     [(ngModel)]="loginData.user"
+                     placeholder="Correo" 
+                     class="w-full border px-4 py-2 rounded-md focus:outline-none bg-gray-100"
+                     required>
             </div>
             <div class="mb-4">
-              <input type="password" placeholder="Contraseña" class="w-full border px-4 py-2 rounded-md focus:outline-none bg-gray-100">
+              <input type="password" 
+                     name="loginPassword"
+                     [(ngModel)]="loginData.password"
+                     placeholder="Contraseña" 
+                     class="w-full border px-4 py-2 rounded-md focus:outline-none bg-gray-100"
+                     required>
             </div>
-            <ng-container *ngIf="!isLoginMode">
-              <div class="mb-4">
-                <input
-                  type="text" placeholder="Nombre" class="w-full border px-4 py-2 rounded-md focus:outline-none bg-gray-100">
-              </div>
-            </ng-container>
-            <ng-container *ngIf="!isLoginMode">
-            <div class="mb-4">
-              <input type="email" placeholder="Correo" class="w-full border px-4 py-2 rounded-md focus:outline-none bg-gray-100">
-            </div>
-            </ng-container>
-            <ng-container *ngIf="!isLoginMode">
-            <div class="mb-4">
-              <input type="password" placeholder="Contraseña" class="w-full border px-4 py-2 rounded-md focus:outline-none bg-gray-100">
-            </div>
-            </ng-container>
-            <ng-container *ngIf="!isLoginMode">
-              <div class="mb-4">
-                <input type="password" placeholder="Confirmar contraseña" class="w-full border px-4 py-2 rounded-md focus:outline-none bg-gray-100">
-              </div>
-            </ng-container>
-            <div class="mb-4 text-sm text-gray-500 text-center" *ngIf="isLoginMode">
+            <div class="mb-4 text-sm text-gray-500 text-center">
               ¿Olvidaste tu contraseña?
             </div>
-            <button type="button" 
-                    class="w-full py-3 rounded-full text-white text-lg font-semibold transition duration-300"
-                    [ngClass]="isLoginMode ? 'bg-[#F28C7F] hover:bg-[#e07a6e]' : 'bg-[#00A89D] hover:bg-[#009387]'">
-              {{ isLoginMode ? 'Iniciar sesión' : 'Registrarse' }}
-          </button>
+            <button type="submit" 
+                    class="w-full py-3 rounded-full text-white text-lg font-semibold transition duration-300 bg-[#F28C7F] hover:bg-[#e07a6e]">
+              Iniciar sesión
+            </button>
           </form>
+
+          <!-- FORMULARIO DE REGISTRO -->
+          <form class="w-full max-w-md" *ngIf="!isLoginMode" (ngSubmit)="onRegister()">
+            <div class="mb-4">
+              <input type="text" 
+                     name="registerName"
+                     [(ngModel)]="registerData.name"
+                     placeholder="Nombre" 
+                     class="w-full border px-4 py-2 rounded-md focus:outline-none bg-gray-100"
+                     required>
+            </div>
+            <div class="mb-4">
+              <input type="email" 
+                     name="registerEmail"
+                     [(ngModel)]="registerData.email"
+                     placeholder="Correo" 
+                     class="w-full border px-4 py-2 rounded-md focus:outline-none bg-gray-100"
+                     required>
+            </div>
+            <div class="mb-4">
+              <input type="password" 
+                     name="registerPassword"
+                     [(ngModel)]="registerData.password"
+                     placeholder="Contraseña" 
+                     class="w-full border px-4 py-2 rounded-md focus:outline-none bg-gray-100"
+                     required>
+            </div>
+            <div class="mb-4">
+              <input type="password" 
+                     name="confirmPassword"
+                     [(ngModel)]="registerData.confirmPassword"
+                     placeholder="Confirmar contraseña" 
+                     class="w-full border px-4 py-2 rounded-md focus:outline-none bg-gray-100"
+                     required>
+            </div>
+            <button type="submit" 
+                    class="w-full py-3 rounded-full text-white text-lg font-semibold transition duration-300 bg-[#00A89D] hover:bg-[#009387]">
+              Registrarse
+            </button>
+          </form>
+
+          <!-- Mostrar errores -->
+          <div *ngIf="error" class="mt-4 text-red-500 text-center text-sm">
+            {{ error }}
+          </div>
         </div>
   
         <!-- Panel lateral derecho en escritorio -->
@@ -64,7 +97,7 @@
              [ngClass]="isLoginMode ? 'translate-x-0 bg-[#00A89D] rounded-l-[80%]' : '-translate-x-full bg-[#F28C7F] rounded-r-[80%]'">
           <div class="max-w-xs text-center">
             <h2 class="text-[60px] font-bold mb-5">{{ isLoginMode ? '¡Bienvenido!' : '¡Hola!' }}</h2>
-            <p class="text- 4x1 mb-6 ">{{ isLoginMode ? 'Ingrese sus datos para utilizar más funciones en el sitio' : 'Regístrese para utilizar más funciones en el sitio' }}</p>
+            <p class="text-xl mb-6">{{ isLoginMode ? 'Ingrese sus datos para utilizar más funciones en el sitio' : 'Regístrese para utilizar más funciones en el sitio' }}</p>
             <button (click)="toggleMode()"
                     class="border border-white px-6 py-2 rounded-full font-semibold hover:bg-white hover:text-black transition">
               {{ isLoginMode ? 'Registrate' : 'Iniciar sesión' }}
@@ -77,9 +110,7 @@
       <div class="md:hidden w-full h-full p-6 flex flex-col items-center justify-center">
         <div class="md:hidden w-full h-full overflow-hidden relative">
 
-          <!-- FORMULARIO DE INICIAR SESIÓN -->
-          <!-- Logo móvil único, centrado y con animación fluida -->
-          
+          <!-- FORMULARIO DE INICIAR SESIÓN MÓVIL -->
           <div class="absolute top-0 left-0 w-full h-full transition-all duration-700 ease-in-out transform"
                [ngClass]="isLoginMode ? 'translate-x-0' : '-translate-x-full'">
                <div class="absolute bottom-4 left-1/2 z-20 w-[180px] transform transition-transform duration-700 ease-in-out"
@@ -88,17 +119,27 @@
               </div>
             <div class="w-full h-full p-6 flex flex-col items-center justify-center bg-white">
               <h2 class="text-3xl font-bold text-center mb-6">Iniciar Sesión</h2>
-              <form class="w-full max-w-md">
+              <form class="w-full max-w-md" (ngSubmit)="onLogin()">
                 <div class="mb-4">
-                  <input type="email" placeholder="Correo" class="w-full border px-4 py-2 rounded-md focus:outline-none bg-gray-100">
+                  <input type="email" 
+                         name="mobileLoginEmail"
+                         [(ngModel)]="loginData.user"
+                         placeholder="Correo" 
+                         class="w-full border px-4 py-2 rounded-md focus:outline-none bg-gray-100"
+                         required>
                 </div>
                 <div class="mb-4">
-                  <input type="password" placeholder="Contraseña" class="w-full border px-4 py-2 rounded-md focus:outline-none bg-gray-100">
+                  <input type="password" 
+                         name="mobileLoginPassword"
+                         [(ngModel)]="loginData.password"
+                         placeholder="Contraseña" 
+                         class="w-full border px-4 py-2 rounded-md focus:outline-none bg-gray-100"
+                         required>
                 </div>
                 <div class="mb-4 text-sm text-gray-500 text-center">
                   ¿Olvidaste tu contraseña?
                 </div>
-                <button type="button" (click)="onLogin()"
+                <button type="submit"
                         class="w-full py-3 rounded-full text-white text-lg font-semibold transition duration-300
                                bg-[#F28C7F] hover:bg-[#e07a6e]">
                   Iniciar sesión
@@ -109,10 +150,14 @@
                   ¿No tienes cuenta? Regístrate
                 </button>
               </div>
+              <!-- Error en móvil -->
+              <div *ngIf="error" class="mt-4 text-red-500 text-center text-sm">
+                {{ error }}
+              </div>
             </div>
           </div>
         
-          <!-- FORMULARIO DE REGISTRO -->
+          <!-- FORMULARIO DE REGISTRO MÓVIL -->
           <div class="absolute top-0 left-0 w-full h-full transition-all duration-700 ease-in-out transform"
                [ngClass]="isLoginMode ? 'translate-x-full' : 'translate-x-0'">
                <div class="absolute bottom-4 left-1/2 z-20 w-[180px] transform transition-transform duration-700 ease-in-out"
@@ -121,20 +166,40 @@
               </div>
             <div class="w-full h-full p-6 flex flex-col items-center justify-center bg-white">
               <h2 class="text-3xl font-bold text-center mb-6">Registrarse</h2>
-              <form class="w-full max-w-md">
+              <form class="w-full max-w-md" (ngSubmit)="onRegister()">
                 <div class="mb-4">
-                  <input type="text" placeholder="Nombre" class="w-full border px-4 py-2 rounded-md focus:outline-none bg-gray-100">
+                  <input type="text" 
+                         name="mobileRegisterName"
+                         [(ngModel)]="registerData.name"
+                         placeholder="Nombre" 
+                         class="w-full border px-4 py-2 rounded-md focus:outline-none bg-gray-100"
+                         required>
                 </div>
                 <div class="mb-4">
-                  <input type="email" placeholder="Correo" class="w-full border px-4 py-2 rounded-md focus:outline-none bg-gray-100">
+                  <input type="email" 
+                         name="mobileRegisterEmail"
+                         [(ngModel)]="registerData.email"
+                         placeholder="Correo" 
+                         class="w-full border px-4 py-2 rounded-md focus:outline-none bg-gray-100"
+                         required>
                 </div>
                 <div class="mb-4">
-                  <input type="password" placeholder="Contraseña" class="w-full border px-4 py-2 rounded-md focus:outline-none bg-gray-100">
+                  <input type="password" 
+                         name="mobileRegisterPassword"
+                         [(ngModel)]="registerData.password"
+                         placeholder="Contraseña" 
+                         class="w-full border px-4 py-2 rounded-md focus:outline-none bg-gray-100"
+                         required>
                 </div>
                 <div class="mb-4">
-                  <input type="password" placeholder="Confirmar contraseña" class="w-full border px-4 py-2 rounded-md focus:outline-none bg-gray-100">
+                  <input type="password" 
+                         name="mobileConfirmPassword"
+                         [(ngModel)]="registerData.confirmPassword"
+                         placeholder="Confirmar contraseña" 
+                         class="w-full border px-4 py-2 rounded-md focus:outline-none bg-gray-100"
+                         required>
                 </div>
-                <button type="button" 
+                <button type="submit" 
                         class="w-full py-3 rounded-full text-white text-lg font-semibold transition duration-300
                                bg-[#00A89D] hover:bg-[#009387]">
                   Registrarse
@@ -145,8 +210,14 @@
                   ¿Ya tienes cuenta? Inicia sesión
                 </button>
               </div>
+              <!-- Error en móvil -->
+              <div *ngIf="error" class="mt-4 text-red-500 text-center text-sm">
+                {{ error }}
+              </div>
             </div>
           </div>
         
         </div>
-  
+      </div>
+    </div>
+</div>

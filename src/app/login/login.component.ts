@@ -1,31 +1,44 @@
 import { Component, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { AuthService } from '../service/auth/auth.service';
 import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule,RouterModule],
+  imports: [CommonModule, RouterModule, FormsModule], // Agregamos FormsModule
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
 export class LoginComponent {
-  username: string = '';
-  password: string = '';
+  // Datos para LOGIN
+  loginData = {
+    user: '',
+    password: ''
+  };
+
+  // Datos para REGISTRO
+  registerData = {
+    name: '',
+    email: '',
+    password: '',
+    confirmPassword: ''
+  };
+
   error: string = '';
+  isLoginMode: boolean = true;
 
-    constructor(private authService: AuthService,  private router: Router) {}
+  constructor(private authService: AuthService, private router: Router) {}
 
+  // Método para login
   onLogin() {
-    this.authService.login(this.username, this.password).subscribe({
+    this.authService.login(this.loginData.user, this.loginData.password).subscribe({
       next: (res) => {
-        // Guarda el token o haz lo que necesites después del login exitoso
         localStorage.setItem('token', res.token);
         this.error = '';
         alert('Login exitoso');
-        // Redirige a otra página si quieres
         this.router.navigate(['/']);
       },
       error: (err) => {
@@ -34,14 +47,21 @@ export class LoginComponent {
     });
   }
 
-  isRegisterMode: boolean = true;
-  isLoginMode: boolean = false;
+  // Método para registro
+  onRegister() {
+    if (this.registerData.password !== this.registerData.confirmPassword) {
+      this.error = 'Las contraseñas no coinciden';
+      return;
+    }
 
-  RegistertoggleMode() {
-    this.isRegisterMode = !this.isRegisterMode;}
-    
-  LoginToggleMode() {
+    // Aquí llamarías a tu servicio de registro
+    console.log('Datos de registro:', this.registerData);
+    // this.authService.register(this.registerData).subscribe({...});
+  }
+
+  // Toggle entre modos
+  toggleMode() {
     this.isLoginMode = !this.isLoginMode;
+    this.error = ''; // Limpiar errores al cambiar modo
   }
 }
-
