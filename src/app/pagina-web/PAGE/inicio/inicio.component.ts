@@ -47,8 +47,8 @@ export class InicioComponent implements OnInit, OnDestroy {
   this.productoService.getProducto().subscribe({
     next: (result) => {
       console.log('Respuesta completa de productos:', result);  // <--- LOG
-      if (result && Array.isArray(result.productos)) {
-        this.productos = result.productos;
+      if (result && Array.isArray(result)) {
+        this.productos = result;
         if (this.productos.length > 0) {
           this.startAutoSlide();
         }
@@ -67,8 +67,8 @@ export class InicioComponent implements OnInit, OnDestroy {
   getPublicacion() {
     this.publicacionesService.getPublicacion().subscribe({
       next: (result) => {
-        if (result && Array.isArray(result.publicaciones)) {
-          this.publicaciones = result.publicaciones;
+        if (result && Array.isArray(result)) {
+          this.publicaciones = result;
         } else {
           console.error('Respuesta inesperada de publicaciones:', result);
         }
