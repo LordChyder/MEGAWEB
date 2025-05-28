@@ -1,87 +1,61 @@
 import { Component, ElementRef, ViewChild, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
+import { HttpClientModule } from '@angular/common/http';
+import { ProductoService } from '../../../service/pages/productos/productos.service'; // ajusta el path según tu estructura
 
 interface Producto {
+subtitulo: any;
+  id: string | number;
   imagen: string;
   nombre: string;
-  subtitulo: string;
   descripcion: string;
 }
 
 @Component({
   selector: 'app-productos',
   standalone: true,
-  imports: [CommonModule,HttpClientModule,RouterModule],
+  imports: [CommonModule, HttpClientModule, RouterModule],
   templateUrl: './productos.component.html',
   styleUrls: ['./productos.component.css'],
 })
 export class ProductosComponent implements OnInit {
+  intervalId: any;
+getProductoUrl(arg0: string): string|any[]|null|undefined {
+throw new Error('Method not implemented.');
+}
   @ViewChild('carousel', { static: false }) carousel!: ElementRef;
 
   productos: Producto[] = [];
   productosPorBloque: Producto[][] = [];
   currentSlide: number = 0;
 
-  constructor(private http: HttpClient) {}
+  constructor(private productoService: ProductoService) {}
 
-
-  //Diseño sin API
   ngOnInit(): void {
-    this.productos = [
-      {
-        imagen: 'assets/imagenes/yupay.png',
-        nombre: 'Yupay',
-        subtitulo: 'Software de Contabilidad',
-        descripcion: 'Sistema de fácil adaptabilidad al manejo de contabilidad y agiliza la generación de información.',
-      },
-      {
-        imagen: 'assets/imagenes/scomers.png',
-        nombre: 'Scomers',
-        subtitulo: 'Edición Empresarial',
-        descripcion: 'Sistema de Facturación y Control de inventarios, fácil, robusto, confiable, eficiente y rápido.',
-      },
-      {
-        imagen: 'assets/imagenes/scomers-cpe.png',
-        nombre: 'Scomers.CPE',
-        subtitulo: 'Módulo de Facturación Electrónica',
-        descripcion: 'Gestión de Comprobantes de Pago Electrónico, Emisión Web y más.',
-      },
-      {
-        imagen: 'assets/imagenes/scomers-movil.png',
-        nombre: 'Scomers.Movil',
-        subtitulo: 'Plataforma Móvil',
-        descripcion: 'Aplicación móvil para facturación, venta y toma de pedidos con dispositivos móviles.',
-      },
-      {
-        imagen: 'assets/imagenes/yupay.png',
-        nombre: 'Yupay2',
-        subtitulo: 'Software de Contabilidad',
-        descripcion: 'Sistema de fácil adaptabilidad al manejo de contabilidad y agiliza la generación de información.',
-      },
-      {
-        imagen: 'assets/imagenes/scomers.png',
-        nombre: 'Scomers2',
-        subtitulo: 'Edición Empresarial',
-        descripcion: 'Sistema de Facturación y Control de inventarios, fácil, robusto, confiable, eficiente y rápido.',
-      },
-      {
-        imagen: 'assets/imagenes/scomers-cpe.png',
-        nombre: 'Scomers.CPE2',
-        subtitulo: 'Módulo de Facturación Electrónica',
-        descripcion: 'Gestión de Comprobantes de Pago Electrónico, Emisión Web y más.',
-      },
-      {
-        imagen: 'assets/imagenes/scomers-movil.png',
-        nombre: 'Scomers.Movil2',
-        subtitulo: 'Plataforma Móvil',
-        descripcion: 'Aplicación móvil para facturación, venta y toma de pedidos con dispositivos móviles.',
-      }
-    ];
+    this.getProducto();
+  }
 
-    this.generarBloques();
-    this.updateCarousel();
+    getProducto(){
+    this.productoService.getProducto().subscribe({
+      next: (result) => {
+      console.log('Respuesta completa de productos:', result);  // <--- LOG
+      if (result && Array.isArray(result)) {
+        this.productos = result;
+        if (this.productos.length > 0) {
+          this.generarBloques();
+          this.updateCarousel();
+          this.startAutoSlide();
+        }
+      } else {
+        console.error('No se recibieron productos o respuesta inválida:', result);
+        this.productos = []; // para evitar errores posteriores
+      }
+    },
+      error: (error) => {
+        console.error('Error al obtener productos desde la API:', error);
+      }
+    });
   }
 
   generarBloques(): void {
@@ -92,21 +66,28 @@ export class ProductosComponent implements OnInit {
     }
   }
 
-  updateCarousel() {
+  startAutoSlide() {
+    this.intervalId = setInterval(() => {
+      this.nextSlide();
+    }, 5000);
+  }
+
+  updateCarousel(): void {
     const offset = -this.currentSlide * 100;
     if (this.carousel) {
       this.carousel.nativeElement.style.transform = `translateX(${offset}%)`;
     }
   }
 
-  prevSlide() {
+  prevSlide(): void {
     this.currentSlide =
       (this.currentSlide - 1 + this.productosPorBloque.length) % this.productosPorBloque.length;
     this.updateCarousel();
   }
 
-  nextSlide() {
-    this.currentSlide = (this.currentSlide + 1) % this.productosPorBloque.length;
+  nextSlide(): void {
+    this.currentSlide =
+      (this.currentSlide + 1) % this.productosPorBloque.length;
     this.updateCarousel();
   }
 }

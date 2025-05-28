@@ -1,33 +1,45 @@
 <div class="w-full h-full flex items-center justify-center py-10 relative">
-    
-    <!-- Botones de navegación -->
-    <button (click)="prevSlide()"
-        class="absolute left-0 top-1/2 transform -translate-y-1/2 p-3 bg-white shadow rounded-full hover:bg-gray-100 z-10">
-        &#8592;
-    </button>
-    <button (click)="nextSlide()"
-        class="absolute right-0 top-1/2 transform -translate-y-1/2 p-3 bg-white shadow rounded-full hover:bg-gray-100 z-10">
-        &#8594;
-    </button>
+  
+  <!-- Botones de navegación -->
+  <button (click)="prevSlide()"
+    class="absolute left-0 top-1/2 transform -translate-y-1/2 p-3 bg-white shadow rounded-full hover:bg-gray-100 z-10">
+    &#8592;
+  </button>
+  <button (click)="nextSlide()"
+    class="absolute right-0 top-1/2 transform -translate-y-1/2 p-3 bg-white shadow rounded-full hover:bg-gray-100 z-10">
+    &#8594;
+  </button>
 
-    <!-- Carrusel de productos -->
-    <div class="overflow-hidden w-[90%] max-w-6xl">
-        <div #carousel class="flex transition-transform duration-500 ease-in-out">
-            <div class="min-w-full grid grid-cols-2 gap-x-10 gap-y-6 p-6 justify-items-center items-center"
-                *ngFor="let bloque of productosPorBloque">
-            <div *ngFor="let producto of bloque" class="flex items-start gap-4 border-b pb-4 w-full max-w-md">
-            <img [src]="producto.imagen" [alt]="producto.nombre" class="w-28 object-contain" />
-            <div>
-                <a href="#" class="text-blue-600 font-bold text-sm hover:underline"> {{ producto.nombre }}
-                </a>
-                <p class="font-semibold text-sm text-black">{{ producto.subtitulo }}</p>
-                <p class="text-xs text-gray-600 mt-1">{{ producto.descripcion }}</p>
-                <button [routerLink]="['/productos', producto.nombre]"
-                    class="mt-2 bg-pink-100 text-green-700 px-2 py-1 rounded-full text-xs hover:bg-pink-200 transition">
-                    Ver detalles ...
-                </button>
-            </div>
-            </div>
+  <!-- Carrusel de productos -->
+  <div class="overflow-hidden w-[90%] max-w-6xl">
+    <div #carousel class="flex transition-transform duration-500 ease-in-out">
+      <div
+        class="min-w-full grid grid-cols-2 gap-x-10 gap-y-6 p-6 justify-items-center items-center"
+        *ngFor="let bloque of productosPorBloque">
+        
+        <div *ngFor="let producto of bloque" class="flex items-start gap-4 border-b pb-4 w-full max-w-md">
+          <img [src]="producto.imagen" [alt]="producto.nombre" class="w-28 object-contain" />
+          <div>
+            <a href="#" class="text-blue-600 font-bold text-sm hover:underline">
+              {{ producto.nombre }}
+            </a>
+            <p *ngIf="producto.subtitulo" class="font-semibold text-sm text-black">
+              {{ producto.subtitulo }}
+            </p>
+            <p class="text-xs text-gray-600 mt-1">{{ producto.descripcion }}</p>
+            <button [routerLink]="getProductoUrl(producto.nombre)"
+              class="mt-2 bg-pink-100 text-green-700 px-2 py-1 rounded-full text-xs hover:bg-pink-200 transition">
+              Ver detalles ...
+            </button>
+          </div>
         </div>
+
+      </div>
     </div>
+  </div>
 </div>
+
+<!-- Mensaje si no hay productos -->
+<p *ngIf="productos.length === 0" class="text-gray-500 text-center mt-4">
+  No hay productos disponibles en este momento.
+</p>

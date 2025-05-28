@@ -1,24 +1,17 @@
-<div class="relative w-full max-w-5xl mx-auto overflow-hidden mt-10">
+<!-- Carrusel modificado -->
+<div class="relative w-full max-w-5xl mx-auto overflow-hidden"> <!-- Reducido el margen superior -->
   <div #carousel class="flex transition-transform duration-500 ease-in-out">
     <div
-      class="min-w-full flex items-center justify-center p-6 cursor-pointer"
+      class="min-w-full flex items-center justify-center p-4 cursor-pointer"
       *ngFor="let producto of productos"
     >
-      <div class="flex-shrink-0 flex items-center justify-center w-48 h-[calc(100vh-500px)]">
+      <!-- Imagen más grande y centrada verticalmente -->
+      <div class="flex items-center justify-center w-[900px] h-[300px]"> <!-- Ajustado tamaño -->
         <img
-          [src]="producto.imagen"
+          [src]="'../../../assets/productos_img/' + producto.imagen"
           [alt]="producto.nombre"
-          class="w-full h-full object-contain"
+          class="w-full h-full block"
         />
-      </div>
-
-      <!-- Bloque de descripción del producto -->
-      <div class="bg-white shadow-lg rounded-md p-6 ml-6 max-w-xl w-full">
-        <h2 class="text-2xl font-bold text-blue-700 mb-2">{{ producto.nombre }}</h2>
-        <p class="text-gray-700 text-sm mb-2">{{ producto.descripcion }}</p>
-        <p class="text-sm text-blue-600 font-medium">
-          Únete a nuestra red de clientes y disfruta las ventajas que brinda {{ producto.nombre }}.
-        </p>
       </div>
     </div>
   </div>
@@ -57,7 +50,7 @@
         </div>
         <div class="w-[70%] grid bg-[#FFF5CC] p-5 gap-y-1">
           <h2 class="text-[#007F6D] text-lg font-semibold">{{ publicacion.titulo }}</h2>
-          <p class="text-slate-300">{{ publicacion.fecha }}</p>
+          <p class="text-slate-500"> Publicado el {{ publicacion.fecha }}</p>
           <span class="font-semibold">{{ publicacion.descripcion }}</span>
         </div>
       </div>
@@ -99,15 +92,7 @@
 
     <div class="flex justify-center text-center">
       <p>
-        Somos una empresa con años de experiencia en el mercado de Desarrollo de Software y
-        Consultora en Sistemas de nuestra Región San Martín, contamos con productos y servicios de
-        calidad, día a día nos esforzamos por satisfacer en sus requerimientos a nuestros clientes,
-        esto ha hecho que sean ellos mismos quienes nos recomienden y sean la mejor carta de
-        presentación que tengamos. La práctica de la Innovación y mejora continua hace que nos demos
-        cuenta de la importancia de mirar hacia el futuro, por tanto ofrecemos lo último del mercado
-        para dar un apoyo y servicio óptimo a nuestros clientes. Lo que nos diferencia: Siempre damos
-        un poco más de nosotros. Disfrutamos de nuestro trabajo. Creemos que la comunicación con
-        nuestros clientes es esencial...
+        {{ descripcionEmpresa }}
       </p>
     </div>
 

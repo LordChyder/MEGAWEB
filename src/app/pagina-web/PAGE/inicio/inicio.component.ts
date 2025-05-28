@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { ProductoService } from '../../../service/pages/productos/productos.service';
 import { PublicacionesService } from '../../../service/pages/publicaciones/publicaciones.service';
+import { NosotrosService } from '../../../service/pages/nosotros/nosotros.service';
 
 interface Producto {
   id: string | number;
@@ -19,6 +20,13 @@ interface Publicacion {
   descripcion: string;
 }
 
+interface Nosotros {
+  descripcion: string;
+  mision: string;
+  vision: string;
+  telefono: string;
+  direccion: string;
+}
 @Component({
   selector: 'app-inicio',
   standalone: true,
@@ -31,16 +39,20 @@ export class InicioComponent implements OnInit, OnDestroy {
   currentSlide = 0;
   productos: Producto[] = [];
   publicaciones: Publicacion[] = [];
+  descripcionEmpresa: string = '';
   intervalId: any;
+nosotros: any;
 
   constructor(
     private productoService: ProductoService,
-    private publicacionesService: PublicacionesService
+    private publicacionesService: PublicacionesService,
+    private nosotrosService: NosotrosService
   ) {}
 
   ngOnInit(): void {
     this.getProducto();
     this.getPublicacion();
+    this.getNosotros();
   }
 
   getProducto() {
@@ -78,6 +90,22 @@ export class InicioComponent implements OnInit, OnDestroy {
       }
     });
   }
+
+  getNosotros() {
+  this.nosotrosService.getNosotros().subscribe({
+    next: (result) => {
+      if (result && result.descripcion) {
+        this.descripcionEmpresa = result.descripcion;
+      } else {
+        console.error('Respuesta inesperada de nosotros:', result);
+      }
+    },
+    error: (error) => {
+      console.error('Error al obtener nosotros:', error);
+    }
+  });
+}
+
 
   ngOnDestroy(): void {
     clearInterval(this.intervalId);
