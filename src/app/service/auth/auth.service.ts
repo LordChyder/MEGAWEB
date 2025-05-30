@@ -14,7 +14,7 @@ interface LoginResponse {
   providedIn: 'root',
 })
 export class AuthService {
-  private apiUrl = 'http://localhost:1901//api/auth/login';
+  private apiUrl = 'http://172.29.195.108:1901/api/auth/login';
 
   constructor(private http: HttpClient) {}
 

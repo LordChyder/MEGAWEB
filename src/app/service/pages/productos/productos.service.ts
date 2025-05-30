@@ -14,7 +14,7 @@ subtitulo: any;
   providedIn: 'root'
 })
 export class ProductoService {
-  private api_url = 'http://10.147.20.86:1901/api/productos';
+  private api_url = 'http://172.29.195.108:1901/api/productos';
 
   constructor(private httpClient: HttpClient) {}
 
