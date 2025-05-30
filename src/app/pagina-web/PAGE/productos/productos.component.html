@@ -1,5 +1,4 @@
 <div class="w-full h-full flex items-center justify-center py-10 relative">
-  
   <!-- Botones de navegación -->
   <button (click)="prevSlide()"
     class="absolute left-0 top-1/2 transform -translate-y-1/2 p-3 bg-white shadow rounded-full hover:bg-gray-100 z-10">
@@ -27,9 +26,9 @@
               {{ producto.subtitulo }}
             </p>
             <p class="text-xs text-gray-600 mt-1">
-            {{ producto.descripcion.slice(0, 100) }}{{ producto.descripcion.length > 100 ? '...' : '' }}
+              {{ producto.descripcion.slice(0, 100) }}{{ producto.descripcion.length > 100 ? '...' : '' }}
             </p>
-            <button [routerLink]="getProductoUrl(producto.nombre)"
+            <button [routerLink]="['/vistaproducto', producto.id]"
               class="mt-2 bg-pink-100 text-green-700 px-2 py-1 rounded-full text-xs hover:bg-pink-200 transition">
               Ver detalles ...
             </button>
