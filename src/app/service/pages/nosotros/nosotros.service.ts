@@ -14,7 +14,7 @@ export interface Nosotros {
   providedIn: 'root'
 })
 export class NosotrosService {
-  private api_url = 'http://localhost:1901/api/nosotros';
+  private api_url = 'http://10.147.20.86:1901/api/nosotros';
 
   constructor(private httpClient: HttpClient) { }
 
