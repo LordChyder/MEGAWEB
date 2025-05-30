@@ -1,1 +1,124 @@
-<p>productos works!</p>
+<div class="bg-gray-100 w-full min-h-screen flex flex-col">
+  <div class="flex-1 w-full mt-2 p-1 md:p-2">
+    <div class="max-w-full mx-5">
+      <!-- HEADER: logo + título + botón | buscador -->
+      <div>
+        <h1 class="text-2xl md:text-2xl font-bold text-gray-900 mb-4">
+          Productos
+        </h1>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-3">
+          <div class="md:pr-11 mt-[5px]">
+            <button
+              (click)="abrirModalAgregar()"
+              class="flex items-center space-x-2 
+                    bg-teal-500 text-white
+                    px-3 py-1 rounded
+                    hover:bg-teal-600 transition "
+            >
+              <iconify-icon
+                icon="mdi:file-document-add"
+                class="text-sm"
+              ></iconify-icon>
+              <span class="text-sm">Nuevas Consultas</span>
+            </button>
+          </div>
+          <!-- DERECHA: buscador -->
+          <div class="text-right md:text-right">
+            <label for="buscar" class="text-sm font-medium mr-2 whitespace-nowrap">Buscar:</label>
+            <input
+              id="buscar"
+              type="text"
+              placeholder=""
+              class="border border-gray-300 rounded
+                    px-3 py-1 w-full max-w-xs
+                    focus:outline-none focus:ring-2 focus:ring-teal-500"
+            />
+          </div>  
+        </div>
+      </div>
+  
+      <!-- TABLA -->
+      <div class="overflow-hidden">
+        <div class="bg-white shadow rounded-lg">
+          <div class="overflow-x-auto">
+            <table class="w-full table-fixed divide-y divide-gray-200">
+              <thead class="bg-gray-50">
+                <tr>
+                  <th class="px-3 md:px-4 py-2 text-center text-xs font-medium text-gray-500 w-[15%]">Productos</th>
+                  <th class="px-3 md:px-4 py-2 text-center text-xs font-medium text-gray-500 w-[45%]">Descripcion</th>
+                  <th class="px-3 md:px-4 py-2 text-center text-xs font-medium text-gray-500 w-[10%]">Version</th>
+                  <th class="px-3 md:px-4 py-2 text-center text-xs font-medium text-gray-500 w-[10%]">Status</th>
+                  <th class="px-3 md:px-4 py-2 text-center text-xs font-medium text-gray-500 w-[20%]">Acciones</th>
+                </tr>
+              </thead>
+              <tbody class="bg-white divide-y divide-gray-200">
+                <tr *ngFor="let Consultas of consulta">
+                  <td class="px-3 md:px-4 py-2 text-center text-xs">{{ Consultas.productos }}</td>
+                  <td class="px-3 md:px-4 py-2 text-xs break-words">
+                    <div class="max-h-24 overflow-y-auto">
+                      {{ Consultas.descripcion }}
+                    </div>
+                  </td>
+                  <td class="px-3 md:px-4 py-2 text-center text-xs">{{ Consultas.version }}</td>
+                  <td class="px-3 md:px-4 py-2 text-center text-xs">
+                    <span
+                      [ngClass]="{
+                        'text-green-600 font-semibold': Consultas.status === 'ACTIVE',
+                        'text-red-600 font-semibold':   Consultas.status === 'INACTIVE'
+                      }"
+                    >
+                      {{ Consultas.status }}
+                    </span>
+                  </td>
+                  <td class="px-3 md:px-4 py-2 text-center text-xs">
+                    <div class="flex justify-center space-x-2">
+                      <!-- Edit -->
+                      <button
+                        (click)="abrirModalEditar()"
+                        class="inline-flex items-center p-1 rounded hover:bg-gray-100 transition"
+                        aria-label="Editar"
+                      >
+                        <iconify-icon
+                          icon="mdi:pencil-outline"
+                          class="text-2xl text-teal-600"
+                        ></iconify-icon>
+                      </button>
+                      <!-- Delete -->
+                      <button
+                        (click)="abrirModalEliminar(Consultas.id)"
+                        class="inline-flex items-center p-1 rounded hover:bg-gray-100 transition"
+                        aria-label="Eliminar"
+                      >
+                        <iconify-icon
+                          icon="mdi:delete-outline"
+                          class="text-2xl text-red-600"
+                        ></iconify-icon>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal para agregar cliente -->
+<app-agregar-administradores-modal 
+  *ngIf="mostrarModalAgregar"
+  (cerrar)="cerrarModalAgregar()"
+></app-agregar-administradores-modal>
+
+<app-editar-administradores-modal 
+  *ngIf="mostrarModalEditar"
+  (cerrar)="cerrarModalEditar()"
+></app-editar-administradores-modal>
+
+<app-eliminar-administradores-modal 
+  *ngIf="mostrarModalEliminar"
+  [adminsId]="consultaIdAEliminar"
+  (cancelar)="cerrarModalEliminar()"
+></app-eliminar-administradores-modal>
