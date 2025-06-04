@@ -14,7 +14,7 @@ export interface Nosotros {
   providedIn: 'root'
 })
 export class NosotrosService {
-  private api_url = 'http://172.29.195.108:1901/api/nosotros';
+  private api_url = 'http://pruebas.megayuntas.com:1901/api/nosotros';
 
   constructor(private httpClient: HttpClient) { }
 

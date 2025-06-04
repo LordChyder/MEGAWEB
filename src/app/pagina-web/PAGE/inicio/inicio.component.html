@@ -32,26 +32,26 @@
 </div>
 
 <!-- Últimas Publicaciones -->
-<section class="mt-10 mb-20 px-4">
-  <div class="relative w-full max-w-5xl mx-auto overflow-hidden">
-    <h2 class="text-xl font-bold flex items-center gap-2 mb-6 border-b-2 w-[25%]">
+<section class="mt-6 mb-10 px-2">
+  <div class="relative w-full max-w-4xl mx-auto overflow-hidden">
+    <h2 class="text-base font-bold flex items-center gap-2 mb-3 border-b-2 w-[40%]">
       📕 Últimas publicaciones
     </h2>
-    <p class="text-xl text-[#007F6D] font-bold flex items-center gap-2 mb-6">
+    <p class="text-sm text-[#007F6D] font-bold flex items-center gap-2 mb-4">
       YUPAY | Contabilidad
     </p>
-    <div class="space-y-6">
+    <div class="space-y-4">
       <div
         *ngFor="let publicacion of publicaciones"
         class="flex w-full border border-[#BFBCB2] cursor-pointer"
       >
-        <div class="w-[30%] bg-red-600">
+        <div class="w-[30%] bg-red-600 max-h-36 overflow-hidden">
           <img [src]="publicacion.imagen" alt="yupay" class="w-full h-full object-cover" />
         </div>
-        <div class="w-[70%] grid bg-[#FFF5CC] p-5 gap-y-1">
-          <h2 class="text-[#007F6D] text-lg font-semibold">{{ publicacion.titulo }}</h2>
-          <p class="text-slate-500"> Publicado el {{ publicacion.fecha }}</p>
-          <span class="font-semibold">{{ publicacion.descripcion }}</span>
+        <div class="w-[70%] grid bg-[#FFF5CC] p-3 gap-y-1">
+          <h2 class="text-[#007F6D] text-sm font-semibold truncate">{{ publicacion.titulo }}</h2>
+          <p class="text-xs text-slate-500">Publicado el {{ publicacion.fecha }}</p>
+          <span class="text-sm font-medium line-clamp-2">{{ publicacion.descripcion }}</span>
         </div>
       </div>
     </div>
