@@ -29,7 +29,7 @@ export interface DetalleProducto {
 })
 export class VistaproductoService {
 
-  private api_url = 'http://pruebas.megayuntas.com:1901/api/productos/{id}';
+  private api_url = 'http://pruebas.megayuntas.com:1901/api/productos';
 
   constructor(private httpClient: HttpClient) { }
 
