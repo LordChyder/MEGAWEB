@@ -1,25 +1,25 @@
-import { Component, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+declare const google: any;
+
+import { Component, CUSTOM_ELEMENTS_SCHEMA, AfterViewInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { AuthService } from '../service/auth/auth.service';
+import { FormsModule, NgForm } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
+import { AuthService } from '../service/auth/auth.service';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, RouterModule, FormsModule], // Agregamos FormsModule
+  imports: [CommonModule, RouterModule, FormsModule],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.css'
+  styleUrl: './login.component.css',
 })
-export class LoginComponent {
-  // Datos para LOGIN
+export class LoginComponent implements AfterViewInit {
   loginData = {
     user: '',
     password: ''
   };
 
-  // Datos para REGISTRO
   registerData = {
     name: '',
     email: '',
@@ -32,36 +32,64 @@ export class LoginComponent {
 
   constructor(private authService: AuthService, private router: Router) {}
 
-  // Método para login
-  onLogin() {
+  // Login tradicional
+  onLogin(form: NgForm) {
+    if (form.invalid) return;
+
     this.authService.login(this.loginData.user, this.loginData.password).subscribe({
       next: (res) => {
         localStorage.setItem('token', res.token);
         this.error = '';
-        alert('Login exitoso');
         this.router.navigate(['/']);
       },
-      error: (err) => {
-        this.error = 'Credenciales incorrectas o error en el login';
-      },
+      error: () => {
+        this.error = 'Credenciales incorrectas';
+      }
     });
   }
 
-  // Método para registro
+  // Registro (dummy por ahora)
   onRegister() {
     if (this.registerData.password !== this.registerData.confirmPassword) {
       this.error = 'Las contraseñas no coinciden';
       return;
     }
-
-    // Aquí llamarías a tu servicio de registro
     console.log('Datos de registro:', this.registerData);
-    // this.authService.register(this.registerData).subscribe({...});
   }
 
-  // Toggle entre modos
   toggleMode() {
     this.isLoginMode = !this.isLoginMode;
-    this.error = ''; // Limpiar errores al cambiar modo
+    this.error = '';
+  }
+
+  // 🔐 Google Sign-In
+  ngAfterViewInit(): void {
+    // Asegúrate de tener el script en index.html
+    // <script src="https://accounts.google.com/gsi/client" async defer></script>
+    if (typeof google !== 'undefined') {
+      google.accounts.id.initialize({
+        client_id: '649759531112-1dad9go3dg4kijaotsrn8uog8tl646ei.apps.googleusercontent.com',
+        callback: (response: any) => this.handleGoogleResponse(response),
+        ux_mode: 'popup' // ← esto evita redireccionamientos
+      });
+
+      google.accounts.id.renderButton(
+        document.getElementById('googleSignInBtn'),
+        { theme: 'outline', size: 'large', shape: 'circle' }
+      );
+    }
+  }
+
+  handleGoogleResponse(response: any) {
+    const credential = response.credential; // JWT de Google
+    this.authService.loginConGoogle(credential).subscribe({
+      next: (res) => {
+        localStorage.setItem('token', res.token);
+        this.router.navigate(['/']);
+      },
+      error: () => {
+        this.error = 'Error al iniciar sesión con Google';
+      }
+    });
   }
 }

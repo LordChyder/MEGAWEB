@@ -14,11 +14,19 @@ interface LoginResponse {
   providedIn: 'root',
 })
 export class AuthService {
-  private apiUrl = 'http://172.29.195.108:1901/api/auth/login';
+  private apiUrl = 'http://localhost:1903/api/auth/login';
+  private apiUrlGoogle = 'http://localhost:1903/api/auth';
 
   constructor(private http: HttpClient) {}
 
   login(username: string, password: string): Observable<LoginResponse> {
     return this.http.post<LoginResponse>(this.apiUrl, { username, password });
   }
+
+  loginConGoogle(idToken: string): Observable<any> {
+    return this.http.post(`${this.apiUrlGoogle}/google`, {
+      idToken
+    });
+  }
+
 }

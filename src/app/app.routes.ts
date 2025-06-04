@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { PaginaWebComponent } from './pagina-web/pagina-web.component';
 import { AdministradorComponent } from './administrador/administrador.component';
+import { adminGuard } from './guards/admin.guard';
 
 export const routes: Routes = [
   // ——— PÁGINA WEB —————————————————————————————————————
@@ -58,7 +59,9 @@ export const routes: Routes = [
   // ——— ADMINISTRACIÓN ——————————————————————————————
   {
     path: 'admin',
-    component: AdministradorComponent,    // layout con toolbar + sidebar
+    component: AdministradorComponent,
+    canActivate: [adminGuard],
+    canActivateChild: [adminGuard],   // layout con toolbar + sidebar
     children: [
       // ruta por defecto
       { path: '', redirectTo: 'admin', pathMatch: 'full' },

@@ -8,34 +8,49 @@
         <!-- Formulario (izquierda en escritorio) -->
         <div class="w-full md:w-1/2 h-full p-10 flex flex-col justify-center items-center transition-all duration-700 ease-in-out transform"
              [ngClass]="isLoginMode ? 'translate-x-0 opacity-100' : 'translate-x-full opacity-100'">
-             <div class="absolute bottom-8 w-full px-10 z-20 flex transition-all duration-700 ease-in-out"
-             [ngClass]="isLoginMode ? '-translate-x-[1%] scale-100 ' : 'translate-x-[73%] scale-100' ">
+             <div class="absolute top-8 w-full px-10 z-20 flex transition-all duration-700 ease-in-out"
+             [ngClass]="isLoginMode ? '-translate-x-[1%] scale-100 ' : 'translate-x-[65%] scale-100' ">
                 <img src="../../assets/Logo_Megayuntas2.png" alt="Megayuntas" class="w-[200px] max-w-full">
               </div>
           <h2 class="text-[44px] font-bold text-center mb-6">{{ isLoginMode ? 'Iniciar Sesión' : 'Registrarse' }}</h2>
           <div class="flex justify-center space-x-4 mb-6">
             <button class="bg-gray-200 hover:bg- flex items-center justify-center w-[60px] h-[60px] rounded-full shadow-sm"><iconify-icon icon="simple-icons:facebook" width="38px" height="38px"></iconify-icon></button>
-            <button class="bg-gray-200 flex items-center justify-center w-[60px] h-[60px] rounded-full shadow-sm"><iconify-icon icon="simple-icons:google" width="38px" height="38px"></iconify-icon></button>
+            <div id="googleSignInBtn" class="bg-gray-200 w-[60px] h-[60px] rounded-full flex justify-center items-center shadow-sm cursor-pointer"></div>
             <button class="bg-gray-200 flex items-center justify-center w-[60px] h-[60px] rounded-full shadow-sm"><iconify-icon icon="simple-icons:apple" width="38px" height="38px"></iconify-icon></button>
           </div>
   
           <!-- FORMULARIO DE LOGIN -->
-          <form class="w-full max-w-md" *ngIf="isLoginMode" (ngSubmit)="onLogin()">
+          <form class="w-full max-w-md" *ngIf="isLoginMode" #loginForm="ngForm" (ngSubmit)="onLogin(loginForm)">
             <div class="mb-4">
-              <input type="username" 
-                     name="loginEmail"
-                     [(ngModel)]="loginData.user"
-                     placeholder="Correo" 
-                     class="w-full border px-4 py-2 rounded-md focus:outline-none bg-gray-100"
-                     required>
+              <div class="relative">
+                <div class="absolute left-3 top-1/2 transform -translate-y-1/2 z-10">
+                  <iconify-icon icon="mdi:email" width="20" height="20" class="text-black"></iconify-icon>
+                </div>
+                <input type="email" 
+                      name="loginEmail"
+                      [(ngModel)]="loginData.user"
+
+                      placeholder="Correo" 
+                      class="w-full border pl-12 pr-4 py-2 rounded-md focus:outline-none bg-gray-100" />
+              </div>
+<!-- 
+              <div *ngIf="loginEmail.invalid && loginEmail.touched"
+                  class="text-red-500 text-xs mt-1 ml-1 leading-tight">
+                <div *ngIf="loginEmail.errors?.['required']">El correo es obligatorio.</div>
+                <div *ngIf="loginEmail.errors?.['email']">Formato de correo no válido.</div>
+              </div> -->
             </div>
-            <div class="mb-4">
+
+            <div class="mb-4 relative">
+              <div class="absolute left-3 top-1/2 transform -translate-y-1/2 z-10">
+                <iconify-icon icon="mdi:lock" width="20" height="20" class="text-black"></iconify-icon>
+              </div>
               <input type="password" 
-                     name="loginPassword"
-                     [(ngModel)]="loginData.password"
-                     placeholder="Contraseña" 
-                     class="w-full border px-4 py-2 rounded-md focus:outline-none bg-gray-100"
-                     required>
+                    name="loginPassword"
+                    [(ngModel)]="loginData.password"
+                    placeholder="Contraseña" 
+                    class="w-full border pl-12 pr-4 py-2 rounded-md focus:outline-none bg-gray-100"
+                    required>
             </div>
             <div class="mb-4 text-sm text-gray-500 text-center">
               ¿Olvidaste tu contraseña?
@@ -48,38 +63,95 @@
 
           <!-- FORMULARIO DE REGISTRO -->
           <form class="w-full max-w-md" *ngIf="!isLoginMode" (ngSubmit)="onRegister()">
-            <div class="mb-4">
-              <input type="text" 
-                     name="registerName"
-                     [(ngModel)]="registerData.name"
-                     placeholder="Nombre" 
-                     class="w-full border px-4 py-2 rounded-md focus:outline-none bg-gray-100"
-                     required>
+          <div class="mb-4">
+            <div class="relative">
+              <div class="absolute left-3 top-1/2 transform -translate-y-1/2 z-10">
+                <iconify-icon icon="mdi:account" width="20" height="20" class="text-black"></iconify-icon>
+              </div>
+              <input type="text"
+                    name="registerName"
+                    [(ngModel)]="registerData.name"
+                    #registerName="ngModel"
+                    required
+                    minlength="4"
+                    pattern="^[a-zA-ZÀ-ÿ\\s]{4,}$"
+                    placeholder="Nombre"
+                    class="w-full border pl-12 pr-4 py-2 rounded-md focus:outline-none bg-gray-100" />
             </div>
-            <div class="mb-4">
-              <input type="email" 
-                     name="registerEmail"
-                     [(ngModel)]="registerData.email"
-                     placeholder="Correo" 
-                     class="w-full border px-4 py-2 rounded-md focus:outline-none bg-gray-100"
-                     required>
+
+            <div *ngIf="registerName.invalid && registerName.touched"
+                class="text-red-500 text-xs mt-1 ml-1 leading-tight">
+              <div *ngIf="registerName.errors?.['required']">El nombre es obligatorio.</div>
+              <div *ngIf="registerName.errors?.['minlength']">Debe tener al menos 4 caracteres.</div>
+              <div *ngIf="registerName.errors?.['pattern']">Solo letras y espacios, sin caracteres especiales.</div>
             </div>
-            <div class="mb-4">
-              <input type="password" 
-                     name="registerPassword"
-                     [(ngModel)]="registerData.password"
-                     placeholder="Contraseña" 
-                     class="w-full border px-4 py-2 rounded-md focus:outline-none bg-gray-100"
-                     required>
+          </div>
+
+              <!-- contenedor completo del input + ícono -->
+              <div class="mb-4">
+                <div class="relative">
+                  <div class="absolute left-3 top-1/2 transform -translate-y-1/2 z-10">
+                    <iconify-icon icon="mdi:email" width="20" height="20" class="text-black"></iconify-icon>
+                  </div>
+                  <input type="email"
+                        name="registerEmail"
+                        [(ngModel)]="registerData.email"
+                        #registerEmail="ngModel"
+                        required
+                        email
+                        placeholder="Correo"
+                        class="w-full border pl-12 pr-4 py-2 rounded-md focus:outline-none bg-gray-100" />
+                </div>
+                <!-- Mensaje fuera del .relative para no afectar la posición -->
+                <div *ngIf="registerEmail.invalid && registerEmail.touched"
+                    class="text-red-500 text-xs mt-1 ml-1 leading-tight">
+                  <div *ngIf="registerEmail.errors?.['required']">El correo es obligatorio.</div>
+                  <div *ngIf="registerEmail.errors?.['email']">Formato de correo no válido.</div>
+                </div>
+              </div>
+
+             <div class="mb-4">
+              <div class="relative">
+                <div class="absolute left-3 top-1/2 transform -translate-y-1/2 z-10">
+                  <iconify-icon icon="mdi:lock" width="20" height="20" class="text-black"></iconify-icon>
+                </div>
+                <input type="password" 
+                      name="registerPassword"
+                      [(ngModel)]="registerData.password"
+                      #registerPassword="ngModel"
+                      required
+                      pattern="^(?=.*[A-Z])(?=.*[0-9])(?=.*[\W_]).{6,}$"
+                      placeholder="Contraseña" 
+                      class="w-full border pl-12 pr-4 py-2 rounded-md focus:outline-none bg-gray-100" />
+              </div>
+              <div *ngIf="registerPassword.invalid && registerPassword.touched"
+                  class="text-red-500 text-xs mt-1 ml-1 leading-tight">
+                <div *ngIf="registerPassword.errors?.['required']">La contraseña es obligatoria.</div>
+                <div *ngIf="registerPassword.errors?.['pattern']">
+                  Debe tener al menos 6 caracteres, una mayúscula, un número y un carácter especial.
+                </div>
+              </div>
             </div>
+
             <div class="mb-4">
-              <input type="password" 
-                     name="confirmPassword"
-                     [(ngModel)]="registerData.confirmPassword"
-                     placeholder="Confirmar contraseña" 
-                     class="w-full border px-4 py-2 rounded-md focus:outline-none bg-gray-100"
-                     required>
+              <div class="relative">
+                <div class="absolute left-3 top-1/2 transform -translate-y-1/2 z-10">
+                  <iconify-icon icon="mdi:lock-check" width="20" height="20" class="text-black"></iconify-icon>
+                </div>
+                <input type="password" 
+                      name="confirmPassword"
+                      [(ngModel)]="registerData.confirmPassword"
+                      #confirmPassword="ngModel"
+                      required
+                      placeholder="Confirmar contraseña" 
+                      class="w-full border pl-12 pr-4 py-2 rounded-md focus:outline-none bg-gray-100" />
+              </div>
+              <div *ngIf="confirmPassword.touched && registerData.confirmPassword !== registerData.password"
+                  class="text-red-500 text-xs mt-1 ml-1 leading-tight">
+                Las contraseñas no coinciden.
+              </div>
             </div>
+
             <button type="submit" 
                     class="w-full py-3 rounded-full text-white text-lg font-semibold transition duration-300 bg-[#00A89D] hover:bg-[#009387]">
               Registrarse
@@ -109,17 +181,22 @@
       <!-- Versión móvil (visible solo en pantallas pequeñas) -->
       <div class="md:hidden w-full h-full p-6 flex flex-col items-center justify-center">
         <div class="md:hidden w-full h-full overflow-hidden relative">
-
+            
           <!-- FORMULARIO DE INICIAR SESIÓN MÓVIL -->
           <div class="absolute top-0 left-0 w-full h-full transition-all duration-700 ease-in-out transform"
                [ngClass]="isLoginMode ? 'translate-x-0' : '-translate-x-full'">
-               <div class="absolute bottom-4 left-1/2 z-20 w-[180px] transform transition-transform duration-700 ease-in-out"
+               <div class="absolute top-4 left-1/2 z-20 w-[180px] transform transition-transform duration-700 ease-in-out"
                [ngClass]="isLoginMode ? '-translate-x-1/2 translate-x-0' : '-translate-x-1/2 translate-x-full'">
                 <img src="../../assets/Logo_Megayuntas2.png" alt="Megayuntas" class="w-full max-w-full">
               </div>
             <div class="w-full h-full p-6 flex flex-col items-center justify-center bg-white">
               <h2 class="text-3xl font-bold text-center mb-6">Iniciar Sesión</h2>
-              <form class="w-full max-w-md" (ngSubmit)="onLogin()">
+              <form class="w-full max-w-md" #loginForm="ngForm" (ngSubmit)="onLogin(loginForm)">
+                  <div class="flex justify-center space-x-4 mb-6">
+                    <button class="bg-gray-200 hover:bg- flex items-center justify-center w-[60px] h-[60px] rounded-full shadow-sm"><iconify-icon icon="simple-icons:facebook" width="38px" height="38px"></iconify-icon></button>
+                    <button class="bg-gray-200 flex items-center justify-center w-[60px] h-[60px] rounded-full shadow-sm"><iconify-icon icon="simple-icons:google" width="38px" height="38px"></iconify-icon></button>
+                    <button class="bg-gray-200 flex items-center justify-center w-[60px] h-[60px] rounded-full shadow-sm"><iconify-icon icon="simple-icons:apple" width="38px" height="38px"></iconify-icon></button>
+                  </div>
                 <div class="mb-4">
                   <input type="email" 
                          name="mobileLoginEmail"
@@ -160,13 +237,18 @@
           <!-- FORMULARIO DE REGISTRO MÓVIL -->
           <div class="absolute top-0 left-0 w-full h-full transition-all duration-700 ease-in-out transform"
                [ngClass]="isLoginMode ? 'translate-x-full' : 'translate-x-0'">
-               <div class="absolute bottom-4 left-1/2 z-20 w-[180px] transform transition-transform duration-700 ease-in-out"
+               <div class="absolute top-4 left-1/2 z-20 w-[180px] transform transition-transform duration-700 ease-in-out"
                [ngClass]="isLoginMode ? '-translate-x-1/2 translate-x-0' : '-translate-x-1/2 translate-x-full'">
                 <img src="../../assets/Logo_Megayuntas2.png" alt="Megayuntas" class="w-full max-w-full">
               </div>
             <div class="w-full h-full p-6 flex flex-col items-center justify-center bg-white">
               <h2 class="text-3xl font-bold text-center mb-6">Registrarse</h2>
               <form class="w-full max-w-md" (ngSubmit)="onRegister()">
+                <div class="flex justify-center space-x-4 mb-6">
+                    <button class="bg-gray-200 hover:bg- flex items-center justify-center w-[60px] h-[60px] rounded-full shadow-sm"><iconify-icon icon="simple-icons:facebook" width="38px" height="38px"></iconify-icon></button>
+                    <button class="bg-gray-200 flex items-center justify-center w-[60px] h-[60px] rounded-full shadow-sm"><iconify-icon icon="simple-icons:google" width="38px" height="38px"></iconify-icon></button>
+                    <button class="bg-gray-200 flex items-center justify-center w-[60px] h-[60px] rounded-full shadow-sm"><iconify-icon icon="simple-icons:apple" width="38px" height="38px"></iconify-icon></button>
+                  </div>
                 <div class="mb-4">
                   <input type="text" 
                          name="mobileRegisterName"
