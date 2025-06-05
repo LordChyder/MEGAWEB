@@ -1,12 +1,29 @@
-import { ApplicationConfig } from '@angular/core';
+import { ApplicationConfig, importProvidersFrom } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { routes } from './app.routes';
-import { JwtHelperService, JWT_OPTIONS } from '@auth0/angular-jwt';
+import { provideHttpClient } from '@angular/common/http';
+import {
+  SocialLoginModule,
+  SocialAuthServiceConfig,
+  GoogleLoginProvider
+} from '@abacritt/angularx-social-login';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
-    { provide: JWT_OPTIONS, useValue: JWT_OPTIONS }, // ✅ importante
-    JwtHelperService                                  // ✅ importante
-  ]
+    provideHttpClient(),
+    importProvidersFrom(SocialLoginModule),
+    {
+      provide: 'SocialAuthServiceConfig',
+      useValue: {
+        autoLogin: false,
+        providers: [
+          {
+            id: GoogleLoginProvider.PROVIDER_ID,
+            provider: new GoogleLoginProvider('649759531112-1dad9go3dg4kijaotsrn8uog8tl646ei.apps.googleusercontent.com'),
+          },
+        ],
+      } as SocialAuthServiceConfig,
+    },
+  ],
 };

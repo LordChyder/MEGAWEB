@@ -29,4 +29,12 @@ export class AuthService {
     });
   }
 
+  enviarCodigo(email: string) {
+  return this.http.post('http://localhost:1903/api/auth/enviar-codigo', { email });
+}
+
+  verificarCodigo(email: string, codigo: string) {
+  return this.http.post('http://localhost:1903/api/auth/verificar-codigo', { email, codigo });
+}
+
 }

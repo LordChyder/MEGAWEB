@@ -1,0 +1,72 @@
+<div *ngIf="show" 
+     class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[9999] flex items-center justify-center p-4"
+     (click)="handleBackdropClick($event)">
+  <div class="bg-white rounded-2xl shadow-2xl p-8 w-full max-w-md mx-auto animate-fade-in">
+    
+    <!-- Encabezado -->
+    <div class="flex justify-between items-center mb-6">
+      <h2 class="text-2xl font-bold text-gray-900">Verificación por correo</h2>
+      <button (click)="cerrar()" 
+              class="text-gray-400 hover:text-gray-600 transition-colors p-1 rounded-full hover:bg-gray-100"
+              [disabled]="isLoading">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x">
+          <path d="M18 6 6 18"></path>
+          <path d="m6 6 12 12"></path>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Descripción -->
+    <p class="text-gray-600 mb-8 text-center">
+      Ingresa el código de 6 dígitos enviado a tu correo electrónico.
+    </p>
+
+    <!-- Campos de código -->
+    <div class="flex justify-center gap-3 mb-8">
+      <input *ngFor="let digit of codigoArray; index as i"
+             #inputRef
+             (keydown)="onKeyDown(i, $event, inputRef)"
+             (paste)="onPaste($event)"
+             (input)="inputRef.value = codigoArray[i]"
+             maxlength="1"
+             id="otp-{{i}}"
+             type="text"
+             inputmode="numeric"
+             autocomplete="off"
+             [value]="codigoArray[i]"
+             [disabled]="isLoading"
+             class="w-14 h-14 text-center text-2xl font-semibold border-2 border-gray-200 rounded-xl focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-200 disabled:bg-gray-100 disabled:cursor-not-allowed" />
+    </div>
+
+    <!-- Botón de verificar -->
+    <button (click)="enviarCodigo()"
+            [disabled]="!isCodeComplete() || isLoading"
+            class="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed text-white py-3 rounded-xl font-semibold transition-all duration-200 text-lg flex items-center justify-center">
+      <span *ngIf="!isLoading">Verificar</span>
+      <span *ngIf="isLoading" class="flex items-center">
+        <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+        </svg>
+        Verificando...
+      </span>
+    </button>
+
+    <!-- Error -->
+    <div *ngIf="error" class="mt-4 p-3 bg-red-50 border border-red-200 rounded-lg">
+      <p class="text-red-600 text-sm text-center">{{ error }}</p>
+    </div>
+
+    <!-- Opción de reenvío -->
+    <div class="mt-6 text-center">
+      <p class="text-gray-500 text-sm">
+        ¿No recibiste el código? 
+        <button (click)="reenviarCodigo()" 
+                [disabled]="isLoading"
+                class="text-blue-600 hover:text-blue-700 font-medium disabled:text-gray-400 disabled:cursor-not-allowed">
+          Reenviar
+        </button>
+      </p>
+    </div>
+  </div>
+</div>
