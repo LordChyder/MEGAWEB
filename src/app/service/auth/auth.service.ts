@@ -1,7 +1,7 @@
 // auth.service.ts
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs'
+import { catchError, Observable, throwError } from 'rxjs'
 import { ApiResponse } from '../../models/response.model';
 
 interface LoginResponse {
@@ -16,7 +16,7 @@ interface LoginResponse {
 })
 export class AuthService {
   private apiUrl = 'https://pruebas.megayuntas.com/api/api/auth/login';
-  private apiUrlGoogle = 'http://localhost:1903/api/auth';
+  private apiUrlGoogle = 'https://pruebas.megayuntas.com/api/api/auth';
 
   constructor(private http: HttpClient) {}
 
@@ -30,11 +30,18 @@ export class AuthService {
   }
 
   enviarCodigo(email: string): Observable<ApiResponse> {
-    return this.http.post<ApiResponse>('http://localhost:1903/api/auth/enviar-codigo', { email });
+    return this.http.post<ApiResponse>('https://pruebas.megayuntas.com/api/api/auth/enviar-codigo', { email });
   }
 
-  verificarCodigo(email: string, codigo: string): Observable<ApiResponse> {
-    return this.http.post<ApiResponse>('http://localhost:1903/api/auth/verificar-codigo', { email, codigo });
-  }
+verificarCodigo(email: string, codigo: string): Observable<any> {
+  const body = { email, codigo };  // Asegúrate de que ambos parámetros se envíen
+  return this.http.post('https://pruebas.megayuntas.com/api/api/auth/verificar-codigo', body)
+    .pipe(
+      catchError(error => {
+        console.error('Error al verificar código OTP:', error);
+        return throwError(error);
+      })
+    );
+}
 
 }
