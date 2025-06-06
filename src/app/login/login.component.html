@@ -15,20 +15,15 @@
           <h2 class="text-[44px] font-bold text-center mb-6">{{ isLoginMode ? 'Iniciar Sesión' : 'Registrarse' }}</h2>
           <div class="flex justify-center space-x-4 mb-6">
             <button class="bg-gray-200 hover:bg- flex items-center justify-center w-[60px] h-[60px] rounded-full shadow-sm"><iconify-icon icon="simple-icons:facebook" width="38px" height="38px"></iconify-icon></button>
-            <div (click)="signInWithGoogle()" class="bg-gray-200 flex items-center justify-center w-[60px] h-[60px] rounded-full shadow-sm"><iconify-icon icon="simple-icons:google" width="38px" height="38px"></iconify-icon></div>
+            
+            <div id="googleSignInBtn"
+                (click)="signInWithGoogle()"
+                class="bg-gray-200 flex items-center justify-center w-[60px] h-[60px] rounded-full shadow-sm cursor-pointer hover:bg-gray-300 transition">
+            </div>
+
             <button class="bg-gray-200 flex items-center justify-center w-[60px] h-[60px] rounded-full shadow-sm"><iconify-icon icon="simple-icons:apple" width="38px" height="38px"></iconify-icon></button>
           </div>
-
-          <!-- Botón de Google -->
-            <asl-google-signin-button
-              (signIn)="signInWithGoogle()"
-              [theme]="'outline'"
-              [size]="'large'"
-              [shape]="'circle'"
-              [text]="'icon'">
-            </asl-google-signin-button>
-
-
+          
           <!-- FORMULARIO DE LOGIN -->
           <form class="w-full max-w-md" *ngIf="isLoginMode" #loginForm="ngForm" (ngSubmit)="onLogin(loginForm)">
             <div class="mb-4">
@@ -39,29 +34,44 @@
                 <input type="email" 
                       name="loginEmail"
                       [(ngModel)]="loginData.user"
-
+                      #loginEmail="ngModel"
+                      required
+                      email
                       placeholder="Correo" 
                       class="w-full border pl-12 pr-4 py-2 rounded-md focus:outline-none bg-gray-100" />
               </div>
-<!-- 
               <div *ngIf="loginEmail.invalid && loginEmail.touched"
                   class="text-red-500 text-xs mt-1 ml-1 leading-tight">
                 <div *ngIf="loginEmail.errors?.['required']">El correo es obligatorio.</div>
                 <div *ngIf="loginEmail.errors?.['email']">Formato de correo no válido.</div>
-              </div> -->
+              </div>
             </div>
 
             <div class="mb-4 relative">
-              <div class="absolute left-3 top-1/2 transform -translate-y-1/2 z-10">
-                <iconify-icon icon="mdi:lock" width="20" height="20" class="text-black"></iconify-icon>
-              </div>
-              <input type="password" 
-                    name="loginPassword"
-                    [(ngModel)]="loginData.password"
+                  <div class="absolute left-3 top-1/2 transform -translate-y-1/2 z-10">
+                    <iconify-icon icon="mdi:lock" width="20" height="20" class="text-black"></iconify-icon>
+                  </div>
+                  <input 
+                    [type]="showPassword ? 'text' : 'password'" 
+                    name="loginPassword" 
+                    [(ngModel)]="loginData.password" 
                     placeholder="Contraseña" 
-                    class="w-full border pl-12 pr-4 py-2 rounded-md focus:outline-none bg-gray-100"
-                    required>
-            </div>
+                    class="w-full border pl-12 pr-4 py-2 rounded-md focus:outline-none bg-gray-100" 
+                    required
+                  />
+                  <button 
+                    type="button" 
+                    (click)="togglePasswordVisibility()" 
+                    class="absolute right-3 top-1/2 transform -translate-y-1/2"
+                  >
+                    <iconify-icon 
+                      [icon]="showPassword ? 'mdi:eye' : 'mdi:eye-off'" 
+                      width="24" 
+                      height="24" 
+                      class="text-gray-500 cursor-pointer"
+                    ></iconify-icon>
+                  </button>
+                </div>
             <div class="mb-4 text-sm text-gray-500 text-center">
               ¿Olvidaste tu contraseña?
             </div>
@@ -216,13 +226,30 @@
                          class="w-full border px-4 py-2 rounded-md focus:outline-none bg-gray-100"
                          required>
                 </div>
-                <div class="mb-4">
-                  <input type="password" 
-                         name="mobileLoginPassword"
-                         [(ngModel)]="loginData.password"
-                         placeholder="Contraseña" 
-                         class="w-full border px-4 py-2 rounded-md focus:outline-none bg-gray-100"
-                         required>
+                <div class="mb-4 relative">
+                  <div class="absolute left-3 top-1/2 transform -translate-y-1/2 z-10">
+                    <iconify-icon icon="mdi:lock" width="20" height="20" class="text-black"></iconify-icon>
+                  </div>
+                  <input 
+                    [type]="showPassword ? 'text' : 'password'" 
+                    name="loginPassword" 
+                    [(ngModel)]="loginData.password" 
+                    placeholder="Contraseña" 
+                    class="w-full border pl-12 pr-4 py-2 rounded-md focus:outline-none bg-gray-100" 
+                    required
+                  />
+                  <button 
+                    type="button" 
+                    (click)="togglePasswordVisibility()" 
+                    class="absolute right-3 top-1/2 transform -translate-y-1/2"
+                  >
+                    <iconify-icon 
+                      [icon]="showPassword ? 'mdi:eye-off' : 'mdi:eye'" 
+                      width="24" 
+                      height="24" 
+                      class="text-gray-500 cursor-pointer"
+                    ></iconify-icon>
+                  </button>
                 </div>
                 <div class="mb-4 text-sm text-gray-500 text-center">
                   ¿Olvidaste tu contraseña?
@@ -313,11 +340,18 @@
         </div>
       </div>
     </div>
+
+    <div *ngIf="isLoading" class="fixed inset-0 bg-gray-500 bg-opacity-50 flex items-center justify-center z-50">
+  <div class="spinner-border animate-spin text-white" role="status">
+    <span class="sr-only">Cargando...</span>
+  </div>
 </div>
-        <app-modal-otp
-          [show]="mostrarModalOTP"
-          (verify)="verificarCodigoOTP($event)"
-          (close)="cerrarModalOTP()"
-          (resend)="reenviarCodigoOTP()"
-          #modalOtp>
-        </app-modal-otp>
+
+</div>
+<app-modal-otp
+  *ngIf="mostrarModalOTP"
+  [show]="mostrarModalOTP"
+  (verify)="verificarCodigoOTP($event)"
+  (close)="cerrarModalOTP()"
+  (resend)="reenviarCodigoOTP()">
+</app-modal-otp>

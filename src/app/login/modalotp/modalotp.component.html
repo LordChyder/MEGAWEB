@@ -41,7 +41,7 @@
     <!-- Botón de verificar -->
     <button (click)="enviarCodigo()"
             [disabled]="!isCodeComplete() || isLoading"
-            class="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed text-white py-3 rounded-xl font-semibold transition-all duration-200 text-lg flex items-center justify-center">
+            class="w-full bg-[#F28C7F] hover:bg-[#00A89D] disabled:bg-gray-300 disabled:cursor-not-allowed text-white py-3 rounded-xl font-semibold transition-all duration-200 text-lg flex items-center justify-center">
       <span *ngIf="!isLoading">Verificar</span>
       <span *ngIf="isLoading" class="flex items-center">
         <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -63,7 +63,7 @@
         ¿No recibiste el código? 
         <button (click)="reenviarCodigo()" 
                 [disabled]="isLoading"
-                class="text-blue-600 hover:text-blue-700 font-medium disabled:text-gray-400 disabled:cursor-not-allowed">
+                class="text-[#F28C7F] hover:text-[#00A89D] font-medium disabled:text-gray-400 disabled:cursor-not-allowed">
           Reenviar
         </button>
       </p>

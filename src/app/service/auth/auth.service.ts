@@ -2,6 +2,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs'
+import { ApiResponse } from '../../models/response.model';
 
 interface LoginResponse {
   // Define aquí la respuesta que te envía el backend,
@@ -14,27 +15,26 @@ interface LoginResponse {
   providedIn: 'root',
 })
 export class AuthService {
-  private apiUrl = 'http://localhost:1903/api/auth/login';
+  private apiUrl = 'https://pruebas.megayuntas.com/api/api/auth/login';
   private apiUrlGoogle = 'http://localhost:1903/api/auth';
 
   constructor(private http: HttpClient) {}
 
-  login(username: string, password: string): Observable<LoginResponse> {
-    return this.http.post<LoginResponse>(this.apiUrl, { username, password });
+
+  login(username: string, password: string): Observable<ApiResponse> {
+    return this.http.post<ApiResponse>(this.apiUrl, { username, password });
   }
 
-  loginConGoogle(idToken: string): Observable<any> {
-    return this.http.post(`${this.apiUrlGoogle}/google`, {
-      idToken
-    });
+  loginConGoogle(idToken: string): Observable<ApiResponse> {
+    return this.http.post<ApiResponse>(`${this.apiUrlGoogle}/google`, { idToken });
   }
 
-  enviarCodigo(email: string) {
-  return this.http.post('http://localhost:1903/api/auth/enviar-codigo', { email });
-}
+  enviarCodigo(email: string): Observable<ApiResponse> {
+    return this.http.post<ApiResponse>('http://localhost:1903/api/auth/enviar-codigo', { email });
+  }
 
-  verificarCodigo(email: string, codigo: string) {
-  return this.http.post('http://localhost:1903/api/auth/verificar-codigo', { email, codigo });
-}
+  verificarCodigo(email: string, codigo: string): Observable<ApiResponse> {
+    return this.http.post<ApiResponse>('http://localhost:1903/api/auth/verificar-codigo', { email, codigo });
+  }
 
 }

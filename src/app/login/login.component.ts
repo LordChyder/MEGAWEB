@@ -4,7 +4,8 @@ import { FormsModule, NgForm } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../service/auth/auth.service';
 import { ModalOtpComponent } from './modalotp/modalotp.component';
-import { SocialAuthService, SocialUser, GoogleLoginProvider } from '@abacritt/angularx-social-login';
+
+declare const google: any;
 
 @Component({
   selector: 'app-login',
@@ -12,7 +13,7 @@ import { SocialAuthService, SocialUser, GoogleLoginProvider } from '@abacritt/an
   imports: [CommonModule, RouterModule, FormsModule, ModalOtpComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.css',
+  styleUrls: ['./login.component.css'],
 })
 export class LoginComponent implements AfterViewInit {
   loginData = {
@@ -32,34 +33,49 @@ export class LoginComponent implements AfterViewInit {
   emailVerificacion = '';
   tokenTemporal = '';
   mostrarModalOTP = false;
+  isLoading = false;  
+  showPassword = false;
 
   constructor(
     private authService: AuthService,
-    private router: Router,
-    private socialAuthService: SocialAuthService
+    private router: Router
   ) {}
 
   // Login tradicional
   onLogin(form: NgForm) {
     if (form.invalid) return;
+    this.isLoading = true;
 
     this.authService.login(this.loginData.user, this.loginData.password).subscribe({
       next: (res) => {
         this.emailVerificacion = this.loginData.user;
-        this.tokenTemporal = res.token;
+        this.tokenTemporal = res.token ?? '';
 
+        // Enviar código de verificación OTP
         this.authService.enviarCodigo(this.loginData.user).subscribe({
-          next: () => this.mostrarModalOTP = true,
-          error: () => this.error = 'No se pudo enviar el código OTP.'
+          next: (res) => {
+            if (res.status === 'success') {
+              this.mostrarModalOTP = true;
+              this.isLoading = false;  // Abre el modal de OTP
+            } else {
+              this.error = res.message;
+              this.isLoading = false;  // Muestra el mensaje de error
+            }
+          },
+          error: () => {
+            this.error = 'No se pudo enviar el código OTP.';
+            this.isLoading = false;
+          }
         });
       },
       error: () => {
         this.error = 'Credenciales incorrectas';
+        this.isLoading = false;
       }
     });
   }
 
-  // Doble verificación por OTP
+  // Verificar código OTP
   verificarCodigoOTP(codigo: string) {
     this.authService.verificarCodigo(this.emailVerificacion, codigo).subscribe({
       next: () => {
@@ -90,6 +106,10 @@ export class LoginComponent implements AfterViewInit {
     this.mostrarModalOTP = false;
   }
 
+    togglePasswordVisibility() {
+    this.showPassword = !this.showPassword;
+  }
+
   reenviarCodigoOTP() {
     this.authService.enviarCodigo(this.emailVerificacion).subscribe({
       next: () => alert('Código reenviado a tu correo electrónico'),
@@ -97,29 +117,54 @@ export class LoginComponent implements AfterViewInit {
     });
   }
 
-  // Google Sign-In moderno
-  ngAfterViewInit(): void {
-    this.socialAuthService.authState.subscribe((user: SocialUser) => {
-      if (user && user.idToken) {
-        this.authService.loginConGoogle(user.idToken).subscribe({
-          next: (res) => {
-            localStorage.setItem('token', res.token);
-            this.router.navigate(['/']);
-          },
-          error: () => {
-            this.error = 'Error al iniciar sesión con Google';
-          }
-        });
+  // Método para manejar la respuesta de Google Sign-In
+  handleGoogleResponse(response: any) {
+    const credential = response.credential;
+    this.authService.loginConGoogle(credential).subscribe({
+      next: (res) => {
+        localStorage.setItem('token', res.token ?? '');
+        this.router.navigate(['/']);
+      },
+      error: () => {
+        this.error = 'Error al iniciar sesión con Google';
       }
     });
   }
 
-  // Iniciar sesión con Google
-  signInWithGoogle(): void {
-    this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID);
+  // Google Sign-In
+  ngAfterViewInit(): void {
+    if (typeof google !== 'undefined') {
+      google.accounts.id.initialize({
+        client_id: '649759531112-1dad9go3dg4kijaotsrn8uog8tl646ei.apps.googleusercontent.com',
+        callback: (response: any) => this.handleGoogleResponse(response),
+        ux_mode: 'popup',
+      });
+
+      google.accounts.id.renderButton(
+        document.getElementById('googleSignInBtn'),
+        {
+          theme: 'filled_blue',
+          shape: 'pill',
+          size: 'large',
+          type: 'icon',
+          width: '400',
+        }
+      );
+    }
   }
 
-  // Extras
+  // Dispara el botón oculto de angularx-social-login
+  signInWithGoogle(): void {
+    const btn = document.getElementById('googleSignInBtn') as HTMLElement;
+    if (btn) {
+      const button = btn.querySelector('button') as HTMLElement;
+      if (button) {
+        button.click();
+      }
+    }
+  }
+
+  // Métodos adicionales
   onFacebookLogin() {
     console.log('Facebook login');
   }
