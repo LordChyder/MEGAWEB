@@ -15,7 +15,7 @@ interface LoginResponse {
   providedIn: 'root',
 })
 export class AuthService {
-  private apiUrl = 'https://pruebas.megayuntas.com/api/api/auth/login';
+  private apiUrl = 'https://pruebas.megayuntas.com:1901/api/auth/login';
   private apiUrlGoogle = 'http://localhost:1903/api/auth';
 
   constructor(private http: HttpClient) {}
