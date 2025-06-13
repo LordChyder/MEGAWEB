@@ -2,12 +2,23 @@
 <div class="flex-1 w-full mt-2 p-1 md:p-2 ">
     <div class="max-w-screen mx-5 ">
       <!-- HEADER: logo + título + botón | buscador -->
-        <div>
-          <h1 class="text-2xl md:text-2xl font-bold text-gray-900 mb-4">
+        <div class="grid grid-cols-2 gap-4 mb-3">
+          <h1 class="text-2xl md:text-2xl font-bold text-gray-900">
             Consultas
           </h1>
-          <div class="grid grid-cols-2 gap-4 mb-3">
-            <div class="pr-11 mt-[5px]">
+        <!-- DERECHA: buscador -->
+         <div class="flex-col md:flex-row flex items-right justify-end">
+          <label for="buscar" class="text-sm flex items-center font-medium mr-2 whitespace-nowrap">Buscar:</label>
+          <input
+            id="buscar"
+            type="text"
+            placeholder=""
+            class="border border-gray-300 rounded
+                   px-3 py-1 w-full max-w-xs
+                   focus:outline-none focus:ring-2 focus:ring-teal-500"
+          />
+           
+          <div class="text-right md:text-right flex items-center ml-5">
               <button
                 (click)="abrirModalAgregar()"
                 class="flex items-center space-x-2 
@@ -22,42 +33,28 @@
                 <span class="text-sm">Nuevas Consultas</span>
               </button>
           </div>
-        <!-- DERECHA: buscador -->
-         <div class="text-right">
-          <label for="buscar" class="text-sm font-medium mr-2 whitespace-nowrap">Buscar:</label>
-          <input
-            id="buscar"
-            type="text"
-            placeholder=""
-            class="border border-gray-300 rounded
-                   px-3 py-1 w-full max-w-xs
-                   focus:outline-none focus:ring-2 focus:ring-teal-500"
-          />
-            </div>  
-        </div>
+        </div> 
       </div>
   
       <!-- TABLA -->
-      <div class="">
-      <div class="bg-white shadow rounded-lg overflow-hidden ">
+      <div class="grid grid-cols-5 gap-4">
+      <div class="bg-white shadow rounded-lg overflow-hidden col-span-4 ">
         <div class="overflow-x-auto ">
         <table class="w-full  divide-y divide-gray-200">
           <thead class="bg-gray-50">
             <tr>
-              <th class="px-3 md:px-6 py-2 text-center text-xs font-medium text-gray-500 ">Nombre</th>
-              <th class="px-3 md:px-6 py-2 text-center text-xs font-medium text-gray-500 ">Apellido</th>
-              <th class="px-3 md:px-6 py-2 text-center text-xs font-medium text-gray-500 ">Email</th>
-              <th class="px-3 md:px-6 py-2 text-center text-xs font-medium text-gray-500 ">Perfil</th>
+              <th class="px-3 md:px-6 py-2 text-center text-xs font-medium text-gray-500 ">Consultas</th>
+              <th class="px-3 md:px-6 py-2 text-center text-xs font-medium text-gray-500 ">Productos</th>
+              <th class="px-3 md:px-6 py-2 text-center text-xs font-medium text-gray-500 ">Modulos</th>
               <th class="px-3 md:px-6 py-2 text-center text-xs font-medium text-gray-500 ">Status</th>
               <th class="px-3 md:px-6 py-2 text-center text-xs font-medium text-gray-500 ">Acciones</th>
             </tr>
           </thead>
           <tbody class="bg-white divide-y divide-gray-200">
             <tr *ngFor="let Consultas of consulta">
-              <td class="px-3 md:px-6 text-center whitespace-nowrap text-xs">{{ Consultas.nombre }}</td>
-              <td class="px-3 md:px-6 text-center whitespace-nowrap text-xs">{{ Consultas.apellido }}</td>
-              <td class="px-3 md:px-6 text-center whitespace-nowrap text-xs">{{ Consultas.email }}</td>
-              <td class="px-3 md:px-6 text-center whitespace-nowrap text-xs">{{ Consultas.perfil }}</td>
+              <td class="px-3 md:px-6 text-center whitespace-nowrap text-xs">{{ Consultas.consulta }}</td>
+              <td class="px-3 md:px-6 text-center whitespace-nowrap text-xs">{{ Consultas.productos }}</td>
+              <td class="px-3 md:px-6 text-center whitespace-nowrap text-xs">{{ Consultas.modulos }}</td>
               <td class="px-3 md:px-6 text-center whitespace-nowrap text-xs">
                 <span
                   [ngClass]="{
@@ -69,17 +66,54 @@
                 </span>
               </td>
               <td class="px-3 md:px-6 whitespace-nowrap text-center text-xs">
+                <!-- pdf-box -->
+                <button
+                (click)="abrirModalEliminar(Consultas.id)"
+                  class="inline-flex items-center p-1 rounded hover:bg-gray-100 transition"
+                  aria-label="pdf-box"
+                >
+                  <iconify-icon
+                    icon="mdi:file-pdf-box"
+                    class="text-2xl text-orange-500"
+                    ></iconify-icon>
+                  </button>
+
+               <!-- list-box -->
+                <button
+                (click)="abrirModalEliminar(Consultas.id)"
+                  class="inline-flex items-center p-1 rounded hover:bg-gray-100 transition"
+                  aria-label="list-box"
+                >
+                  <iconify-icon
+                    icon="mdi:list-box"
+                    class="text-2xl text-purple-500"
+                    ></iconify-icon>
+                  </button>
+
+                <!-- search-outline -->
+                <button
+                (click)="abrirModalEliminar(Consultas.id)"
+                  class="inline-flex items-center p-1 rounded hover:bg-gray-100 transition"
+                  aria-label="search-outline"
+                >
+                  <iconify-icon
+                    icon="mdi:text-box-search-outline"
+                    class="text-2xl text-cyan-500"
+                    ></iconify-icon>
+                  </button>
+
                 <!-- Edit -->
                 <button
                 (click)="abrirModalEditar()"
-                  class="inline-flex items-center p-1 rounded hover:bg-gray-100 transition mr-2"
+                  class="inline-flex items-center p-1 rounded hover:bg-gray-100 transition"
                   aria-label="Editar"
                 >
                   <iconify-icon
-                    icon="mdi:pencil-outline"
+                    icon="mdi:square-edit-outline"
                     class="text-2xl text-teal-600"
                   ></iconify-icon>
                 </button>
+
                 <!-- Delete -->
                 <button
                 (click)="abrirModalEliminar(Consultas.id)"
@@ -97,6 +131,23 @@
           </table>
         </div>
       </div>
+        <div class="bg-white shadow rounded-lg overflow-hidden">
+          <div class="overflow-x-auto ">
+            <table class="w-full divide-y divide-gray-200">
+              <thead class="bg-[#F28C7F]">
+                <tr>
+                  <th class="px-3 md:px-6 py-2 text-center text-xs font-medium text-white ">Leyenda</th>
+                </tr>
+              </thead>
+                <tbody class="bg-white flex-col md:flex-row ">
+                    <td class="py-1 text-sm flex items-center"><iconify-icon icon="mdi:file-pdf-box" class="text-2xl text-orange-500 px-2"></iconify-icon>Exportar a PDF una consulta</td>
+                    <td class="py-1 text-sm flex items-center"><iconify-icon icon="mdi:list-box" class="text-2xl text-purple-500 px-2"></iconify-icon>Crear o editar pasos de una consulta</td>
+                    <td class="py-1 text-sm flex items-center"><iconify-icon icon="mdi:text-box-search-outline" class="text-2xl text-cyan-500 px-2"></iconify-icon>Relacionar consultas a una consulta</td>
+                    <td class="py-1 text-sm flex items-center"><iconify-icon icon="mdi:square-edit-outline" class="text-2xl text-teal-600 px-2"></iconify-icon>Editar una consulta</td>
+                    <td class="py-1 text-sm flex items-center"><iconify-icon icon="mdi:delete-outline" class="text-2xl text-red-600 px-2"></iconify-icon>Eliminar una consulta</td>
+                  </tbody>
+                </table>
+           </div>
     </div>
   </div>
 </div>

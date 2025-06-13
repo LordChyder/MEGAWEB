@@ -3,39 +3,38 @@
     <div class="max-w-screen mx-5 ">
       <!-- HEADER: logo + título + botón | buscador -->
         <div>
-          <div class="grid grid-cols-3 gap-4 mb-3">
-           <div>
-            <h1 class="text-2xl md:text-2xl font-bold text-gray-900 mb-4">
-              Administradores
-            </h1>
+          <div class="grid grid-cols-2 gap-4 mb-3">
+           <div class="flex-col md:flex-row flex items-center ">
+          <h1 class="text-2xl md:text-2xl font-bold text-gray-900">
+              Administradores</h1>
             </div>
-            <div class="text-right md:text-right">
-              <button
-                (click)="abrirModalAgregar()"
-                class="flex items-center space-x-2 
-                      bg-teal-500 text-white
-                      px-3 py-1 rounded
-                      hover:bg-teal-600 transition "
-              >
-                <iconify-icon
-                  icon="mdi:account-plus-outline"
-                  class="text-sm"
-                ></iconify-icon>
-                <span class="text-sm">Agregar</span>
-              </button>
-          </div>
         <!-- DERECHA: buscador -->
-         <div class="text-right">
-          <label for="buscar" class="text-sm font-medium mr-2 whitespace-nowrap">Buscar:</label>
-          <input
-            id="buscar"
-            type="text"
-            placeholder=""
-            class="border border-gray-300 rounded
-                   px-3 py-1 w-full max-w-xs
-                   focus:outline-none focus:ring-2 focus:ring-teal-500"
-          />
-            </div>  
+              <div class="flex-col md:flex-row flex items-right justify-end">
+                <label for="buscar" class="text-sm flex items-center font-medium mr-2 ml-5 whitespace-nowrap">Buscar:</label>
+                <input
+                  id="buscar"
+                  type="text"
+                  placeholder=""
+                  class="border border-gray-300 rounded
+                        px-3 py-1 w-full max-w-xs
+                        focus:outline-none focus:ring-2 focus:ring-teal-500"
+                />
+                <div class="text-right md:text-right flex items-center ml-5">
+                    <button
+                      (click)="abrirModalAgregar()"
+                      class="flex items-center space-x-2 
+                            bg-teal-500 text-white
+                            px-3 py-1 rounded
+                            hover:bg-teal-600 transition "
+                    >
+                      <iconify-icon
+                        icon="mdi:account-plus-outline"
+                        class="text-lg"
+                      ></iconify-icon>
+                      <span class="text-sm">Agregar</span>
+                    </button>    
+                </div>
+              </div>  
         </div>
       </div>
   
@@ -46,7 +45,7 @@
         <table class="w-full  divide-y divide-gray-200">
           <thead class="bg-gray-50">
             <tr>
-              <th class="px-3 md:px-6 py-2 text-center text-xs font-medium text-gray-500 ">ID</th>
+              <th class="px-2 py-2 text-center text-xs font-medium text-gray-500 w-auto ">ID</th>
               <th class="px-3 md:px-6 py-2 text-center text-xs font-medium text-gray-500 ">Nombre</th>
               <th class="px-3 md:px-6 py-2 text-center text-xs font-medium text-gray-500 ">Apellido</th>
               <th class="px-3 md:px-6 py-2 text-center text-xs font-medium text-gray-500 ">Email</th>
@@ -57,7 +56,7 @@
           </thead>
           <tbody class="bg-white divide-y divide-gray-200">
             <tr *ngFor="let admin of admins">
-              <td class="px-3 md:px-6 text-center whitespace-nowrap text-xs">{{ admin.id }}</td>
+              <td class="px-2 text-center whitespace-nowrap w-auto text-xs">{{ admin.id }}</td>
               <td class="px-3 md:px-6 text-center whitespace-nowrap text-xs">{{ admin.nombre }}</td>
               <td class="px-3 md:px-6 text-center whitespace-nowrap text-xs">{{ admin.apellido }}</td>
               <td class="px-3 md:px-6 text-center whitespace-nowrap text-xs">{{ admin.email }}</td>
@@ -76,11 +75,11 @@
                 <!-- Edit -->
                 <button
                 (click)="abrirModalEditar()"
-                  class="inline-flex items-center p-1 rounded hover:bg-gray-100 transition mr-2"
+                  class="inline-flex items-center p-1 rounded hover:bg-gray-100 transition"
                   aria-label="Editar"
                 >
                   <iconify-icon
-                    icon="mdi:pencil-outline"
+                    icon="mdi:square-edit-outline"
                     class="text-2xl text-teal-600"
                   ></iconify-icon>
                 </button>

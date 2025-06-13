@@ -2,12 +2,22 @@
   <div class="flex-1 w-full mt-2 p-1 md:p-2 ">
     <div class="max-w-screen mx-5 ">
       <!-- HEADER: logo + título + botón | buscador -->
-      <div>
-        <h1 class="text-2xl md:text-2xl font-bold text-gray-900 mb-4">
+      <div class="grid grid-cols-2 gap-4 mb-3">
+        <h1 class="text-2xl md:text-2xl font-bold text-gray-900">
           Clientes
         </h1>
-        <div class="grid grid-cols-2 gap-4 mb-3">
-          <div class="pr-11 mt-[5px]">
+          <!-- DERECHA: buscador -->
+          <div class="flex-col md:flex-row flex items-right justify-end">
+            <label for="buscar" class="text-sm flex items-center font-medium mr-2 whitespace-nowrap">Buscar:</label>
+            <input
+              id="buscar"
+              type="text"
+              placeholder=""
+              class="border border-gray-300 rounded
+                     px-3 py-1 w-full max-w-xs
+                     focus:outline-none focus:ring-2 focus:ring-teal-500"
+            />
+          <div class="text-right md:text-right flex items-center ml-5">
             <button
               (click)="abrirModalAgregar()"
               class="flex items-center space-x-2 
@@ -17,24 +27,13 @@
             >
               <iconify-icon
                 icon="mdi:account-plus-outline"
-                class="text-sm"
+                class="text-lg"
               ></iconify-icon>
               <span class="text-sm">Agregar</span>
             </button>
           </div>
-          <!-- DERECHA: buscador -->
-          <div class="text-right">
-            <label for="buscar" class="text-sm font-medium mr-2 whitespace-nowrap">Buscar:</label>
-            <input
-              id="buscar"
-              type="text"
-              placeholder=""
-              class="border border-gray-300 rounded
-                     px-3 py-1 w-full max-w-xs
-                     focus:outline-none focus:ring-2 focus:ring-teal-500"
-            />
-          </div>  
         </div>
+    
       </div>
 
       <!-- TABLA -->
@@ -44,7 +43,7 @@
             <table class="w-full  divide-y divide-gray-200">
               <thead class="bg-gray-50">
                 <tr>
-                  <th class="px-3 md:px-6 py-2 text-center text-xs font-medium text-gray-500 ">ID</th>
+                  <th class="px-2 text-center text-xs font-medium text-gray-500 ">ID</th>
                   <th class="px-3 md:px-6 py-2 text-center text-xs font-medium text-gray-500 ">Empresa</th>
                   <th class="px-3 md:px-6 py-2 text-center text-xs font-medium text-gray-500 ">Ruc</th>
                   <th class="px-3 md:px-6 py-2 text-center text-xs font-medium text-gray-500 ">Telefono</th>
@@ -57,7 +56,7 @@
               </thead>
               <tbody class="bg-white divide-y divide-gray-200">
                 <tr *ngFor="let Cliente of Clientes">
-                  <td class="px-3 md:px-6 text-center whitespace-nowrap text-xs">{{ Cliente.id }}</td>
+                  <td class="px-2 text-center whitespace-nowrap text-xs">{{ Cliente.id }}</td>
                   <td class="px-3 md:px-6 py-4 text-center text-sm whitespace-normal break-words">{{ Cliente.Empresa }}</td>
                   <td class="px-3 md:px-6 text-center whitespace-nowrap text-xs">{{ Cliente.Ruc }}</td>
                   <td class="px-3 md:px-6 text-center whitespace-nowrap text-xs">{{ Cliente.Telefono }}</td>
@@ -94,7 +93,7 @@
                       aria-label="Editar"
                     >
                       <iconify-icon
-                        icon="mdi:pencil-outline"
+                        icon="mdi:square-edit-outline"
                         class="text-2xl text-teal-600"
                       ></iconify-icon>
                     </button>

@@ -48,8 +48,10 @@ export class LoginComponent {
     this.isLoading = true;
 
     this.authService.login(this.loginData.user, this.loginData.password).subscribe({
-      next: (res) => {
-        this.emailVerificacion = this.loginData.user;
+      next: (res: any) => {
+        localStorage.setItem('token', res.token);
+        this.router.navigate(['/admin']);
+        this.isLoading = false;
 
       },
       error: () => {

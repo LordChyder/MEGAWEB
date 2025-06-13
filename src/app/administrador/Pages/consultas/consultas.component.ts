@@ -6,10 +6,9 @@ import { EliminarConsultasComponent } from './eliminar-consultas/eliminar-consul
 
 interface Consultas {
   id: number;
-  nombre: string;
-  apellido: string;
-  email: string;
-  perfil: string;
+  consulta: string;
+  productos: string;
+  modulos: string;
   status: 'ACTIVE' | 'INACTIVE';
 }
 @Component({
@@ -30,90 +29,80 @@ export class ConsultasComponent {
   consulta: Consultas[] = [
     {
       id: 1,
-      nombre: 'ANDY H.',
-      apellido: 'Rucoba Reategui',
-      email: 'Soporte@megayuntas.com',
-      perfil: 'ADMINISTRADOR',
+      consulta: 'ANDY H.',
+      productos: 'Rucoba Reategui',
+      modulos: 'Soporte@megayuntas.com',
       status: 'ACTIVE',
 
     },
 
     {
       id: 2,
-      nombre: 'JHON',
-      apellido: 'DOE',
-      email: 'soporte@megayuntas.com' ,
-      perfil: 'ADMINISTRADOR',
+      consulta: 'JHON',
+      productos: 'DOE',
+      modulos: 'soporte@megayuntas.com' ,
       status: 'ACTIVE',
     },
 
     {
       id: 3,
-      nombre: 'NIXON',
-      apellido: 'DOE',
-      email: 'soporte@megayuntas.com' ,
-      perfil: 'CREADOR DE CONTENIDO',
+      consulta: 'NIXON',
+      productos: 'DOE',
+      modulos: 'soporte@megayuntas.com' ,
       status: 'ACTIVE',
     },
 
     {
       id: 4,
-      nombre: 'ALBERT',
-      apellido: 'DOE',
-      email: 'soporte@megayuntas.com' ,
-      perfil: 'ADMINISTRADOR',
+      consulta: 'ALBERT',
+      productos: 'DOE',
+      modulos: 'soporte@megayuntas.com' ,
       status: 'ACTIVE',
     },
 
     {
       id: 5,
-      nombre: 'JUAN',
-      apellido: 'DOE',
-      email: 'soporte@megayuntas.com' ,
-      perfil: 'ADMINISTRADOR',
+      consulta: 'JUAN',
+      productos: 'DOE',
+      modulos: 'soporte@megayuntas.com' ,
       status: 'ACTIVE',
     }
     ,
     {
       id: 6,
-      nombre: 'CARLOS',
-      apellido: 'RAMIREZ',
-      email: 'carlos.ramirez@megayuntas.com',
-      perfil: 'CREADOR DE CONTENIDO',
+      consulta: 'CARLOS',
+      productos: 'RAMIREZ',
+      modulos: 'carlos.ramirez@megayuntas.com',
       status: 'INACTIVE',
     },
     {
       id: 7,
-      nombre: 'MARIA',
-      apellido: 'LOPEZ',
-      email: 'maria.lopez@megayuntas.com',
-      perfil: 'ADMINISTRADOR',
+      consulta: 'MARIA',
+      productos: 'LOPEZ',
+      modulos: 'maria.lopez@megayuntas.com',
       status: 'ACTIVE',
     },
     {
       id: 8,
-      nombre: 'PEDRO',
-      apellido: 'GARCIA',
-      email: 'pedro.garcia@megayuntas.com',
-      perfil: 'ADMINISTRADOR',
+      consulta: 'PEDRO',
+      productos: 'GARCIA',
+      modulos: 'pedro.garcia@megayuntas.com',
       status: 'INACTIVE',
     },
     {
       id: 9,
-      nombre: 'LUCIA',
-      apellido: 'MARTINEZ',
-      email: 'lucia.martinez@megayuntas.com',
-      perfil: 'CREADOR DE CONTENIDO',
+      consulta: 'LUCIA',
+      productos: 'MARTINEZ',
+      modulos: 'lucia.martinez@megayuntas.com',
       status: 'ACTIVE',
     },
     {
       id: 10,
-      nombre: 'DAVID',
-      apellido: 'FERNANDEZ',
-      email: 'david.fernandez@megayuntas.com',
-      perfil: 'ADMINISTRADOR',
+      consulta: 'DAVID',
+      productos: 'FERNANDEZ',
+      modulos: 'david.fernandez@megayuntas.com',
       status: 'ACTIVE',
-    }
+    },
 
     // …otros registros…
   ];

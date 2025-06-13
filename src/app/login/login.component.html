@@ -140,7 +140,8 @@
                 <div class="absolute left-3 top-1/2 transform -translate-y-1/2 z-10">
                   <iconify-icon icon="mdi:lock" width="20" height="20" class="text-black"></iconify-icon>
                 </div>
-                <input type="password" 
+                <input 
+                      [type]="showPassword ? 'text' : 'password'" 
                       name="registerPassword"
                       [(ngModel)]="registerData.password"
                       #registerPassword="ngModel"
@@ -148,6 +149,18 @@
                       pattern="^(?=.*[A-Z])(?=.*[0-9])(?=.*[\W_]).{6,}$"
                       placeholder="Contraseña" 
                       class="w-full border pl-12 pr-4 py-2 rounded-md focus:outline-none bg-gray-100" />
+                  <button 
+                    type="button" 
+                    (click)="togglePasswordVisibility()" 
+                    class="absolute right-3 top-1/2 transform -translate-y-1/2"
+                  >
+                    <iconify-icon 
+                      [icon]="showPassword ? 'mdi:eye' : 'mdi:eye-off'" 
+                      width="24" 
+                      height="24" 
+                      class="text-gray-500 cursor-pointer"
+                    ></iconify-icon>
+                  </button>
               </div>
               <div *ngIf="registerPassword.invalid && registerPassword.touched"
                   class="text-red-500 text-xs mt-1 ml-1 leading-tight">
