@@ -1,6 +1,21 @@
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { ClientesService } from '../../../service/pages/clientes/clientes.service';
+import { VistaclienteService } from '../../../service/pages/vistacliente/vistacliente.service';
+import { Inject } from '@angular/core';
+
+export interface Cliente {
+  idcliente: number;
+  nombreCliente: string;
+  imagenCliente: string;
+}
+
+export interface VistaClienteProducto {
+  idcliente: number;
+  nombreCliente: string;
+  nombreProducto: string;
+}
 
 @Component({
   selector: 'app-clientes',
@@ -9,63 +24,80 @@ import { Component } from '@angular/core';
   templateUrl: './clientes.component.html',
   styleUrl: './clientes.component.css'
 })
-export class ClientesComponent {
+export class ClientesComponent implements OnInit {
   mostrarModal = false;
-  clienteSeleccionado: any = null;
+  clienteSeleccionado: Cliente | null = null;
 
-  // Lista de clientes
-  clientes = [
-    {
-      nombre: 'SERVICIOS E INVERSIONES\nVIMA S.A.C.',
-      imagen: 'https://img.icons8.com/ios-filled/50/000000/user.png',
-      productos: ['Yupai', 'Scommer']
-    },
-    {
-      nombre: 'STANDARD\nTARAPOTO S.A.C.',
-      imagen: 'https://img.icons8.com/ios-filled/50/000000/user.png',
-      productos: ['Producto X', 'Producto Y']
-    },
-    {
-      nombre: 'EMPRESA DE PRUEBA\nDEMO CLIENTE',
-      imagen: 'https://img.icons8.com/ios-filled/50/000000/user.png',
-      productos: ['Producto A']
-    },
-    {
-      nombre: 'CLIENTE 4',
-      imagen: 'https://img.icons8.com/ios-filled/50/000000/user.png',
-      productos: ['Scommer']
-    },
-    {
-      nombre: 'CLIENTE 5',
-      imagen: 'https://img.icons8.com/ios-filled/50/000000/user.png',
-      productos: ['Yupai', 'Otros']
-    },
-    {
-      nombre: 'CLIENTE 6',
-      imagen: 'https://img.icons8.com/ios-filled/50/000000/user.png',
-      productos: ['Demo 1']
-    },
-    {
-      nombre: 'CLIENTE EXTRA',
-      imagen: 'https://img.icons8.com/ios-filled/50/000000/user.png',
-      productos: ['Producto Z']
-    }
-  ];
+  clientes: Cliente[] = [];
+  productosCliente: string[] = [];
 
-  // Abrir modal y guardar cliente seleccionado
-  abrirModal(cliente: any): void {
-    this.clienteSeleccionado = cliente;
-    this.mostrarModal = true;
+  paginaActual: number = 0;
+  clientesPorPagina: number = 4;
+  constructor(
+    private clientesService: ClientesService,
+    @Inject(VistaclienteService) private vistaclienteService: VistaclienteService
+  ) {}
+
+  ngOnInit(): void {
+    this.clientesService.obtenerClientes().subscribe({
+      next: (datos) => {
+        this.clientes = datos;
+      },
+      error: (err) => {
+        console.error('Error al cargar clientes:', err);
+      }
+    });
   }
 
-  // Cerrar modal y limpiar selección
+  // Modal
+  abrirModal(cliente: Cliente): void {
+    this.clienteSeleccionado = cliente;
+    this.mostrarModal = true;
+    this.productosCliente = [];
+
+    this.vistaclienteService.obtenerProductosCliente(cliente.id).subscribe({
+    next: (datos: VistaClienteProducto[]) => {
+    if (datos.length > 0) {
+      this.productosCliente = datos.map(p => p.nombreProducto);
+      this.clienteSeleccionado = {
+        ...cliente,
+        nombreCliente: datos[0].nombreCliente || cliente.nombreCliente
+      };
+    } else {
+      console.warn('Este cliente no tiene productos registrados.');
+    }
+    },
+    error: (err) => {
+      console.error('Error al cargar productos del cliente:', err);
+    }
+    });
+  }
+
   cerrarModal(): void {
     this.mostrarModal = false;
     this.clienteSeleccionado = null;
+    this.productosCliente = [];
   }
 
-  // Propiedad opcional para detectar si hay más de 6 clientes
-  get hayOverflow(): boolean {
-    return this.clientes.length > 6;
+  // Paginación
+  get totalPaginas(): number {
+    return Math.ceil(this.clientes.length / this.clientesPorPagina);
+  }
+
+  siguientePagina(): void {
+    if (this.paginaActual < this.totalPaginas - 1) {
+      this.paginaActual++;
+    }
+  }
+
+  anteriorPagina(): void {
+    if (this.paginaActual > 0) {
+      this.paginaActual--;
+    }
+  }
+
+  get clientesPaginados(): Cliente[] {
+    const inicio = this.paginaActual * this.clientesPorPagina;
+    return this.clientes.slice(inicio, inicio + this.clientesPorPagina);
   }
 }

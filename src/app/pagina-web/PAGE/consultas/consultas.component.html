@@ -21,7 +21,7 @@
         <h3 class="font-semibold mb-1 text-sm text-blue-600">{{ consulta.titulo }}</h3>
         <p class="text-xs text-gray-700 mb-3">{{ consulta.descripcion }}</p>
         <div class="flex justify-between text-xs text-gray-500">
-          <span class="cursor-pointer hover:underline" [routerLink]="['/consultas', consulta.id]">Leer más →</span>
+          <span class="cursor-pointer hover:underline" [routerLink]="['/vistaconsulta', consulta.id]">Leer más →</span>
           <span>{{ consulta.producto }}</span>
         </div>
       </div>

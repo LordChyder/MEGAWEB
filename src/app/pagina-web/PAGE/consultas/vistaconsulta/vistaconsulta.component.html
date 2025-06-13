@@ -3,33 +3,31 @@
   <div class="w-full lg:w-3/4">
     <!-- Título y exportar -->
     <div class="flex items-center justify-between">
-      <h2 class="text-lg font-semibold mb-2">{{ consulta?.titulo }}</h2>
+      <h2 class="text-lg font-semibold mb-2">{{ consulta.tituloConsulta }}</h2>
       <button class="flex items-center px-3 py-1 bg-orange-300 hover:bg-orange-400 rounded-md text-sm">
         <span class="mr-1">📤</span> Exportar
       </button>
     </div>
 
-    <p class="text-xs text-gray-500">{{ consulta?.fuente }} | {{ consulta?.categoria }}</p>
-    <p class="mt-2 text-sm text-gray-700">{{ consulta?.descripcion }}</p>
+    <p class="text-xs text-gray-500">{{ consulta.nombreProducto }}</p>
+    <p class="mt-2 text-sm text-gray-700">{{ consulta.descripcionConsulta }}</p>
 
     <!-- Mostrar pasos -->
-    <div *ngFor="let paso of mostrarTodosLosPasos ? consulta?.pasos : consulta?.pasos.slice(0, 2)" class="border border-gray-300 p-3 rounded-md mt-4">
+    <div *ngFor="let paso of mostrarTodosLosPasos ? consulta.pasos : consulta.pasos.slice(0, 2)" class="border border-gray-300 p-3 rounded-md mt-4">
       <div class="flex gap-4">
-        <img *ngIf="paso.imagen"
-             [src]="paso.imagen"
+        <img *ngIf="paso.imagenPaso"
+             [src]="'http://pruebas.megayuntas.com:1901/archivos/consultas/' + paso.imagenPaso"
              alt="Imagen paso"
              class="w-32 h-auto object-contain border" />
         <div>
-          <h3 class="font-semibold text-sm mb-1">{{ paso.titulo }}</h3>
-          <ul class="list-disc pl-4 text-sm text-gray-700">
-            <li *ngFor="let detalle of paso.detalles" [innerHTML]="detalle"></li>
-          </ul>
+          <h3 class="font-semibold text-sm mb-1">{{ paso.tituloPaso }}</h3>
+          <div class="text-sm text-gray-700" [innerHTML]="paso.descripcionPaso"></div>
         </div>
       </div>
     </div>
 
     <!-- Botón Ver más -->
-    <div *ngIf="consulta?.pasos.length > 2 && !mostrarTodosLosPasos" class="mt-2">
+    <div *ngIf="consulta.pasos.length > 2 && !mostrarTodosLosPasos" class="mt-2">
       <button (click)="verMasPasos()"
               class="px-3 py-1 bg-teal-400 hover:bg-teal-500 text-white text-sm rounded-md">
         Ver más...
