@@ -1,6 +1,21 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
+import { VistaconsultaService } from '../../../../service/pages/vistaconsulta/vistaconsulta.service';
+
+export interface Paso {
+  tituloPaso: string;
+  imagenPaso: string;
+  descripcionPaso: string; // HTML
+}
+
+export interface ConsultaDetalle {
+  tituloConsulta: string;
+  nombreProducto: string;
+  descripcionConsulta: string;
+  pasos: Paso[];
+}
 
 @Component({
   selector: 'app-vistaconsulta',
@@ -10,48 +25,33 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './vistaconsulta.component.css'
 })
 export class VistaconsultaComponent implements OnInit {
-  titulo: string = 'Ingresar Compras a Título Gratuito (Costo "0.00")';
-  consulta: any;
+  consulta!: ConsultaDetalle;
   busquedasRecientes: string[] = [];
   comentario: string = '';
   mostrarTodosLosPasos: boolean = false;
+  error: string = '';
 
-  // 🟡 Lista de comentarios visibles en la interfaz
   comentarios: { nombre: string; fecha: string; texto: string }[] = [];
 
+  constructor(
+    private vistaconsultaService: VistaconsultaService,
+    private route: ActivatedRoute
+  ) {}
+
   ngOnInit(): void {
-    this.consulta = {
-      titulo: this.titulo,
-      fuente: 'YUPAY',
-      categoria: 'Contabilidad',
-      descripcion:
-        'En algunas ocasiones del mundo empresarial suele suceder operaciones especiales, como lo es Comprobantes con Costo Cero "0.00"',
-      pasos: [
-        {
-          titulo: '1.- Ir a la Opción Contabilidad/Documentos – Nuevo Documento',
-          imagen: 'assets/img/ejemplo1.png',
-          detalles: [
-            'Click en Nuevo Documento / Llenamos los datos de Cabecera.',
-            'Cambiamos el Modo de Registro: Manual <span class="text-red-500">(Como se ve en la Imagen)</span>.'
-          ]
+    const id = Number(this.route.snapshot.paramMap.get('id'));
+    if (!isNaN(id)) {
+      this.vistaconsultaService.obtenerConsulta(id).subscribe({
+        next: (data) => {
+          this.consulta = data;
         },
-        {
-          titulo: '2.- Ingresar las Cuentas del DEBE y el HABER de Forma Manual',
-          imagen: 'assets/img/ejemplo2.png',
-          detalles: [
-            'De esta forma es posible Ingresar Montos en Cero "0.00", como se puede ver en el Asiento Contable.',
-            'Click o F9, para <span class="text-pink-600">Guardar los Cambios</span>.'
-          ]
-        },
-        {
-          titulo: '3.- Paso adicional de prueba',
-          imagen: 'assets/img/ejemplo3.png',
-          detalles: [
-            'Este paso es solo un ejemplo para ilustrar el "Ver más..."'
-          ]
+        error: () => {
+          this.error = 'No se pudo cargar la consulta. Verifica tu conexión.';
         }
-      ]
-    };
+      });
+    } else {
+      this.error = 'ID de consulta inválido.';
+    }
 
     this.busquedasRecientes = [
       'Gestión de Registros Contables - YUPAY',
@@ -61,7 +61,6 @@ export class VistaconsultaComponent implements OnInit {
       'Tip: Cómo registrar una Factura de Compra de Mercadería (Costa) - YUPAY'
     ];
 
-    // 🟢 Comentarios predeterminados
     this.comentarios = [
       {
         nombre: 'Andy H. Rucoba Reategui',
@@ -99,8 +98,8 @@ export class VistaconsultaComponent implements OnInit {
         fecha: new Date().toLocaleString(),
         texto
       };
-      this.comentarios.unshift(nuevoComentario); // Agrega al inicio
-      this.comentario = ''; // Limpia el campo
+      this.comentarios.unshift(nuevoComentario);
+      this.comentario = '';
     }
   }
 

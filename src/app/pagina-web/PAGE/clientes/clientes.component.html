@@ -6,35 +6,23 @@
       <h2 class="text-xl font-semibold">Ellos confían en nosotros</h2>
     </div>
 
-    <!-- Contenedor principal -->
-    <div
-      class="border-2 border-gray-300 rounded-md p-4 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100"
-      style="max-height: 700px;"
-    >
-      <!-- Scroll interno solo para tarjetas -->
-      <div
-        class="overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100"
-        style="max-height: 624px;"
-      >
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pr-2">
-          <!-- Tarjetas -->
+    <!-- Carrusel de clientes -->
+    <div class="border-2 border-gray-300 rounded-md p-4">
+      <div class="relative">
+        <!-- Tarjetas de clientes -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           <div
-            *ngFor="let cliente of clientes"
-            class="w-[95%] mx-auto border border-[#00A99D] rounded-md px-3 py-2 flex items-center justify-between text-sm h-24"
+            *ngFor="let cliente of clientesPaginados"
+            class="border border-[#00A99D] rounded-md px-3 py-2 flex flex-col items-center justify-between text-sm h-36"
           >
-            <!-- Izquierda: nombre + imagen -->
-            <div class="flex flex-col items-center w-1/2">
-              <p class="text-[#00A99D] font-bold text-center text-xs leading-tight whitespace-pre-line">
-                {{ cliente.nombre }}
+            <div class="text-center">
+              <p class="text-[#00A99D] font-bold text-xs leading-tight whitespace-pre-line">
+                {{ cliente.nombreCliente }}
               </p>
-              <img [src]="cliente.imagen" alt="avatar" class="w-8 h-8 mt-1" />
-            </div>
-
-            <!-- Derecha: texto + botón -->
-            <div class="flex flex-col items-center justify-center w-1/2 text-center">
-              <p class="text-xs">Ellos ya cuentan con nuestros productos</p>
+              <img [src]="cliente.imagenCliente || 'https://img.icons8.com/color/48/group-background-selected.png'" alt="avatar" class="w-8 h-8 mt-1 mx-auto" />
+              <p class="text-xs mt-2">Ellos ya cuentan con nuestros productos</p>
               <button
-                class="bg-[#F8B7A0] text-[#6B2600] text-xs px-2 py-1 rounded mt-1"
+                class="bg-[#F8B7A0] text-[#6B2600] text-xs px-2 py-1 rounded mt-2"
                 (click)="abrirModal(cliente)"
               >
                 Productos Adquiridos
@@ -42,18 +30,36 @@
             </div>
           </div>
         </div>
+
+        <!-- Paginación -->
+        <div class="flex justify-center items-center gap-4 mt-4">
+          <button
+            class="text-[#00A99D] hover:text-[#007c74] font-bold text-lg"
+            [disabled]="paginaActual === 0"
+            (click)="anteriorPagina()"
+          >
+            ◀
+          </button>
+          <span class="text-sm">Página {{ paginaActual + 1 }} de {{ totalPaginas }}</span>
+          <button
+            class="text-[#00A99D] hover:text-[#007c74] font-bold text-lg"
+            [disabled]="paginaActual >= totalPaginas - 1"
+            (click)="siguientePagina()"
+          >
+            ▶
+          </button>
+        </div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- Modal -->
+<!-- Modal de productos del cliente -->
 <div
   *ngIf="mostrarModal"
   class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
 >
-  <div class="bg-white rounded-lg p-6 w-[90%] max-w-2xl relative">
-    <!-- Botón cerrar -->
+  <div class="bg-white rounded-lg p-6 w-[90%] max-w-2xl relative shadow-lg">
     <button
       class="absolute top-2 right-2 text-gray-500 hover:text-red-600 text-lg"
       (click)="cerrarModal()"
@@ -62,21 +68,32 @@
     </button>
 
     <div class="flex flex-col md:flex-row gap-6">
-      <!-- Izquierda: Nombre -->
+      <!-- Cliente -->
       <div class="flex-1 text-center md:text-left">
         <h3 class="text-lg font-semibold text-[#00A99D] whitespace-pre-line">
-          {{ clienteSeleccionado?.nombre }}
+          {{ clienteSeleccionado?.nombreCliente }}
         </h3>
+        <img
+          [src]="clienteSeleccionado?.imagenCliente || 'https://img.icons8.com/color/48/group-background-selected.png'"
+          alt="cliente"
+          class="w-16 h-16 mt-3 mx-auto md:mx-0 rounded-full object-cover"
+        />
       </div>
 
-      <!-- Derecha: Productos -->
+      <!-- Productos -->
       <div class="flex-1">
         <h4 class="font-bold text-[#6B2600] mb-2">Productos Adquiridos</h4>
-        <ul class="list-disc list-inside text-sm text-gray-700 space-y-1">
-          <li *ngFor="let producto of clienteSeleccionado?.productos">
+        <ul
+          *ngIf="productosCliente.length > 0; else sinProductos"
+          class="list-disc list-inside text-sm text-gray-700 space-y-1"
+        >
+          <li *ngFor="let producto of productosCliente">
             {{ producto }}
           </li>
         </ul>
+        <ng-template #sinProductos>
+          <p class="text-sm text-gray-500 italic">No se encontraron productos.</p>
+        </ng-template>
       </div>
     </div>
   </div>
