@@ -23,17 +23,15 @@
                 <input type="email" 
                       name="loginEmail"
                       [(ngModel)]="loginData.user"
-                      #loginEmail="ngModel"
-                      required
-                      email
+
                       placeholder="Correo" 
                       class="w-full border pl-12 pr-4 py-2 rounded-md focus:outline-none bg-gray-100" />
               </div>
-              <div *ngIf="loginEmail.invalid && loginEmail.touched"
+              <!-- <div *ngIf="loginEmail.invalid && loginEmail.touched"
                   class="text-red-500 text-xs mt-1 ml-1 leading-tight">
                 <div *ngIf="loginEmail.errors?.['required']">El correo es obligatorio.</div>
                 <div *ngIf="loginEmail.errors?.['email']">Formato de correo no válido.</div>
-              </div>
+              </div> -->
             </div>
 
             <div class="mb-4 relative">

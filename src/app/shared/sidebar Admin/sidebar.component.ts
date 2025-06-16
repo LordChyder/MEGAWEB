@@ -12,7 +12,7 @@ import { RouterModule } from '@angular/router';
 })
 export class SidebarComponent {
 
-  isOpen = false;
+  isOpen = true;
 
   toggle() {
     this.isOpen = !this.isOpen;
