@@ -2,17 +2,11 @@ import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ClientesService } from '../../../service/pages/clientes/clientes.service';
-import { VistaclienteService } from '../../../service/pages/vistacliente/vistacliente.service';
-import { Inject } from '@angular/core';
+import { RouterModule } from '@angular/router';
+import { VistaclienteComponent, ClienteProducto } from './vistacliente/vistacliente.component';
 
 export interface Cliente {
-  idcliente: number;
-  nombreCliente: string;
-  imagenCliente: string;
-}
-
-export interface VistaClienteProducto {
-  idcliente: number;
+  idcliente: string | number;
   nombreCliente: string;
   nombreProducto: string;
 }
@@ -20,63 +14,30 @@ export interface VistaClienteProducto {
 @Component({
   selector: 'app-clientes',
   standalone: true,
-  imports: [CommonModule, HttpClientModule],
+  imports: [CommonModule, HttpClientModule, RouterModule, VistaclienteComponent],
   templateUrl: './clientes.component.html',
   styleUrl: './clientes.component.css'
 })
 export class ClientesComponent implements OnInit {
-  mostrarModal = false;
-  clienteSeleccionado: Cliente | null = null;
-
   clientes: Cliente[] = [];
-  productosCliente: string[] = [];
-
   paginaActual: number = 0;
   clientesPorPagina: number = 4;
-  constructor(
-    private clientesService: ClientesService,
-    @Inject(VistaclienteService) private vistaclienteService: VistaclienteService
-  ) {}
+
+  mostrarModal: boolean = false;
+  clienteSeleccionado: Cliente | undefined;
+  productosDelCliente: ClienteProducto[] = [];
+
+  constructor(private clientesService: ClientesService) {}
 
   ngOnInit(): void {
-    this.clientesService.obtenerClientes().subscribe({
-      next: (datos) => {
-        this.clientes = datos;
+    this.clientesService.getCliente().subscribe({
+      next: (response: { clientes: Cliente[] }) => {
+        this.clientes = response.clientes;
       },
       error: (err) => {
         console.error('Error al cargar clientes:', err);
       }
     });
-  }
-
-  // Modal
-  abrirModal(cliente: Cliente): void {
-    this.clienteSeleccionado = cliente;
-    this.mostrarModal = true;
-    this.productosCliente = [];
-
-    this.vistaclienteService.obtenerProductosCliente(cliente.id).subscribe({
-    next: (datos: VistaClienteProducto[]) => {
-    if (datos.length > 0) {
-      this.productosCliente = datos.map(p => p.nombreProducto);
-      this.clienteSeleccionado = {
-        ...cliente,
-        nombreCliente: datos[0].nombreCliente || cliente.nombreCliente
-      };
-    } else {
-      console.warn('Este cliente no tiene productos registrados.');
-    }
-    },
-    error: (err) => {
-      console.error('Error al cargar productos del cliente:', err);
-    }
-    });
-  }
-
-  cerrarModal(): void {
-    this.mostrarModal = false;
-    this.clienteSeleccionado = null;
-    this.productosCliente = [];
   }
 
   // Paginación
@@ -99,5 +60,21 @@ export class ClientesComponent implements OnInit {
   get clientesPaginados(): Cliente[] {
     const inicio = this.paginaActual * this.clientesPorPagina;
     return this.clientes.slice(inicio, inicio + this.clientesPorPagina);
+  }
+
+  abrirModal(cliente: Cliente): void {
+    this.clienteSeleccionado = cliente;
+    this.productosDelCliente = this.clientes
+      .filter(c => c.idcliente === cliente.idcliente)
+      .map(c => ({
+        idcliente: typeof c.idcliente === 'number' ? c.idcliente : Number(c.idcliente),
+        nombreCliente: c.nombreCliente,
+        nombreProducto: c.nombreProducto
+      }));
+    this.mostrarModal = true;
+  }
+
+  cerrarModal(): void {
+    this.mostrarModal = false;
   }
 }
