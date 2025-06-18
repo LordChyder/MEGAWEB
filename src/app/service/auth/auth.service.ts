@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { catchError, Observable, throwError } from 'rxjs'
 import { ApiResponse } from '../../models/response.model';
+import { environment } from '../../environment';
 
 interface LoginResponse {
   // Define aquí la respuesta que te envía el backend,
@@ -15,7 +16,7 @@ interface LoginResponse {
   providedIn: 'root',
 })
 export class AuthService {
-  private apiUrl = 'https://pruebas.megayuntas.com/api/api/auth/login';
+  private apiUrl = environment.apiUrl + '/auth/login'; // Asegúrate de que la URL es correcta
   
   constructor(private http: HttpClient) {}
 

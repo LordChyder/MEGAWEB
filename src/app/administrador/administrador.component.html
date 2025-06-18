@@ -1,18 +1,18 @@
 <!-- Contenedor general sin scroll horizontal -->
 <div class="overflow-hidden h-screen flex flex-col">
-  <!-- Tu toolbar existente -->
+  <!-- Toolbar -->
   <app-toolbar class="flex-shrink-0 w-full"></app-toolbar>
   
-  <!-- Layout: sidebar + contenido -->
-  <div class="flex flex-1 relative">
-    <!-- Sidebar con posición fija en pantallas pequeñas -->
-    <div class="flex-shrink-0 z-10">
+  <!-- Layout principal: sidebar + contenido -->
+  <div class="flex flex-1">
+    <!-- Sidebar fijo (no superpuesto) -->
       <app-sidebar></app-sidebar>
-    </div>
+
     
-    <!-- Contenido principal con margen izquierdo para el sidebar -->
-    <main class="flex-1 overflow-auto w-full pl-16">
+    <!-- Contenido principal desplazado -->
+    <main class="flex-1 overflow-auto w-full min-h-0">
       <router-outlet></router-outlet>
     </main>
+
   </div>
 </div>
