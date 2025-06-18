@@ -3,10 +3,11 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environment';
 
+// Interfaces
 export interface Paso {
   tituloPaso: string;
   imagenPaso: string;
-  descripcionPaso: string; // HTML
+  descripcionPaso: string; // Contenido en HTML
 }
 
 export interface ConsultaDetalle {
@@ -20,12 +21,12 @@ export interface ConsultaDetalle {
   providedIn: 'root'
 })
 export class VistaconsultaService {
-  private api_url = environment.apiUrl + '/consultas/vista';
+  private readonly baseUrl: string = `${environment.apiUrl}/consultas/vista`;
 
   constructor(private http: HttpClient) {}
 
   obtenerConsulta(id: number): Observable<ConsultaDetalle> {
-    const url = `${this.api_url}/${id}`;
-    return this.http.get<ConsultaDetalle>(url);
+    const endpoint = `${this.baseUrl}/${id}`;
+    return this.http.get<ConsultaDetalle>(endpoint);
   }
 }
