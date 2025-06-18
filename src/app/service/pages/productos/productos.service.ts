@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../../environment';
 
 export interface Producto {
 subtitulo: any;
@@ -14,7 +15,7 @@ subtitulo: any;
   providedIn: 'root'
 })
 export class ProductoService {
-  private api_url = 'http://pruebas.megayuntas.com:1901/api/productos';
+  private api_url = environment.apiUrl + '/productos';
 
   constructor(private httpClient: HttpClient) {}
 

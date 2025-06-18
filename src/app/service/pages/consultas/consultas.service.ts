@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from '../../../environment';
 
 export interface Consultas{
     id: string | number;
@@ -13,7 +14,7 @@ export interface Consultas{
   providedIn: 'root'
 })
 export class ConsultasService {
-  private api_url = 'http://pruebas.megayuntas.com:1901/api/consultas';
+  private api_url = environment.apiUrl + '/consultas';
 
   constructor(private httpClient: HttpClient) { }
   getConsulta(): Observable<{consultas: Consultas[]}> {

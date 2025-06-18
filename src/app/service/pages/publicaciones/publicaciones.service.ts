@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../../environment';
 
 export interface Publicacion {
   id: string | number;
@@ -14,7 +15,7 @@ export interface Publicacion {
   providedIn: 'root'
 })
 export class PublicacionesService {
-  private api_url = 'http://pruebas.megayuntas.com:1901/api/publicaciones';
+  private api_url = environment.apiUrl + '/publicaciones';
 
   constructor(private httpClient: HttpClient) {}
 

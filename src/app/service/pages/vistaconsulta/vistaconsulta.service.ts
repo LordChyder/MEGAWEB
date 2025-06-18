@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../../environment';
 
 export interface Paso {
   tituloPaso: string;
@@ -19,7 +20,7 @@ export interface ConsultaDetalle {
   providedIn: 'root'
 })
 export class VistaconsultaService {
-  private api_url = 'http://172.29.195.108:1901/api/consultas/vista';
+  private api_url = environment.apiUrl + '/consultas/vista';
 
   constructor(private http: HttpClient) {}
 

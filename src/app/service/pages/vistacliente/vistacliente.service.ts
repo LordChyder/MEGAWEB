@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../../environment';
 
 // Interfaz clara para representar productos adquiridos por cliente
 export interface ClienteProducto {
@@ -14,7 +15,7 @@ export interface ClienteProducto {
 })
 export class VistaclienteService {
   // Endpoint base para acceder a clientes y sus productos
-  private baseUrl = 'http://pruebas.megayuntas.com:1901/api/clientes/vista';
+  private baseUrl = environment.apiUrl + '/clientes/vista';
 
   constructor(private http: HttpClient) {}
 

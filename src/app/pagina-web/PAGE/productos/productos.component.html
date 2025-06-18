@@ -17,7 +17,7 @@
         *ngFor="let bloque of productosPorBloque">
         
         <div *ngFor="let producto of bloque" class="flex items-start gap-4 border-b pb-4 w-full max-w-md">
-          <img [src]="producto.imagen" [alt]="producto.nombre" class="w-28 object-contain" />
+          <img [src]="'assets/vistaproducto_img/' + producto.imagen" [alt]="producto.nombre" class="w-28 object-contain" />
           <div>
             <a href="#" class="text-blue-600 font-bold text-sm hover:underline">
               {{ producto.nombre }}

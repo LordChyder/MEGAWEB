@@ -1,12 +1,11 @@
 <!-- Carrusel modificado -->
-<div class="relative w-full max-w-5xl mx-auto overflow-hidden"> <!-- Reducido el margen superior -->
+<div class="relative w-full max-w-5xl mx-auto overflow-hidden">
   <div #carousel class="flex transition-transform duration-500 ease-in-out">
     <div
       class="min-w-full flex items-center justify-center p-4 cursor-pointer"
       *ngFor="let producto of productos"
     >
-      <!-- Imagen más grande y centrada verticalmente -->
-      <div class="flex items-center justify-center w-[900px] h-[300px]"> <!-- Ajustado tamaño -->
+      <div class="flex items-center justify-center w-[900px] h-[300px]">
         <img
           [src]="'../../../assets/productos_img/' + producto.imagen"
           [alt]="producto.nombre"
@@ -43,12 +42,12 @@
     <div class="space-y-4">
       <div
         *ngFor="let publicacion of publicaciones"
-        class="flex w-full border border-[#BFBCB2] cursor-pointer"
+        class="flex w-full border border-[#BFBCB2]"
       >
-        <div class="w-[30%] bg-red-600 max-h-36 overflow-hidden">
-          <img [src]="publicacion.imagen" alt="yupay" class="w-full h-full object-cover" />
+        <div class="w-[30%] max-h-36 overflow-hidden" (click)="irAConsulta(publicacion.id)">
+          <img [src]="'assets/publicaciones_img/' + publicacion.imagen" class="w-full h-full object-cover" />
         </div>
-        <div class="w-[70%] grid bg-[#FFF5CC] p-3 gap-y-1">
+        <div class="w-[70%] grid bg-[#FFF5CC] p-3 gap-y-1" (click)="irAConsulta(publicacion.id)">
           <h2 class="text-[#007F6D] text-sm font-semibold truncate">{{ publicacion.titulo }}</h2>
           <p class="text-xs text-slate-500">Publicado el {{ publicacion.fecha }}</p>
           <span class="text-sm font-medium line-clamp-2">{{ publicacion.descripcion }}</span>
@@ -70,14 +69,9 @@
       <div class="flex items-center gap-4">
         <div class="border-b-4 border-orange-500 flex-1"></div>
         <div class="text-orange-500 text-2xl">
-          <svg
-            width="40"
-            height="40"
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <!-- Ícono de confianza/apretón de manos -->
+          <!-- Icono de apretón de manos -->
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none"
+            xmlns="http://www.w3.org/2000/svg">
             <path
               fill-rule="evenodd"
               clip-rule="evenodd"
@@ -88,16 +82,14 @@
         </div>
         <div class="border-b-4 border-orange-500 flex-1"></div>
       </div>
-    </div>
 
-    <div class="flex justify-center text-center">
-      <p>
-        {{ descripcionEmpresa }}
-      </p>
-    </div>
+      <div class="flex justify-center text-center">
+        <p>{{ descripcionEmpresa }}</p>
+      </div>
 
-    <div class="flex justify-center">
-      <img src="" alt="apretonmanos" class="w-48 h-auto" />
+      <div class="flex justify-center">
+        <!-- Imagen de apretón de manos eliminada por estar vacía -->
+      </div>
     </div>
   </div>
 </section>

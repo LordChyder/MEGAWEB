@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { environment } from '../../../environment';
 
 export interface Documento {
   document: string;
@@ -29,7 +30,7 @@ export interface DetalleProducto {
 })
 export class VistaproductoService {
 
-  private api_url = 'http://pruebas.megayuntas.com:1901/api/productos';
+  private api_url = environment.apiUrl + '/productos';
 
   constructor(private httpClient: HttpClient) { }
 

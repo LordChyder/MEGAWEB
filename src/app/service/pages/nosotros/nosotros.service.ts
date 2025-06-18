@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../../environment';
 
 export interface Nosotros {
   descripcion: string;
@@ -14,7 +15,7 @@ export interface Nosotros {
   providedIn: 'root'
 })
 export class NosotrosService {
-  private api_url = 'http://pruebas.megayuntas.com:1901/api/nosotros';
+  private api_url = environment.apiUrl + '/nosotros';
 
   constructor(private httpClient: HttpClient) { }
 

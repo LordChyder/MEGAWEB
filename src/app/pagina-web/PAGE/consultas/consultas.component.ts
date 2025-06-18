@@ -1,13 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 
 interface Consulta {
   id: string | number;
   titulo: string;
   descripcion: string;
   producto: string;
+}
+
+export interface BusquedaReciente {
+  titulo: string;
 }
 
 @Component({
@@ -22,15 +26,28 @@ export class ConsultasComponent implements OnInit {
   consultasPorPagina = 6;
   paginaActual = 0;
 
-  constructor(private http: HttpClient) {}
+  busquedasRecientes: BusquedaReciente[] = [];
+
+  constructor(private http: HttpClient, private router: Router) {}
 
   ngOnInit(): void {
+    // Cargar consultas
     this.http.get<Consulta[]>('http://pruebas.megayuntas.com:1901/api/consultas').subscribe({
       next: (data) => {
         this.consultas = data;
       },
       error: (err) => {
         console.error('Error al cargar consultas desde la API:', err);
+      }
+    });
+
+    // Cargar búsquedas recientes
+    this.http.get<BusquedaReciente[]>('http://pruebas.megayuntas.com:1901/api/busquedas/recientes').subscribe({
+      next: (data) => {
+        this.busquedasRecientes = data;
+      },
+      error: (err) => {
+        console.error('Error al cargar búsquedas recientes desde la API:', err);
       }
     });
   }
@@ -49,6 +66,18 @@ export class ConsultasComponent implements OnInit {
   anteriorPagina(): void {
     if (this.paginaActual > 0) {
       this.paginaActual--;
+    }
+  }
+
+  irAVistaConsulta(titulo: string): void {
+    const consultaEncontrada = this.consultas.find(
+      (c) => c.titulo.trim().toLowerCase() === titulo.trim().toLowerCase()
+    );
+
+    if (consultaEncontrada) {
+      this.router.navigate(['/vistaconsulta', consultaEncontrada.id]);
+    } else {
+      alert('No se encontró una consulta que coincida con esta búsqueda.');
     }
   }
 }

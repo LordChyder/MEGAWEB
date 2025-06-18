@@ -1,6 +1,7 @@
 import { Component, ElementRef, ViewChild, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
+import { Router } from '@angular/router'; // ✅ Importar Router
 import { ProductoService } from '../../../service/pages/productos/productos.service';
 import { PublicacionesService } from '../../../service/pages/publicaciones/publicaciones.service';
 import { NosotrosService } from '../../../service/pages/nosotros/nosotros.service';
@@ -27,6 +28,7 @@ interface Nosotros {
   telefono: string;
   direccion: string;
 }
+
 @Component({
   selector: 'app-inicio',
   standalone: true,
@@ -41,12 +43,14 @@ export class InicioComponent implements OnInit, OnDestroy {
   publicaciones: Publicacion[] = [];
   descripcionEmpresa: string = '';
   intervalId: any;
-nosotros: any;
+  nosotros: any;
+consultas: any;
 
   constructor(
     private productoService: ProductoService,
     private publicacionesService: PublicacionesService,
-    private nosotrosService: NosotrosService
+    private nosotrosService: NosotrosService,
+    private router: Router // ✅ Inyectar Router
   ) {}
 
   ngOnInit(): void {
@@ -56,25 +60,23 @@ nosotros: any;
   }
 
   getProducto() {
-  this.productoService.getProducto().subscribe({
-    next: (result) => {
-      console.log('Respuesta completa de productos:', result);  // <--- LOG
-      if (result && Array.isArray(result)) {
-        this.productos = result;
-        if (this.productos.length > 0) {
-          this.startAutoSlide();
+    this.productoService.getProducto().subscribe({
+      next: (result) => {
+        if (result && Array.isArray(result)) {
+          this.productos = result;
+          if (this.productos.length > 0) {
+            this.startAutoSlide();
+          }
+        } else {
+          console.error('No se recibieron productos o respuesta inválida:', result);
+          this.productos = [];
         }
-      } else {
-        console.error('No se recibieron productos o respuesta inválida:', result);
-        this.productos = []; // para evitar errores posteriores
+      },
+      error: (error) => {
+        console.error('Error al obtener los productos', error);
       }
-    },
-    error: (error) => {
-      console.error('Error al obtener los productos', error);
-    }
-  });
-}
-
+    });
+  }
 
   getPublicacion() {
     this.publicacionesService.getPublicacion().subscribe({
@@ -92,20 +94,19 @@ nosotros: any;
   }
 
   getNosotros() {
-  this.nosotrosService.getNosotros().subscribe({
-    next: (result) => {
-      if (result && result.descripcion) {
-        this.descripcionEmpresa = result.descripcion;
-      } else {
-        console.error('Respuesta inesperada de nosotros:', result);
+    this.nosotrosService.getNosotros().subscribe({
+      next: (result) => {
+        if (result && result.descripcion) {
+          this.descripcionEmpresa = result.descripcion;
+        } else {
+          console.error('Respuesta inesperada de nosotros:', result);
+        }
+      },
+      error: (error) => {
+        console.error('Error al obtener nosotros:', error);
       }
-    },
-    error: (error) => {
-      console.error('Error al obtener nosotros:', error);
-    }
-  });
-}
-
+    });
+  }
 
   ngOnDestroy(): void {
     clearInterval(this.intervalId);
@@ -134,5 +135,10 @@ nosotros: any;
     if (this.productos.length === 0) return;
     this.currentSlide = (this.currentSlide + 1) % this.productos.length;
     this.updateCarousel();
+  }
+
+  // ✅ Método para redirigir a la consulta
+  irAConsulta(id: number | string) {
+    this.router.navigate(['/consultas', id]);
   }
 }
