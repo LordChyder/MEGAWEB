@@ -1,40 +1,28 @@
-<!-- Overlay oscuro bajo el header -->
-<div
-  *ngIf="isOpen"
-  class="fixed inset-x-0 top-14 bottom-0 bg-black bg-opacity-50 z-10"
-  (click)="toggle()">
-</div>
+<aside 
+  [ngClass]="{
+    'w-48': isOpen,
+    'w-16': !isOpen
+  }"
+  class="h-full bg-[#00A991] text-white flex flex-col overflow-y-auto transition-all duration-300 flex-shrink-0">
 
-<!-- Sidebar: de top-14 a bottom-0 -->
-<aside
-  [class.w-64]="isOpen"
-  [class.w-16]="!isOpen"
-  class="fixed top-14 bottom-0 left-0
-         bg-[#00A991] text-white
-         flex flex-col
-         transition-all duration-300 ease-in-out
-         z-20
-         overflow-x-hidden
-         overflow-y-auto">
-
-  <!-- Toggle button -->
-  <button
-    (click)="toggle()"
-    class="p-2 mt-2 ml-auto mr-4 hover:bg-white/20 rounded-md">
-    <iconify-icon
-      [icon]="isOpen ? 'mdi:chevron-double-left' : 'mdi:chevron-double-right'"
-      class="text-2xl">
-    </iconify-icon>
-  </button>
+  <!-- Encabezado con botón toggle -->
+  <div class="flex items-center justify-between px-4 py-3">
+    <h2 class="text-xl font-semibold" *ngIf="isOpen">Admin Panel</h2>
+    <button (click)="toggle()" class="p-2 hover:bg-white/20 rounded-md">
+      <iconify-icon
+        [icon]="isOpen ? 'mdi:chevron-double-left' : 'mdi:chevron-double-right'"
+        class="text-2xl">
+      </iconify-icon>
+    </button>
+  </div>
 
   <!-- Menú principal -->
-  <nav class="flex-1 mt-2 overflow-auto overflow-x-hidden">
-    <ul class="flex flex-col space-y-2 px-2">
+  <nav class="flex-1 px-2 space-y-2">
+    <ul class="flex flex-col">
       <li *ngFor="let item of menuItems">
         <a
           [routerLink]="[ item.route ]"
           class="flex items-center space-x-3 p-2 rounded-md hover:bg-white/20">
-          
           <iconify-icon [icon]="item.icon" class="text-2xl"></iconify-icon>
           <span *ngIf="isOpen" class="font-medium">{{ item.label }}</span>
         </a>
@@ -42,18 +30,28 @@
     </ul>
   </nav>
 
-  <!-- Link a la página web -->
+  <!-- Enlace inferior -->
   <div class="mt-auto mb-6">
-    <ul class="flex flex-col space-y-2 px-2">
+    <ul class="flex flex-col">
       <li *ngFor="let item2 of menuItems2">
         <a
           [routerLink]="item2.route"
           class="flex items-center space-x-3 p-2 rounded-md hover:bg-white/20">
-          
           <iconify-icon [icon]="item2.icon" class="text-2xl"></iconify-icon>
           <span *ngIf="isOpen" class="font-medium">{{ item2.label2 }}</span>
         </a>
       </li>
     </ul>
   </div>
+
+  <!-- Logo inferior -->
+<div class="bg-white p-3 flex justify-center">
+  <img
+    src="assets/Logo_Megayuntas2.png"
+    alt="Logo Megayuntas"
+    [ngClass]="isOpen ? 'w-[160px]' : 'w-10'"
+    class="transition-all duration-300 object-contain" />
+</div>
+
+
 </aside>
