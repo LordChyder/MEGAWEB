@@ -84,8 +84,9 @@
       </div>
 
       <div class="flex justify-center text-center">
-        <p>{{ descripcionEmpresa }}</p>
+        <div [innerHTML]="descripcionEmpresa" class="prose max-w-prose text-justify"></div>
       </div>
+
 
       <div class="flex justify-center">
         <!-- Imagen de apretón de manos eliminada por estar vacía -->

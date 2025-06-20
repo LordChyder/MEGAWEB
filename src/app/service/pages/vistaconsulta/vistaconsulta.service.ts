@@ -21,12 +21,12 @@ export interface ConsultaDetalle {
   providedIn: 'root'
 })
 export class VistaconsultaService {
-  private readonly baseUrl: string = `${environment.apiUrl}/consultas/vista`;
+  private baseUrl = environment.apiUrl + '/consultas/vista?idConsulta=';
 
   constructor(private http: HttpClient) {}
 
   obtenerConsulta(id: number): Observable<ConsultaDetalle> {
-    const endpoint = `${this.baseUrl}/${id}`;
+    const endpoint = `${this.baseUrl}${id}`;
     return this.http.get<ConsultaDetalle>(endpoint);
   }
 }
