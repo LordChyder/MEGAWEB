@@ -1,82 +1,91 @@
 <div class="container mx-auto px-4 py-6 flex flex-col lg:flex-row gap-4">
   <!-- Contenido Principal -->
   <div class="w-full lg:w-3/4">
-    <!-- Título y exportar -->
-    <div class="flex items-center justify-between">
-      <h2 class="text-lg font-semibold mb-2">{{ consulta.tituloConsulta }}</h2>
-      <button class="flex items-center px-3 py-1 bg-orange-300 hover:bg-orange-400 rounded-md text-sm">
-        <span class="mr-1">📤</span> Exportar
-      </button>
-    </div>
 
-    <p class="text-xs text-gray-500">{{ consulta.nombreProducto }}</p>
-    <p class="mt-2 text-sm text-gray-700">{{ consulta.descripcionConsulta }}</p>
-
-    <!-- Mostrar pasos -->
-    <div *ngFor="let paso of mostrarTodosLosPasos ? consulta.pasos : consulta.pasos.slice(0, 2)" class="border border-gray-300 p-3 rounded-md mt-4">
-      <div class="flex gap-4">
-        <img *ngIf="paso.imagenPaso"
-             [src]="'http://pruebas.megayuntas.com:1901/archivos/consultas/' + paso.imagenPaso"
-             alt="Imagen paso"
-             class="w-32 h-auto object-contain border" />
-        <div>
-          <h3 class="font-semibold text-sm mb-1">{{ paso.tituloPaso }}</h3>
-          <div class="text-sm text-gray-700" [innerHTML]="paso.descripcionPaso"></div>
-        </div>
+    <!-- Mostrar solo si consulta está definida -->
+    <ng-container *ngIf="consulta; else cargandoConsulta">
+      <!-- Título y exportar -->
+      <div class="flex items-center justify-between">
+        <h2 class="text-lg font-semibold mb-2">{{ consulta.tituloConsulta }}</h2>
+        <button class="flex items-center px-3 py-1 bg-orange-300 hover:bg-orange-400 rounded-md text-sm">
+          <span class="mr-1">📤</span> Exportar
+        </button>
       </div>
-    </div>
 
-    <!-- Botón Ver más -->
-    <div *ngIf="consulta.pasos.length > 2 && !mostrarTodosLosPasos" class="mt-2">
-      <button (click)="verMasPasos()"
-              class="px-3 py-1 bg-teal-400 hover:bg-teal-500 text-white text-sm rounded-md">
-        Ver más...
-      </button>
-    </div>
+      <p class="text-xs text-gray-500">{{ consulta.nombreProducto }}</p>
+      <p class="mt-2 text-sm text-gray-700">{{ consulta.descripcionConsulta }}</p>
 
-    <!-- Formulario de comentario -->
-    <div class="mt-6 border rounded-lg p-4">
-      <div class="flex items-start gap-3">
-        <!-- Icono usuario -->
-        <div class="text-3xl pt-2">👤</div>
-
-        <!-- Caja de comentario -->
-        <div class="flex-1 relative">
-          <textarea [(ngModel)]="comentario"
-                    placeholder="Escriba un comentario..."
-                    class="w-full h-28 resize-none border border-gray-300 rounded-md p-3 text-sm pr-24 focus:outline-none focus:ring-2 focus:ring-teal-300"></textarea>
-
-          <!-- Emoji y botón alineados -->
-          <div class="absolute bottom-3 left-3 right-3 flex items-center justify-between">
-            <span class="text-xl cursor-pointer">😊</span>
-            <button (click)="comentar()"
-                    class="bg-blue-500 hover:bg-blue-600 text-white text-sm px-4 py-1 rounded-md">
-              Comentar
-            </button>
+      <!-- Mostrar pasos -->
+      <div *ngFor="let paso of mostrarTodosLosPasos ? consulta.pasos : consulta.pasos.slice(0, 2)" class="border border-gray-300 p-3 rounded-md mt-4">
+        <div class="flex gap-4">
+          <img *ngIf="paso.imagenPaso"
+               [src]="'assets/publicaciones_img/' + paso.imagenPaso"
+               alt="Imagen paso"
+               class="w-32 h-auto object-contain border" />
+          <div>
+            <h3 class="font-semibold text-sm mb-1">{{ paso.tituloPaso }}</h3>
+            <div class="text-sm text-gray-700" [innerHTML]="paso.descripcionPaso"></div>
           </div>
         </div>
       </div>
-    </div>
 
-    <!-- Comentarios -->
-    <div class="mt-10 border border-gray-400 rounded-md">
-      <div class="bg-orange-400 text-black font-semibold px-4 py-1 text-lg rounded-t-md">
-        Comentarios
+      <!-- Botón Ver más -->
+      <div *ngIf="consulta.pasos.length > 2 && !mostrarTodosLosPasos" class="mt-2">
+        <button (click)="verMasPasos()"
+                class="px-3 py-1 bg-teal-400 hover:bg-teal-500 text-white text-sm rounded-md">
+          Ver más...
+        </button>
       </div>
-      <!-- Comentarios / Scroll Añadido -->
-      <div class="bg-white px-4 py-2 space-y-3 max-h-72 overflow-y-auto">
-        <div *ngFor="let c of comentarios" class="bg-gray-100 p-3 rounded-md shadow-sm">
-          <div class="flex items-start gap-3">
-            <div class="text-4xl">👤</div>
-            <div>
-              <p class="font-semibold text-sm">{{ c.nombre }}</p>
-              <p class="text-xs text-gray-500">{{ c.fecha }}</p>
-              <p class="text-sm mt-1 text-gray-800">{{ c.texto }}</p>
+
+      <!-- Formulario de comentario -->
+      <div class="mt-6 border rounded-lg p-4">
+        <div class="flex items-start gap-3">
+          <div class="text-3xl pt-2">👤</div>
+          <div class="flex-1 relative">
+            <textarea [(ngModel)]="comentario"
+                      placeholder="Escriba un comentario..."
+                      class="w-full h-28 resize-none border border-gray-300 rounded-md p-3 text-sm pr-24 focus:outline-none focus:ring-2 focus:ring-teal-300"></textarea>
+            <div class="absolute bottom-3 left-3 right-3 flex items-center justify-between">
+              <span class="text-xl cursor-pointer">😊</span>
+              <button (click)="comentar()"
+                      class="bg-blue-500 hover:bg-blue-600 text-white text-sm px-4 py-1 rounded-md">
+                Comentar
+              </button>
             </div>
           </div>
         </div>
       </div>
-    </div>
+
+      <!-- Comentarios -->
+      <div class="mt-10 border border-gray-400 rounded-md">
+        <div class="bg-orange-400 text-black font-semibold px-4 py-1 text-lg rounded-t-md">
+          Comentarios
+        </div>
+        <div class="bg-white px-4 py-2 space-y-3 max-h-72 overflow-y-auto">
+          <div *ngFor="let c of comentarios" class="bg-gray-100 p-3 rounded-md shadow-sm">
+            <div class="flex items-start gap-3">
+              <div class="text-4xl">👤</div>
+              <div>
+                <p class="font-semibold text-sm">{{ c.nombre }}</p>
+                <p class="text-xs text-gray-500">{{ c.fecha }}</p>
+                <p class="text-sm mt-1 text-gray-800">{{ c.texto }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+
+    <!-- Cargando o error -->
+    <ng-template #cargandoConsulta>
+      <div *ngIf="error; else cargando">
+        <p class="text-red-600 text-sm font-medium">{{ error }}</p>
+      </div>
+      <ng-template #cargando>
+        <p class="text-gray-500 text-sm italic">Cargando consulta...</p>
+      </ng-template>
+    </ng-template>
+
   </div>
 
   <!-- Búsquedas Recientes -->

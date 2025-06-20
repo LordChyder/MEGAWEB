@@ -23,6 +23,7 @@ export interface DetalleProducto {
   documentacion: Documento[];
   multimedia: Multimedia[];
 }
+
 @Component({
   selector: 'app-vistaproducto',
   standalone: true,
@@ -35,6 +36,8 @@ export class VistaproductoComponent implements OnInit {
   producto: DetalleProducto | null = null;
   error: string | null = null;
 
+  mostrarTodo: boolean = false;
+
   constructor(
     private route: ActivatedRoute,
     private vistaproductoService: VistaproductoService
@@ -45,10 +48,10 @@ export class VistaproductoComponent implements OnInit {
     if (idParam) {
       const id = parseInt(idParam, 10);
       this.vistaproductoService.getProducto(id).subscribe({
-        next: (data: any) => {
+        next: (data: DetalleProducto) => {
           this.producto = data;
         },
-        error: (err: { message: string | null; }) => {
+        error: (err: { message: string | null }) => {
           this.error = err.message;
         }
       });
@@ -56,4 +59,8 @@ export class VistaproductoComponent implements OnInit {
       this.error = 'No se proporcionó un ID válido en la ruta.';
     }
   }
+
+  get multimediaVisible() {
+  return this.mostrarTodo ? this.producto?.multimedia : this.producto?.multimedia?.slice(0, 6);
+}
 }
