@@ -50,6 +50,7 @@
                 <td class="px-2 py-1 text-center text-xs space-x-2">
                   <!-- Licencia -->
                   <button
+                    (click)="abrirModalLicencias(cliente)"
                     class="inline-flex items-center p-1 hover:bg-gray-100 rounded"
                     aria-label="Licencia"
                   >
@@ -104,3 +105,12 @@
   (confirmar)="eliminarCliente($event)"
   (cancelar)="cerrarModalEliminar()"
 ></app-eliminar-cliente-modal>
+
+<!-- Modal Licencias - USANDO TU COMPONENTE -->
+<app-licencia-productos-modal
+  *ngIf="mostrarModalLicencias"
+  [cliente]="clienteConLicencias"
+  [mostrar]="mostrarModalLicencias"
+  (cerrar)="cerrarModalLicencias()"
+  (guardar)="guardarLicencias($event)"
+></app-licencia-productos-modal>
