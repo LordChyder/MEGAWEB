@@ -9,7 +9,6 @@ interface Consultas {
   consulta: string;
   productos: string;
   modulos: string;
-  status: 'ACTIVE' | 'INACTIVE';
 }
 @Component({
   selector: 'app-consultas',
@@ -31,77 +30,66 @@ export class ConsultasComponent {
       id: 1,
       consulta: 'ANDY H.',
       productos: 'Rucoba Reategui',
-      modulos: 'Soporte@megayuntas.com',
-      status: 'ACTIVE',
-
+      modulos: 'Soporte@megayuntas.com'
     },
 
     {
       id: 2,
       consulta: 'JHON',
       productos: 'DOE',
-      modulos: 'soporte@megayuntas.com' ,
-      status: 'ACTIVE',
+      modulos: 'soporte@megayuntas.com' 
     },
 
     {
       id: 3,
       consulta: 'NIXON',
       productos: 'DOE',
-      modulos: 'soporte@megayuntas.com' ,
-      status: 'ACTIVE',
+      modulos: 'soporte@megayuntas.com' 
     },
 
     {
       id: 4,
       consulta: 'ALBERT',
       productos: 'DOE',
-      modulos: 'soporte@megayuntas.com' ,
-      status: 'ACTIVE',
+      modulos: 'soporte@megayuntas.com' 
     },
 
     {
       id: 5,
       consulta: 'JUAN',
       productos: 'DOE',
-      modulos: 'soporte@megayuntas.com' ,
-      status: 'ACTIVE',
+      modulos: 'soporte@megayuntas.com' 
     }
     ,
     {
       id: 6,
       consulta: 'CARLOS',
       productos: 'RAMIREZ',
-      modulos: 'carlos.ramirez@megayuntas.com',
-      status: 'INACTIVE',
+      modulos: 'carlos.ramirez@megayuntas.com'
     },
     {
       id: 7,
       consulta: 'MARIA',
       productos: 'LOPEZ',
-      modulos: 'maria.lopez@megayuntas.com',
-      status: 'ACTIVE',
+      modulos: 'maria.lopez@megayuntas.com'
     },
     {
       id: 8,
       consulta: 'PEDRO',
       productos: 'GARCIA',
-      modulos: 'pedro.garcia@megayuntas.com',
-      status: 'INACTIVE',
+      modulos: 'pedro.garcia@megayuntas.com'
     },
     {
       id: 9,
       consulta: 'LUCIA',
       productos: 'MARTINEZ',
-      modulos: 'lucia.martinez@megayuntas.com',
-      status: 'ACTIVE',
+      modulos: 'lucia.martinez@megayuntas.com'
     },
     {
       id: 10,
       consulta: 'DAVID',
       productos: 'FERNANDEZ',
-      modulos: 'david.fernandez@megayuntas.com',
-      status: 'ACTIVE',
+      modulos: 'david.fernandez@megayuntas.com'
     },
 
     // …otros registros…

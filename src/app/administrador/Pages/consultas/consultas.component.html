@@ -2,26 +2,30 @@
 <div class="flex-1 w-full mt-2 p-1 md:p-2 ">
     <div class="max-w-screen mx-5 ">
       <!-- HEADER: logo + título + botón | buscador -->
-        <div class="grid grid-cols-2 gap-4 mb-3">
+        <div class="grid grid-cols-5 gap-4 mb-3">
           <h1 class="text-2xl md:text-2xl font-bold text-gray-900">
             Consultas
           </h1>
-        <!-- DERECHA: buscador -->
-         <div class="flex-col md:flex-row flex items-right justify-end">
-          <label for="buscar" class="text-sm flex items-center font-medium mr-2 whitespace-nowrap">Buscar:</label>
-          <input
-            id="buscar"
-            type="text"
-            placeholder=""
-            class="border border-gray-300 rounded
-                   px-3 py-1 w-full max-w-xs
-                   focus:outline-none focus:ring-2 focus:ring-teal-500"
-          />
-           
-          <div class="text-right md:text-right flex items-center ml-5">
+
+
+        <div class="flex-col flex md:flex-row items-right col-start-3 col-span-3 justify-end ">
+
+             <!-- DERECHA: buscador -->
+                <div class=" col-span-3 col-start-2 flex items-right justify-end pr-4">
+                  <label for="buscar" class="text-sm flex items-center font-medium mr-2 whitespace-nowrap">Buscar:</label>
+                  <input
+                    id="buscar"
+                    type="text"
+                    placeholder=""
+                    class="border border-gray-300 rounded
+                          px-3 py-1 w-full max-w-xs
+                          focus:outline-none focus:ring-2 focus:ring-teal-500"
+                  />
+                </div> 
+
               <button
                 (click)="abrirModalAgregar()"
-                class="flex items-center space-x-2 
+                class="flex items-center space-x-2  
                       bg-teal-500 text-white
                       px-3 py-1 rounded
                       hover:bg-teal-600 transition "
@@ -33,7 +37,8 @@
                 <span class="text-sm">Nuevas Consultas</span>
               </button>
           </div>
-        </div> 
+
+          
       </div>
   
       <!-- TABLA -->
@@ -46,7 +51,6 @@
               <th class="px-3 md:px-6 py-2 text-center text-xs font-medium text-gray-500 ">Consultas</th>
               <th class="px-3 md:px-6 py-2 text-center text-xs font-medium text-gray-500 ">Productos</th>
               <th class="px-3 md:px-6 py-2 text-center text-xs font-medium text-gray-500 ">Modulos</th>
-              <th class="px-3 md:px-6 py-2 text-center text-xs font-medium text-gray-500 ">Status</th>
               <th class="px-3 md:px-6 py-2 text-center text-xs font-medium text-gray-500 ">Acciones</th>
             </tr>
           </thead>
@@ -55,17 +59,8 @@
               <td class="px-3 md:px-6 text-center whitespace-nowrap text-xs">{{ Consultas.consulta }}</td>
               <td class="px-3 md:px-6 text-center whitespace-nowrap text-xs">{{ Consultas.productos }}</td>
               <td class="px-3 md:px-6 text-center whitespace-nowrap text-xs">{{ Consultas.modulos }}</td>
-              <td class="px-3 md:px-6 text-center whitespace-nowrap text-xs">
-                <span
-                  [ngClass]="{
-                    'text-green-600 font-semibold': Consultas.status === 'ACTIVE',
-                    'text-red-600 font-semibold':   Consultas.status === 'INACTIVE'
-                  }"
-                >
-                  {{ Consultas.status }}
-                </span>
-              </td>
               <td class="px-3 md:px-6 whitespace-nowrap text-center text-xs">
+
                 <!-- pdf-box -->
                 <button
                 (click)="abrirModalEliminar(Consultas.id)"
