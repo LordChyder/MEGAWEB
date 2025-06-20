@@ -1,121 +1,85 @@
 <div class="bg-gray-100 w-full min-h-screen flex flex-col">
-  <div class="flex-1 w-full mt-2 p-1 md:p-2 ">
-    <div class="max-w-screen mx-5 ">
-      <!-- HEADER: logo + título + botón | buscador -->
+  <div class="flex-1 w-full mt-2 p-1 md:p-2">
+    <div class="max-w-screen mx-5">
+
+      <!-- HEADER -->
       <div class="grid grid-cols-2 gap-4 mb-3">
-        <h1 class="text-2xl md:text-2xl font-bold text-gray-900 ">
-          Usuarios
-        </h1>
-          <!-- DERECHA: buscador -->
-          <div class="flex-col md:flex-row flex items-right justify-end">
-            <label for="buscar" class="text-sm flex items-center font-medium mr-2 whitespace-nowrap">Buscar:</label>
-            <input
-              id="buscar"
-              type="text"
-              placeholder=""
-              class="border border-gray-300 rounded
-                     px-3 py-1 w-full max-w-xs
-                     focus:outline-none focus:ring-2 focus:ring-teal-500"
-            />
-          <div class="text-right md:text-right flex items-center ml-5">
-            <button
+        <h1 class="text-2xl font-bold text-gray-900">Usuarios</h1>
+        <div class="flex items-center justify-end space-x-4">
+          <label for="buscar" class="text-sm font-medium">Buscar:</label>
+          <input
+            id="buscar"
+            type="text"
+            class="border border-gray-300 rounded px-3 py-1 max-w-xs focus:ring-2 focus:ring-teal-500"
+          />
+          <button
             (click)="abrirModalAgregar()"
-              class="flex items-center space-x-2 
-                    bg-teal-500 text-white
-                    px-3 py-1 rounded
-                    hover:bg-teal-600 transition "
-            >
-              <iconify-icon
-                icon="mdi:account-plus-outline"
-                class="text-lg"
-              ></iconify-icon>
-              <span class="text-sm">Agregar</span>
-            </button>
-          </div>
-          </div>  
+            class="flex items-center bg-teal-500 text-white px-3 py-1 rounded hover:bg-teal-600 transition"
+          >
+            <iconify-icon icon="mdi:account-plus-outline" class="text-lg"></iconify-icon>
+            <span class="ml-1 text-sm">Agregar</span>
+          </button>
+        </div>
       </div>
 
       <!-- TABLA -->
-      <div class="">
-        <div class="bg-white shadow rounded-lg overflow-hidden ">
-          <div class="overflow-x-auto ">
-            <table class="w-full  divide-y divide-gray-200">
-              <thead class="bg-gray-50">
-                <tr>
-                  <th class="px-2 py-2 text-center text-xs font-medium text-gray-500 ">ID</th>
-                  <th class="px-3 md:px-6 py-2 text-center text-xs font-medium text-gray-500 ">Nombre</th>
-                  <th class="px-3 md:px-6 py-2 text-center text-xs font-medium text-gray-500 ">Apellido</th>
-                  <th class="px-3 md:px-6 py-2 text-center text-xs font-medium text-gray-500 ">Email</th>
-                  <th class="px-3 md:px-6 py-2 text-center text-xs font-medium text-gray-500 ">Perfil</th>
-                  <th class="px-3 md:px-6 py-2 text-center text-xs font-medium text-gray-500 ">Status</th>
-                  <th class="px-3 md:px-6 py-2 text-center text-xs font-medium text-gray-500 ">Acciones</th>
-                </tr>
-              </thead>
-              <tbody class="bg-white divide-y divide-gray-200">
-                <tr *ngFor="let Usuario of Usuarios">
-                  <td class="px-2 text-center whitespace-nowrap text-xs w-auto">{{ Usuario.id }}</td>
-                  <td class="px-3 md:px-6 text-center whitespace-nowrap text-xs">{{ Usuario.nombre }}</td>
-                  <td class="px-3 md:px-6 text-center whitespace-nowrap text-xs">{{ Usuario.apellido }}</td>
-                  <td class="px-3 md:px-6 text-center whitespace-nowrap text-xs">{{ Usuario.email }}</td>
-                  <td class="px-3 md:px-6 text-center whitespace-nowrap text-xs">{{ Usuario.perfil }}</td>
-                  <td class="px-3 md:px-6 text-center whitespace-nowrap text-xs">
-                    <span
-                      [ngClass]="{
-                        'text-green-600 font-semibold': Usuario.status === 'ACTIVE',
-                        'text-red-600 font-semibold':   Usuario.status === 'INACTIVE'
-                      }"
-                    >
-                      {{ Usuario.status }}
-                    </span>
-                  </td>
-                  <td class="px-3 md:px-6 whitespace-nowrap text-center text-xs">
-                    <!-- Edit -->
-                    <button
-                    (click)="abrirModalEditar()"
-                      class="inline-flex items-center p-1 rounded hover:bg-gray-100 transition"
-                      aria-label="Editar"
-                    >
-                      <iconify-icon
-                        icon="mdi:square-edit-outline"
-                        class="text-2xl text-teal-600"
-                      ></iconify-icon>
-                    </button>
-                    <!-- Delete -->
-                    <button
-                    (click)="abrirModalEliminar(Usuario.id)"
-                      class="inline-flex items-center p-1 rounded hover:bg-gray-100 transition"
-                      aria-label="Eliminar"
-                    >
-                      <iconify-icon
-                        icon="mdi:delete-outline"
-                        class="text-2xl text-red-600"
-                      ></iconify-icon>
-                    </button>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+      <div class="bg-white shadow rounded-lg overflow-hidden">
+        <div class="overflow-x-auto">
+          <table class="w-full divide-y divide-gray-200">
+            <thead class="bg-gray-50">
+              <tr>
+                <th class="px-2 py-2 text-center text-xs font-medium text-gray-500">ID</th>
+                <th class="px-4 py-2 text-center text-xs font-medium text-gray-500">Nombre</th>
+                <th class="px-4 py-2 text-center text-xs font-medium text-gray-500">Apellido</th>
+                <th class="px-4 py-2 text-center text-xs font-medium text-gray-500">Email</th>
+                <th class="px-4 py-2 text-center text-xs font-medium text-gray-500">Perfil</th>
+                <th class="px-4 py-2 text-center text-xs font-medium text-gray-500">Acciones</th>
+              </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+              <tr *ngFor="let u of usuarios">
+                <td class="px-2 py-1 text-center text-xs">{{ u.id }}</td>
+                <td class="px-4 py-1 text-center text-xs">{{ u.nombre }}</td>
+                <td class="px-4 py-1 text-center text-xs">{{ u.apellido }}</td>
+                <td class="px-4 py-1 text-center text-xs">{{ u.email }}</td>
+                <td class="px-4 py-1 text-center text-xs">{{ u.perfil }}</td>
+                <td class="px-4 py-1 text-center text-xs space-x-2">
+                  <button
+                    (click)="abrirModalEditar(u)"
+                    class="inline-flex items-center p-1 hover:bg-gray-100 rounded"
+                  >
+                    <iconify-icon icon="mdi:square-edit-outline" class="text-teal-600 text-2xl"></iconify-icon>
+                  </button>
+                  <button
+                    (click)="abrirModalEliminar(u.id)"
+                    class="inline-flex items-center p-1 hover:bg-gray-100 rounded"
+                  >
+                    <iconify-icon icon="mdi:delete-outline" class="text-red-600 text-2xl"></iconify-icon>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
+
     </div>
   </div>
 </div>
 
-<!-- Modal para agregar usuario -->
-<app-agregar-usuarios-modal 
+<!-- Modales -->
+<app-agregar-usuarios-modal
   *ngIf="mostrarModalAgregar"
   (cerrar)="cerrarModalAgregar()"
 ></app-agregar-usuarios-modal>
 
-<!-- Modal para editar usuario -->
-<app-editar-usuarios-modal 
+<app-editar-usuarios-modal
   *ngIf="mostrarModalEditar"
+  [usuario]="usuarioSeleccionado"
   (cerrar)="cerrarModalEditar()"
 ></app-editar-usuarios-modal>
 
-<!-- Modal para eliminar usuario -->
-<app-eliminar-usuarios-modal 
+<app-eliminar-usuarios-modal
   *ngIf="mostrarModalEliminar"
   [usuarioId]="usuarioIdAEliminar"
   (confirmar)="eliminarUsuario($event)"

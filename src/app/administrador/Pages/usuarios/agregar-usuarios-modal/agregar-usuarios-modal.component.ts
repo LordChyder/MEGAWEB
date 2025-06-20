@@ -17,9 +17,10 @@ export class AgregarUsuariosModalComponent {
     nombre: '',
     apellido: '',
     email: '',
-    perfil: '',
-    status: 'ACTIVE'
+    password: '',
   };
+
+  confirmPassword = '';
 
   cerrarModal(): void {
     this.cerrar.emit();

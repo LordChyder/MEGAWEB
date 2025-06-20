@@ -12,7 +12,7 @@
     
     <!-- Vista previa -->
     <ng-container *ngIf="!showEditor">
-      <p class="m-auto">No hay contenido aún. Presiona Editar para agregarlo.</p>
+      <p class="m-auto" [innerHTML]="htmlContent"></p>
     </ng-container>
 
     <!-- Editor -->

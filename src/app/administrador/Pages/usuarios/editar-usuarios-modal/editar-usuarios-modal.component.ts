@@ -18,8 +18,10 @@ export class EditarUsuariosModalComponent {
     apellido: '',
     email: '',
     perfil: '',
-    status: 'ACTIVE'
+    password: '',
   };
+
+  confirmPassword = '';
 
   cerrarModal(): void {
     this.cerrar.emit();

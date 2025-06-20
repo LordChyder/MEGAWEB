@@ -1,8 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { Component, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, OnInit } from '@angular/core';
 import { AgregarUsuariosModalComponent } from './agregar-usuarios-modal/agregar-usuarios-modal.component';
 import { EditarUsuariosModalComponent } from './editar-usuarios-modal/editar-usuarios-modal.component';
 import { EliminarUsuariosModalComponent } from './eliminar-usuarios-modal/eliminar-usuarios-modal.component';
+import { UsuarioService } from '../../../service/admin/usuario/usuarios.service';
+
 
 interface Usuario {
   id: number;
@@ -10,54 +12,63 @@ interface Usuario {
   apellido: string;
   email: string;
   perfil: string;
-  status: 'ACTIVE' | 'INACTIVE';
 }
 
 @Component({
   selector: 'app-usuarios',
   standalone: true,
-  imports: [CommonModule, AgregarUsuariosModalComponent,
+  imports: [
+    CommonModule,
+    AgregarUsuariosModalComponent,
     EditarUsuariosModalComponent,
-    EliminarUsuariosModalComponent],
+    EliminarUsuariosModalComponent
+  ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   templateUrl: './usuarios.component.html',
-  styleUrl: './usuarios.component.css'
+  styleUrls: ['./usuarios.component.css']
 })
-export class UsuariosComponent {
+export class UsuariosComponent implements OnInit {
+  usuarios: Usuario[] = [];
   mostrarModalAgregar = false;
   mostrarModalEditar = false;
   mostrarModalEliminar = false;
+  usuarioSeleccionado: Usuario | null = null;
   usuarioIdAEliminar: number | null = null;
 
-  Usuarios: Usuario[] = [
-    {
-      id: 1,
-      nombre: 'ANDY H.',
-      apellido: 'Rucoba Reategui',
-      email: 'Soporte@megayuntas.com',
-      perfil: 'ADMINISTRADOR',
-      status: 'ACTIVE'
-    },
-    // …otros registros…
-  ];
+  constructor(private usuarioService: UsuarioService) {}
 
-  // FUNCION DE AGREGAR USUARIO
+  ngOnInit(): void {
+    this.cargarUsuarios();
+  }
+
+  private cargarUsuarios(): void {
+    this.usuarioService.getUsuarios().subscribe({
+      next: res => this.usuarios = res,
+      error: err => console.error('Error al cargar usuarios', err)
+    });
+  }
+
+  // --- AGREGAR ---
   abrirModalAgregar(): void {
     this.mostrarModalAgregar = true;
   }
   cerrarModalAgregar(): void {
     this.mostrarModalAgregar = false;
+    this.cargarUsuarios();
   }
 
-  // FUNCION DE EDITAR USUARIO
-  abrirModalEditar(): void {
+  // --- EDITAR ---
+  abrirModalEditar(usuario: Usuario): void {
+    this.usuarioSeleccionado = { ...usuario }; // clonamos para no mutar directo
     this.mostrarModalEditar = true;
   }
   cerrarModalEditar(): void {
     this.mostrarModalEditar = false;
+    this.usuarioSeleccionado = null;
+    this.cargarUsuarios();
   }
 
-  // FUNCION DE ELIMINAR USUARIO
+  // --- ELIMINAR ---
   abrirModalEliminar(usuarioId: number): void {
     this.usuarioIdAEliminar = usuarioId;
     this.mostrarModalEliminar = true;
@@ -67,8 +78,12 @@ export class UsuariosComponent {
     this.usuarioIdAEliminar = null;
   }
   eliminarUsuario(usuarioId: number): void {
-    // Aquí implementarías la lógica para eliminar el usuario
-    this.Usuarios = this.Usuarios.filter((usuario) => usuario.id !== usuarioId);
-    this.cerrarModalEliminar();
+    this.usuarioService.eliminarUsuario(usuarioId).subscribe({
+      next: () => {
+        this.cerrarModalEliminar();
+        this.cargarUsuarios();
+      },
+      error: err => console.error('Error eliminando usuario', err)
+    });
   }
 }

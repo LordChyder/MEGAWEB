@@ -1,56 +1,58 @@
+import { Component, EventEmitter, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Component, CUSTOM_ELEMENTS_SCHEMA, EventEmitter, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { AdministradorService } from '../../../../service/admin/administrador/administrador.service';
+
 
 @Component({
   selector: 'app-agregar-administradores-modal',
   standalone: true,
   imports: [CommonModule, FormsModule],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   templateUrl: './agregar-administradores-modal.component.html',
   styleUrl: './agregar-administradores-modal.component.css'
 })
 export class AgregarAdministradoresModalComponent {
-    @Output() cerrar = new EventEmitter<void>();
-      
-      // Modelo para el formulario
-      administradorNuevo = {
-        empresa: '',
-        opinion: '',
-        ruc: '',
-        telefono: '',
-        contacto: '',
-        direccion: '',
-        localidad: '',
-        nombreComercial: '',
-        grupo: '',
-        mostrarWeb: false
-      };
-    
-      // Método para cerrar el modal
-      cerrarModal(): void {
-        this.cerrar.emit();
-      }
-    
-      // Método para guardar el cliente
-      guardarAdministrador(): void {
-        console.log('Cliente guardado:', this.administradorNuevo);
-        // Aquí implementarías la lógica para guardar el cliente
+  @Output() cerrar = new EventEmitter<void>();
+  @Output() creado = new EventEmitter<void>(); // opcional, para refrescar la lista en el padre
+
+  // Modelo del nuevo administrador
+  administradorNuevo = {
+    nombres: '',
+    apellidos: '',
+    username: '',
+    password: '',
+    email: '',
+    rolNuevoAdministrador: 1,
+  };
+
+  confirmPassword = '';
+
+  constructor(private administradorService: AdministradorService) {}
+
+  
+
+  // Cerrar modal sin guardar
+  cerrarModal(): void {
+    this.cerrar.emit();
+  }
+
+  // Guardar administrador
+  guardarAdministrador(): void {
+      if (this.confirmPassword !== this.administradorNuevo.password) {
+    alert('Las contraseñas no coinciden');
+    return;
+  }
+  
+    this.administradorService.crearAdministrador(this.administradorNuevo).subscribe({
+      next: (res) => {
+        console.log('Administrador creado:', res);
+        this.creado.emit(); // si deseas que el padre refresque la lista
         this.cerrarModal();
+      },
+      error: (err) => {
+        console.error('Error al crear administrador:', err);
+        alert('Error al crear administrador.');
       }
-    
-      // Método para consultar RUC
-      consultarRUC(): void {
-        console.log('Consultando RUC:', this.administradorNuevo.ruc);
-        // Implementar lógica para consultar RUC
-      }
-    
-      // Método para subir imagen
-      subirImagen(event: Event): void {
-        const input = event.target as HTMLInputElement;
-        if (input.files && input.files.length > 0) {
-          console.log('Imagen seleccionada:', input.files[0].name);
-          // Implementar lógica para procesar la imagen
-        }
-      }
+    });
+  }
 }

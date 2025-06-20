@@ -1,22 +1,53 @@
+// src/app/components/direccion/direccion.component.ts
+import { Component, CUSTOM_ELEMENTS_SCHEMA, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
-import { Component, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { QuillModule } from 'ngx-quill';
+import { HttpClientModule } from '@angular/common/http';
+import { EmpresasService, InfoInstitucional } from '../../../../../service/admin/empresa/empresas.service';
+
 
 @Component({
   selector: 'app-direccion',
   standalone: true,
-  imports: [CommonModule,FormsModule, QuillModule, HttpClientModule],
+  imports: [CommonModule, FormsModule, HttpClientModule],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   templateUrl: './direccion.component.html',
-  styleUrl: './direccion.component.css'
+  styleUrls: ['./direccion.component.css']
 })
-export class DireccionComponent {
-    showEditor = false;
-    htmlContent = '';
-    guardarContenido() {
-    this.showEditor = false;
-    console.log('Contenido guardado:', this.htmlContent);
+export class DireccionComponent implements OnInit {
+  showEditor = false;
+  htmlContent = '';             // contendrá la dirección
+  private info!: InfoInstitucional;
+
+  constructor(private empresasSvc: EmpresasService) {}
+
+  ngOnInit(): void {
+    // Al iniciar, cargamos la dirección desde la API
+    this.empresasSvc.getInfoInstitucional().subscribe({
+      next: info => {
+        this.info = info;
+        this.htmlContent = info.direccion || '';
+      },
+      error: err => console.error('Error al cargar dirección:', err)
+    });
+  }
+
+  onEditar(): void {
+    this.showEditor = true;
+  }
+
+  guardarContenido(): void {
+    // Al guardar, enviamos solo el campo "direccion"
+    this.empresasSvc.actualizarInfoInstitucional({ direccion: this.htmlContent })
+      .subscribe({
+        next: () => {
+          this.showEditor = false;
+          console.log('Dirección actualizada:', this.htmlContent);
+        },
+        error: err => {
+          console.error('Error al guardar dirección:', err);
+          alert('No se pudo actualizar la dirección. Intenta de nuevo.');
+        }
+      });
   }
 }
