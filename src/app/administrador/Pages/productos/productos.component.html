@@ -29,7 +29,7 @@
                 icon="mdi:file-document-add"
                 class="text-lg"
               ></iconify-icon>
-              <span class="text-sm">Nuevas Consultas</span>
+              <span class="text-sm">Nuevo Producto</span>
             </button>
           </div>
         </div> 
@@ -61,7 +61,7 @@
                     <div class="flex justify-center space-x-2">
                       <!-- Edit -->
                       <button
-                        (click)="abrirModalEditar()"
+                        (click)="abrirModalEditar(Consultas)"
                         class="inline-flex items-center p-1 rounded hover:bg-gray-100 transition"
                         aria-label="Editar"
                       >
@@ -93,19 +93,24 @@
   </div>
 </div>
 
-<!-- Modal para agregar cliente -->
-<app-agregar-administradores-modal 
+<!-- Modal para agregar producto -->
+<app-agregar-productos-modal 
   *ngIf="mostrarModalAgregar"
-  (cerrar)="cerrarModalAgregar()"
-></app-agregar-administradores-modal>
+  (cerrarModal)="cerrarModalAgregar()"
+  (guardarProducto)="onGuardarProducto($event)">
+</app-agregar-productos-modal>
 
-<app-editar-administradores-modal 
-  *ngIf="mostrarModalEditar"
-  (cerrar)="cerrarModalEditar()"
-></app-editar-administradores-modal>
+<!-- Mantén tus otros modales si los necesitas -->
+    <!-- Modal Editar Producto -->
+<app-editar-productos-modal
+   *ngIf="mostrarModalEditar"
+    [producto]="productoSeleccionado"
+    (cerrarModal)="cerrarModalEditar()"
+    (actualizarProducto)="actualizarProducto($event)">
+ </app-editar-productos-modal>
 
 <app-eliminar-administradores-modal 
   *ngIf="mostrarModalEliminar"
   [adminsId]="consultaIdAEliminar"
-  (cancelar)="cerrarModalEliminar()"
-></app-eliminar-administradores-modal>
+  (cancelar)="cerrarModalEliminar()">
+</app-eliminar-administradores-modal>

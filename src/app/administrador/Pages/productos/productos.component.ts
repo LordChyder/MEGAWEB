@@ -1,28 +1,40 @@
 import { CommonModule } from '@angular/common';
 import { Component, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { AgregarConsultasComponent } from '../consultas/agregar-consultas/agregar-consultas.component';
+import { AgregarProductosModalComponent } from './agregar-productos-modal/agregar-productos-modal.component';
+// Mantén tus otros imports de modales si los necesitas
 import { EditarConsultasComponent } from '../consultas/editar-consultas/editar-consultas.component';
 import { EliminarConsultasComponent } from '../consultas/eliminar-consultas/eliminar-consultas.component';
+
 interface Consultas {
   id: number;
   productos: string;
   descripcion: string;
   version: string;
+  caracteristicas?: string;
+  imagenCaja?: any;
+  imagenPortada?: any;
+  fotosAdicionales?: any[];
 }
+
 @Component({
   selector: 'app-productos',
   standalone: true,
-  imports: [CommonModule,AgregarConsultasComponent,
-            EditarConsultasComponent, EliminarConsultasComponent],
+  imports: [
+    CommonModule,
+    AgregarProductosModalComponent, // Importamos el nuevo modal
+    EditarConsultasComponent, 
+    EliminarConsultasComponent
+  ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   templateUrl: './productos.component.html',
   styleUrl: './productos.component.css'
 })
 export class ProductosComponent {
- mostrarModalAgregar = false;
+  mostrarModalAgregar = false;
   mostrarModalEditar = false;
   mostrarModalEliminar = false;
-  consultaIdAEliminar: number | null = null
+  consultaIdAEliminar: number | null = null;
+  productoSeleccionado: Consultas | null = null
 
   consulta: Consultas[] = [
     {
@@ -31,45 +43,78 @@ export class ProductosComponent {
       descripcion: 'La palabra YUPAY, proviene del verbo CONTAR en Quechua, este sistema nace de la necesidad de tener un producto informático de gestión contable, y que brinde el soporte y la garantía necesaria para su funcionamiento en la Region San Martin. El Software de Contabilidad YUPAY fue diseñado para satisfacer las necesidades de información contable, requeridas por SUNAT, permitiendo un ingreso rápido y eficiente de los datos, y que al mismo tiempo genere información CONFIABLE y OPORTUNA. Es un programa intuitivo que es fácil de configurar y utilizar. No se necesita entrenamiento especializado y permite trabajar rápido con una interfaz cómoda para el usuario que se ve y se siente como los programas que se utilizan diariamente. Se adapta fácilmente al manejo de su contabilidad y agiliza la generación de información contable.',
       version: '2.2.32'
     },
-
     {
       id: 2,
       productos: 'JHON',
       descripcion: 'DOE',
       version: '2.2.32' 
-    },
-
-    // …otros registros…
+    }
   ];
 
-  //FUNCION DE AGREGAR CLIENTE
+  // FUNCIÓN DE AGREGAR PRODUCTO
   abrirModalAgregar(): void {
     this.mostrarModalAgregar = true;
   }
+
   cerrarModalAgregar(): void {
     this.mostrarModalAgregar = false;
-  } 
-
-  //FUNCION DE EDITAR CLIENTE
-  abrirModalEditar(): void {
-    this.mostrarModalEditar = true;
   }
+
+  // Nueva función para manejar el guardado del producto
+  onGuardarProducto(productoData: any): void {
+    console.log('Datos del producto recibidos:', productoData);
+    
+    // Crear nuevo producto con ID único
+    const nuevoProducto: Consultas = {
+      id: this.consulta.length > 0 ? Math.max(...this.consulta.map(p => p.id)) + 1 : 1,
+      productos: productoData.producto,
+      descripcion: productoData.descripcion,
+      version: productoData.version,
+      caracteristicas: productoData.caracteristicas,
+      imagenCaja: productoData.imagenCaja,
+      imagenPortada: productoData.imagenPortada,
+      fotosAdicionales: productoData.fotosAdicionales
+    };
+
+    // Agregar el nuevo producto al array
+    this.consulta.push(nuevoProducto);
+    
+    // Cerrar el modal
+    this.cerrarModalAgregar();
+    
+    // Opcional: mostrar mensaje de éxito
+    console.log('Producto agregado exitosamente:', nuevoProducto);
+  }
+
+  // FUNCIÓN DE EDITAR PRODUCTO
+  abrirModalEditar(consulta: Consultas) {
+    this.productoSeleccionado = { ...consulta }
+    this.mostrarModalEditar = true
+  }
+
+    // Actualizar producto
+  actualizarProducto(productoData: any) {
+    // Lógica para actualizar el producto en la lista
+  }
+
   cerrarModalEditar(): void {
     this.mostrarModalEditar = false;
   }
 
-  //FUNCION DE ELIMINAR CLIENTE  
+  // FUNCIÓN DE ELIMINAR PRODUCTO  
   abrirModalEliminar(consultaId: number): void {
-  this.consultaIdAEliminar = consultaId
-  this.mostrarModalEliminar = true
+    this.consultaIdAEliminar = consultaId;
+    this.mostrarModalEliminar = true;
   }
+
   cerrarModalEliminar(): void {
-    this.mostrarModalEliminar = false
-    this.consultaIdAEliminar = null
+    this.mostrarModalEliminar = false;
+    this.consultaIdAEliminar = null;
   }
-  eliminarAdministrador(consultaId: number): void {
-    console.log("Eliminando cliente con ID:", consultaId)
-    this.consulta = this.consulta.filter((consultas) => consultas.id !== consultaId)
-    this.cerrarModalEliminar()
+
+  eliminarProducto(consultaId: number): void {
+    console.log("Eliminando producto con ID:", consultaId);
+    this.consulta = this.consulta.filter((consultas) => consultas.id !== consultaId);
+    this.cerrarModalEliminar();
   }
 }

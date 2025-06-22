@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { Component, CUSTOM_ELEMENTS_SCHEMA, OnInit } from '@angular/core';
-import { AgregarUsuariosModalComponent } from './agregar-usuarios-modal/agregar-usuarios-modal.component';
 import { EditarUsuariosModalComponent } from './editar-usuarios-modal/editar-usuarios-modal.component';
 import { EliminarUsuariosModalComponent } from './eliminar-usuarios-modal/eliminar-usuarios-modal.component';
 import { UsuarioService } from '../../../service/admin/usuario/usuarios.service';
@@ -19,7 +18,6 @@ interface Usuario {
   standalone: true,
   imports: [
     CommonModule,
-    AgregarUsuariosModalComponent,
     EditarUsuariosModalComponent,
     EliminarUsuariosModalComponent
   ],

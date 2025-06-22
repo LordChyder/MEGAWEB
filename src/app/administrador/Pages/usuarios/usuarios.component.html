@@ -12,13 +12,6 @@
             type="text"
             class="border border-gray-300 rounded px-3 py-1 max-w-xs focus:ring-2 focus:ring-teal-500"
           />
-          <button
-            (click)="abrirModalAgregar()"
-            class="flex items-center bg-teal-500 text-white px-3 py-1 rounded hover:bg-teal-600 transition"
-          >
-            <iconify-icon icon="mdi:account-plus-outline" class="text-lg"></iconify-icon>
-            <span class="ml-1 text-sm">Agregar</span>
-          </button>
         </div>
       </div>
 
@@ -66,12 +59,6 @@
     </div>
   </div>
 </div>
-
-<!-- Modales -->
-<app-agregar-usuarios-modal
-  *ngIf="mostrarModalAgregar"
-  (cerrar)="cerrarModalAgregar()"
-></app-agregar-usuarios-modal>
 
 <app-editar-usuarios-modal
   *ngIf="mostrarModalEditar"
