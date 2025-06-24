@@ -63,7 +63,7 @@
 
                 <!-- pdf-box -->
                 <button
-                (click)="abrirModalEliminar(Consultas.id)"
+                (click)="exportarPDF(Consultas.id)"
                   class="inline-flex items-center p-1 rounded hover:bg-gray-100 transition"
                   aria-label="pdf-box"
                 >
@@ -75,7 +75,7 @@
 
                <!-- list-box -->
                 <button
-                (click)="abrirModalEliminar(Consultas.id)"
+                (click)="editarPasos(Consultas.id)"
                   class="inline-flex items-center p-1 rounded hover:bg-gray-100 transition"
                   aria-label="list-box"
                 >
@@ -87,7 +87,7 @@
 
                 <!-- search-outline -->
                 <button
-                (click)="abrirModalEliminar(Consultas.id)"
+                (click)="relacionarConsultas(Consultas.id)"
                   class="inline-flex items-center p-1 rounded hover:bg-gray-100 transition"
                   aria-label="search-outline"
                 >
@@ -99,7 +99,7 @@
 
                 <!-- Edit -->
                 <button
-                (click)="abrirModalEditar()"
+                (click)="abrirModalEditar(Consultas.id)"
                   class="inline-flex items-center p-1 rounded hover:bg-gray-100 transition"
                   aria-label="Editar"
                 >
@@ -147,21 +147,34 @@
   </div>
 </div>
 
-<!-- Modal para agregar cliente -->
-<app-agregar-administradores-modal 
+<!-- Modal para agregar consulta -->
+<app-agregar-consultas 
   *ngIf="mostrarModalAgregar"
   (cerrar)="cerrarModalAgregar()"
-></app-agregar-administradores-modal>
+  (consultaGuardada)="onConsultaGuardada($event)"
+></app-agregar-consultas>
 
-<app-editar-administradores-modal 
+<!-- Modal para editar consulta -->
+<app-editar-consultas 
   *ngIf="mostrarModalEditar"
+  [consultaId]="consultaIdAEditar"
   (cerrar)="cerrarModalEditar()"
-></app-editar-administradores-modal>
+  (consultaEditada)="onConsultaEditada($event)"
+></app-editar-consultas>
 
-<app-eliminar-administradores-modal 
+<!-- Modal para eliminar consulta -->
+<app-eliminar-consultas 
   *ngIf="mostrarModalEliminar"
-  [adminsId]="consultaIdAEliminar"
-  
+  [consultaId]="consultaIdAEliminar"
   (cancelar)="cerrarModalEliminar()"
-></app-eliminar-administradores-modal>
+  (confirmar)="consultaIdAEliminar !== null && eliminarConsulta(consultaIdAEliminar)"
+></app-eliminar-consultas>
 
+<!-- Modal para relacionar consultas -->
+<app-relacionar-consultas 
+  *ngIf="mostrarModalRelacionar"
+  [consultaId]="consultaIdARelacionar"
+  (cerrar)="cerrarModalRelacionar()"
+  (consultasRelacionadas)="onConsultasRelacionadas($event)"
+></app-relacionar-consultas>
+</div>

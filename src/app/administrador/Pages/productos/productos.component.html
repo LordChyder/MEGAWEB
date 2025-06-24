@@ -36,8 +36,8 @@
     </div>
   
       <!-- TABLA -->
-      <div class="overflow-hidden">
-        <div class="bg-white shadow rounded-lg">
+      <div class="overflow-hidden shadow rounded-lg">
+        <div class="bg-white ">
           <div class="overflow-x-auto">
             <table class="w-full table-fixed divide-y divide-gray-200">
               <thead class="bg-gray-50">
@@ -58,7 +58,20 @@
                   </td>
                   <td class="px-3 md:px-4 py-2 text-center text-xs">{{ Consultas.version }}</td>
                   <td class="px-3 md:px-4 py-2 text-center text-xs">
-                    <div class="flex justify-center space-x-2">
+                    <div class="flex justify-center space-x-1">
+
+                  <!-- Manuales -->
+                      <button
+                        (click)="abrirModalManual(Consultas)"
+                        class="inline-flex items-center p-1 rounded hover:bg-gray-100 transition"
+                        aria-label="Editar"
+                      >
+                        <iconify-icon
+                          icon="mdi:book-plus-multiple"
+                          class="text-2xl text-orange-500"
+                        ></iconify-icon>
+                      </button>
+
                       <!-- Edit -->
                       <button
                         (click)="abrirModalEditar(Consultas)"
@@ -70,6 +83,7 @@
                           class="text-2xl text-teal-600"
                         ></iconify-icon>
                       </button>
+
                       <!-- Delete -->
                       <button
                         (click)="abrirModalEliminar(Consultas.id)"
@@ -104,7 +118,7 @@
     <!-- Modal Editar Producto -->
 <app-editar-productos-modal
    *ngIf="mostrarModalEditar"
-    [producto]="productoSeleccionado"
+    [Consultas]="productoSeleccionado"
     (cerrarModal)="cerrarModalEditar()"
     (actualizarProducto)="actualizarProducto($event)">
  </app-editar-productos-modal>
@@ -114,3 +128,11 @@
   [adminsId]="consultaIdAEliminar"
   (cancelar)="cerrarModalEliminar()">
 </app-eliminar-administradores-modal>
+
+<!-- Modal Manual Producto -->
+<app-manual-productos-modal
+  *ngIf="mostrarModalManual"
+  [Consultas]="productoSeleccionado"
+  (cerrarModal)="cerrarModalManual()"
+  (guardarDocumento)="guardarDocumento($event)">
+</app-manual-productos-modal>
