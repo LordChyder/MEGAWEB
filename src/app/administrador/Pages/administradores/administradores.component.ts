@@ -10,7 +10,7 @@ import { EditarAdministradoresModalComponent } from './editar-administradores-mo
   selector: 'app-administradores',
   standalone: true,
   templateUrl: './administradores.component.html',
-  styleUrls: ['./administradores.component.css'], // si usas Tailwind, puede estar vacío
+  styleUrls: ['./administradores.component.css'],
   imports: [CommonModule,AgregarAdministradoresModalComponent,
               EditarAdministradoresModalComponent, EliminarAdministradoresModalComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -31,8 +31,13 @@ export class AdministradoresComponent implements OnInit {
   constructor(private administradorService: AdministradorService) {}
 
   ngOnInit(): void {
+    this.cargarAdministradores();
+  }
+
+  cargarAdministradores(): void {
     this.administradorService.getAdministradores().subscribe({
       next: (data) => {
+        console.log('Datos recibidos del servicio:', data); // Debug
         this.admins = data.map((a: any) => ({
           id: a.id,
           nombre: a.nombres,
@@ -41,11 +46,17 @@ export class AdministradoresComponent implements OnInit {
           email: a.email,
           perfil: a.rol,
         }));
+        console.log('Administradores procesados:', this.admins); // Debug
       },
       error: (err) => {
         console.error('Error al cargar administradores', err);
       }
     });
+  }
+
+  // TrackBy function para mejorar el rendimiento
+  trackByAdminId(index: number, admin: any): number {
+    return admin.id;
   }
 
   // Métodos para abrir/cerrar modales
@@ -55,15 +66,19 @@ export class AdministradoresComponent implements OnInit {
 
   cerrarModalAgregar() {
     this.mostrarModalAgregar = false;
+    // Recargar datos después de agregar
+    this.cargarAdministradores();
   }
 
 abrirModalEditar(admin: any): void {
-  this.administradorSeleccionado = admin; // Asignamos el administrador a editar
+  this.administradorSeleccionado = admin;
   this.mostrarModalEditar = true;
 }
 
   cerrarModalEditar() {
     this.mostrarModalEditar = false;
+    // Recargar datos después de editar
+    this.cargarAdministradores();
   }
 
   abrirModalEliminar(id: number) {
@@ -77,7 +92,9 @@ abrirModalEditar(admin: any): void {
   }
 
   eliminarAdministrador(id: number) {
-    // aún no implementado
+    // Implementar lógica de eliminación
     this.cerrarModalEliminar();
+    // Recargar datos después de eliminar
+    this.cargarAdministradores();
   }
 }
