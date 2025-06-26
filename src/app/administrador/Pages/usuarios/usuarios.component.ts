@@ -41,9 +41,18 @@ export class UsuariosComponent implements OnInit {
 
   private cargarUsuarios(): void {
     this.usuarioService.getUsuarios().subscribe({
-      next: res => this.usuarios = res,
+      next: res => {
+        console.log('Datos recibidos del servicio:', res); // Debug
+        this.usuarios = res;
+        console.log('Usuarios procesados:', this.usuarios); // Debug
+      },
       error: err => console.error('Error al cargar usuarios', err)
     });
+  }
+
+  // TrackBy function para mejorar el rendimiento
+  trackByUsuarioId(index: number, usuario: Usuario): number {
+    return usuario.id;
   }
 
   // --- AGREGAR ---

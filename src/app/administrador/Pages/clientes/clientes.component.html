@@ -2,8 +2,9 @@
 <div class="bg-gray-100 w-full min-h-screen flex flex-col">
   <div class="flex-1 w-full mt-2 p-1 md:p-2">
     <div class="max-w-screen mx-5">
-      <!-- HEADER -->
-      <div class="grid grid-cols-2 gap-4 mb-3">
+      
+      <!-- HEADER ORIGINAL (Desktop) - NO MODIFICAR -->
+      <div class="desktop-header grid grid-cols-2 gap-4 mb-3">
         <h1 class="text-2xl font-bold text-gray-900">Clientes</h1>
         <div class="flex items-center justify-end space-x-4">
           <label for="buscar" class="text-sm font-medium">Buscar:</label>
@@ -22,8 +23,8 @@
         </div>
       </div>
 
-      <!-- TABLA -->
-      <div class="bg-white shadow rounded-lg overflow-hidden">
+      <!-- TABLA ORIGINAL (Desktop) - NO MODIFICAR -->
+      <div class="desktop-table bg-white shadow rounded-lg overflow-hidden">
         <div class="overflow-x-auto">
           <table class="w-full divide-y divide-gray-200">
             <thead class="bg-gray-50">
@@ -79,6 +80,158 @@
         </div>
       </div>
 
+      <!-- VERSIÓN MÓVIL ORIGINAL -->
+      <div class="mobile-version">
+        <!-- Mobile Header -->
+        <div class="mobile-header mb-4">
+          <div class="flex items-center justify-between mb-4">
+            <h1 class="text-xl font-bold text-gray-900">Clientes</h1>
+            <button
+              (click)="abrirModalAgregar()"
+              class="flex items-center bg-teal-500 text-white px-4 py-2 rounded-lg font-medium text-sm hover:bg-teal-600 transition"
+            >
+              <iconify-icon icon="mdi:plus" class="mr-1 text-lg"></iconify-icon>
+              <span>Agregar</span>
+            </button>
+          </div>
+          
+          <!-- Mobile Search -->
+          <div class="mb-4">
+            <div class="relative">
+              <input
+                type="text"
+                class="w-full border-2 border-teal-200 rounded-lg px-4 py-3 pl-10 focus:ring-2 focus:ring-teal-500 focus:border-teal-500 bg-white"
+                placeholder="Buscar por empresa, RUC o contacto..."
+              />
+              <iconify-icon 
+                icon="mdi:magnify" 
+                class="absolute left-3 top-1/2 transform -translate-y-1/2 text-teal-400 text-lg">
+              </iconify-icon>
+            </div>
+          </div>
+
+          <!-- Mobile Stats -->
+          <div class="bg-white rounded-lg p-4 mb-4 shadow-sm border border-gray-200">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center">
+                <iconify-icon icon="mdi:account-group" class="text-teal-500 text-xl mr-3"></iconify-icon>
+                <span class="text-gray-700 font-medium">Total de clientes</span>
+              </div>
+              <span class="text-2xl font-bold text-gray-900">{{ clientes.length }}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Mobile Cards - Diseño Original -->
+        <div class="mobile-cards space-y-4">
+          <div *ngFor="let cliente of clientes" class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+            <!-- Card Header Verde -->
+            <div class="bg-teal-500 px-4 py-3">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center">
+                  <iconify-icon icon="mdi:card-account-details-outline" class="text-white text-lg mr-2"></iconify-icon>
+                  <span class="text-white font-semibold">ID: {{ cliente.id }}</span>
+                </div>
+                <span class="bg-red-100 text-red-800 px-2 py-1 rounded-full text-xs font-medium">
+                  {{ cliente.Mostrar_en_Web === 'Si' ? 'Web' : 'No Web' }}
+                </span>
+              </div>
+            </div>
+
+            <!-- Card Body - Layout Original -->
+            <div class="p-4">
+              <div class="grid grid-cols-2 gap-4 mb-4">
+                <!-- Columna Izquierda -->
+                <div class="space-y-3">
+                  <!-- RUC -->
+                  <div class="flex items-start">
+                    <iconify-icon icon="mdi:card-account-details" class="text-gray-400 text-lg mr-2 mt-0.5"></iconify-icon>
+                    <div>
+                      <p class="text-xs text-gray-500 mb-1">RUC</p>
+                      <p class="text-sm font-medium text-gray-900">{{ cliente.Ruc || 'N/A' }}</p>
+                    </div>
+                  </div>
+
+                  <!-- Contacto -->
+                  <div class="flex items-start">
+                    <iconify-icon icon="mdi:account" class="text-gray-400 text-lg mr-2 mt-0.5"></iconify-icon>
+                    <div>
+                      <p class="text-xs text-gray-500 mb-1">Contacto</p>
+                      <p class="text-sm font-medium text-gray-900">{{ cliente.Contacto || 'N/A' }}</p>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Columna Derecha -->
+                <div class="space-y-3">
+                  <!-- Teléfono -->
+                  <div class="flex items-start">
+                    <iconify-icon icon="mdi:phone" class="text-gray-400 text-lg mr-2 mt-0.5"></iconify-icon>
+                    <div>
+                      <p class="text-xs text-gray-500 mb-1">Teléfono</p>
+                      <p class="text-sm font-medium text-gray-900">{{ cliente.Telefono || 'N/A' }}</p>
+                    </div>
+                  </div>
+
+                  <!-- Grupo -->
+                  <div class="flex items-start">
+                    <iconify-icon icon="mdi:account-group" class="text-gray-400 text-lg mr-2 mt-0.5"></iconify-icon>
+                    <div>
+                      <p class="text-xs text-gray-500 mb-1">Grupo</p>
+                      <p class="text-sm font-medium text-gray-900">{{ cliente.Grupo || 'N/A' }}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Actions - Diseño Original -->
+              <div class="flex items-center justify-end space-x-3 pt-3 border-t border-gray-100">
+                <!-- Licencias -->
+                <button
+                  (click)="abrirModalLicencias(cliente)"
+                  class="flex items-center bg-yellow-50 hover:bg-yellow-100 text-yellow-700 px-3 py-2 rounded-lg transition-colors border border-yellow-200"
+                >
+                  <iconify-icon icon="mdi:account-key" class="text-lg mr-1"></iconify-icon>
+                  <span class="text-sm font-medium">Licencias</span>
+                </button>
+
+                <!-- Editar -->
+                <button
+                  (click)="abrirModalEditar(cliente)"
+                  class="flex items-center bg-teal-50 hover:bg-teal-100 text-teal-700 px-3 py-2 rounded-lg transition-colors border border-teal-200"
+                >
+                  <iconify-icon icon="mdi:square-edit-outline" class="text-lg mr-1"></iconify-icon>
+                  <span class="text-sm font-medium">Editar</span>
+                </button>
+
+                <!-- Eliminar -->
+                <button
+                  (click)="abrirModalEliminar(cliente.id)"
+                  class="flex items-center bg-red-50 hover:bg-red-100 text-red-700 px-3 py-2 rounded-lg transition-colors border border-red-200"
+                >
+                  <iconify-icon icon="mdi:delete-outline" class="text-lg mr-1"></iconify-icon>
+                  <span class="text-sm font-medium">Eliminar</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Empty State for Mobile -->
+          <div *ngIf="clientes.length === 0" class="text-center py-12">
+            <iconify-icon icon="mdi:account-off" class="text-gray-300 text-6xl mb-4"></iconify-icon>
+            <h3 class="text-lg font-medium text-gray-900 mb-2">No hay clientes</h3>
+            <p class="text-gray-500 mb-4">Comienza agregando tu primer cliente</p>
+            <button
+              (click)="abrirModalAgregar()"
+              class="inline-flex items-center bg-teal-500 text-white px-4 py-2 rounded-lg hover:bg-teal-600 transition"
+            >
+              <iconify-icon icon="mdi:account-plus-outline" class="text-lg mr-2"></iconify-icon>
+              Agregar Cliente
+            </button>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 </div>
@@ -106,7 +259,7 @@
   (cancelar)="cerrarModalEliminar()"
 ></app-eliminar-cliente-modal>
 
-<!-- Modal Licencias - USANDO TU COMPONENTE -->
+<!-- Modal Licencias -->
 <app-licencia-productos-modal
   *ngIf="mostrarModalLicencias"
   [cliente]="clienteConLicencias"

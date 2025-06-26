@@ -6,7 +6,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { QuillModule } from 'ngx-quill';
 import { EmpresasService, InfoInstitucional } from '../../../../../service/admin/empresa/empresas.service';
 
-
 @Component({
   selector: 'app-mision',
   standalone: true,
@@ -17,20 +16,104 @@ import { EmpresasService, InfoInstitucional } from '../../../../../service/admin
 })
 export class MisionComponent implements OnInit {
   showEditor = false;
-  htmlContent = '';              // contendrá el texto de misión
+  htmlContent = '';
+  isSaving = false;
   private info!: InfoInstitucional;
+  private originalContent = '';
+
+  // Configuración completa del editor Quill para desktop
+  desktopQuillModules = {
+    toolbar: [
+      // Fila 1: Formato de texto básico
+      ['bold', 'italic', 'underline', 'strike'],
+      ['blockquote', 'code-block'],
+      
+      // Fila 2: Headers y listas
+      [{ 'header': 1 }, { 'header': 2 }],
+      [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+      [{ 'script': 'sub'}, { 'script': 'super' }],
+      
+      // Fila 3: Indentación y dirección
+      [{ 'indent': '-1'}, { 'indent': '+1' }],
+      [{ 'direction': 'rtl' }],
+      
+      // Fila 4: Tamaños y fuentes
+      [{ 'size': ['small', false, 'large', 'huge'] }],
+      [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+      
+      // Fila 5: Colores y alineación
+      [{ 'color': [] }, { 'background': [] }],
+      [{ 'font': [] }],
+      [{ 'align': [] }],
+      
+      // Fila 6: Enlaces y media
+      ['link', 'image', 'video'],
+      
+      // Limpiar formato
+      ['clean']
+    ]
+  };
+
+  // Configuración CORREGIDA para móvil - toolbar más organizada y visible
+  mobileQuillModules = {
+    toolbar: {
+      container: [
+        // Fila 1: Formato básico
+        ['bold', 'italic', 'underline', 'strike'],
+        
+        // Fila 2: Headers y estructura  
+        [{ 'header': [1, 2, 3, false] }, 'blockquote', 'code-block'],
+        
+        // Fila 3: Listas y alineación - CORRECCIÓN APLICADA
+        [{ 'list': 'ordered'}, { 'list': 'bullet' }, { 'align': [] }],
+        
+        // Fila 4: Colores - CONFIGURACIÓN ESPECÍFICA PARA MÓVIL
+        [{ 'color': ['#000000', '#e60000', '#ff9900', '#ffff00', '#008a00', '#0066cc', '#9933ff', '#ffffff', '#facccc', '#ffebcc', '#ffffcc', '#cce8cc', '#cce0f5', '#ebd6ff', '#bbbbbb', '#f06666', '#ffc266', '#ffff66', '#66b966', '#66a3e0', '#c285ff', '#888888', '#a10000', '#b26b00', '#b2b200', '#006100', '#0047b2', '#6b24b2', '#444444', '#5c0000', '#663d00', '#666600', '#003700', '#002966', '#3d1466'] }, 
+         { 'background': ['#000000', '#e60000', '#ff9900', '#ffff00', '#008a00', '#0066cc', '#9933ff', '#ffffff', '#facccc', '#ffebcc', '#ffffcc', '#cce8cc', '#cce0f5', '#ebd6ff', '#bbbbbb', '#f06666', '#ffc266', '#ffff66', '#66b966', '#66a3e0', '#c285ff', '#888888', '#a10000', '#b26b00', '#b2b200', '#006100', '#0047b2', '#6b24b2', '#444444', '#5c0000', '#663d00', '#666600', '#003700', '#002966', '#3d1466'] }],
+        
+        // Fila 5: Tamaño y fuente
+        [{ 'size': ['small', false, 'large'] }, { 'font': [] }],
+        
+        // Fila 6: Scripts y enlaces
+        [{ 'script': 'sub'}, { 'script': 'super' }, 'link', 'image'],
+        
+        // Fila 7: Limpiar
+        ['clean']
+      ]
+    }
+  };
 
   constructor(private empresasSvc: EmpresasService) {}
 
   ngOnInit(): void {
+    this.cargarMision();
+  }
+
+  private cargarMision(): void {
     // Al iniciar, cargamos la misión desde la API
     this.empresasSvc.getInfoInstitucional().subscribe({
       next: info => {
         this.info = info;
         this.htmlContent = info.mision || '';
+        this.originalContent = this.htmlContent;
       },
-      error: err => console.error('Error al cargar misión:', err)
+      error: err => {
+        console.error('Error al cargar misión:', err);
+        this.htmlContent = '';
+      }
     });
+  }
+
+  toggleEditor(): void {
+    if (!this.showEditor) {
+      this.originalContent = this.htmlContent;
+    }
+    this.showEditor = !this.showEditor;
+  }
+
+  cancelarEdicion(): void {
+    this.htmlContent = this.originalContent;
+    this.showEditor = false;
   }
 
   onEditar(): void {
@@ -38,17 +121,29 @@ export class MisionComponent implements OnInit {
   }
 
   guardarContenido(): void {
+    if (this.isSaving) return;
+    
+    this.isSaving = true;
+    
     // Al guardar, enviamos solo el campo "mision"
     this.empresasSvc.actualizarInfoInstitucional({ mision: this.htmlContent })
       .subscribe({
         next: () => {
           this.showEditor = false;
+          this.isSaving = false;
+          this.originalContent = this.htmlContent;
           console.log('Misión actualizada:', this.htmlContent);
+          this.mostrarMensajeExito();
         },
         error: err => {
           console.error('Error al guardar misión:', err);
+          this.isSaving = false;
           alert('No se pudo actualizar la misión. Intenta de nuevo.');
         }
       });
+  }
+
+  private mostrarMensajeExito(): void {
+    console.log('Misión guardada exitosamente');
   }
 }
