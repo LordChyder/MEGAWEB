@@ -20,19 +20,11 @@
                 <div class="absolute left-3 top-1/2 transform -translate-y-1/2 z-10">
                   <iconify-icon icon="mdi:email" width="20" height="20" class="text-black"></iconify-icon>
                 </div>
-                <input type="email" 
+                <input type="username" 
                       name="loginEmail"
                       [(ngModel)]="loginData.user"
-                      #loginEmail="ngModel"
-                      required
-                      email
-                      placeholder="Correo" 
+                      placeholder="Usuario" 
                       class="w-full border pl-12 pr-4 py-2 rounded-md focus:outline-none bg-gray-100" />
-              </div>
-              <div *ngIf="loginEmail.invalid && loginEmail.touched"
-                  class="text-red-500 text-xs mt-1 ml-1 leading-tight">
-                <div *ngIf="loginEmail.errors?.['required']">El correo es obligatorio.</div>
-                <div *ngIf="loginEmail.errors?.['email']">Formato de correo no válido.</div>
               </div>
             </div>
 
