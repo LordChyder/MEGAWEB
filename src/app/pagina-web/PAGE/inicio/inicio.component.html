@@ -1,39 +1,54 @@
-<!-- Carrusel modificado -->
+<!-- Carrusel responsive -->
 <div class="relative w-full max-w-5xl mx-auto overflow-hidden">
-  <div #carousel class="flex transition-transform duration-500 ease-in-out">
+  <div
+    #carousel
+    class="flex transition-transform duration-500 ease-in-out touch-pan-x"
+    (touchstart)="onTouchStart($event)"
+    (touchmove)="onTouchMove($event)"
+    (touchend)="onTouchEnd()"
+  >
     <div
-      class="min-w-full flex items-center justify-center p-4 cursor-pointer"
+      class="min-w-full flex items-center justify-center p-2 sm:p-4 cursor-pointer"
       *ngFor="let producto of productos"
+      [routerLink]="['/productos']"
     >
-      <div class="flex items-center justify-center w-[900px] h-[300px]">
+      <div class="flex items-center justify-center w-[280px] sm:w-[900px] h-[150px] sm:h-[300px]">
         <img
           [src]="'../../../assets/productos_img/' + producto.imagen"
           [alt]="producto.nombre"
-          class="w-full h-full block"
+          class="w-full h-full object-cover"
         />
       </div>
     </div>
   </div>
 
-  <!-- Botones del carrusel -->
+  <!-- Botones del carrusel (solo visibles en sm y más grandes) -->
   <button
     (click)="prevSlide()"
-    class="absolute left-0 top-1/2 transform -translate-y-1/2 p-3 bg-white shadow rounded-full hover:bg-gray-100"
+    class="hidden sm:block absolute left-2 sm:left-4 top-1/2 transform -translate-y-1/2 z-10 bg-white/80 backdrop-blur-md shadow-lg rounded-full p-2 sm:p-3 hover:bg-[#007F6D] hover:text-white transition-all duration-300 group"
   >
-    &#8592;
+    <svg class="w-5 h-5 sm:w-6 sm:h-6 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" stroke-width="2"
+      viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"></path>
+    </svg>
   </button>
+
   <button
     (click)="nextSlide()"
-    class="absolute right-0 top-1/2 transform -translate-y-1/2 p-3 bg-white shadow rounded-full hover:bg-gray-100"
+    class="hidden sm:block absolute right-2 sm:right-4 top-1/2 transform -translate-y-1/2 z-10 bg-white/80 backdrop-blur-md shadow-lg rounded-full p-2 sm:p-3 hover:bg-[#007F6D] hover:text-white transition-all duration-300 group"
   >
-    &#8594;
+    <svg class="w-5 h-5 sm:w-6 sm:h-6 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" stroke-width="2"
+      viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"></path>
+    </svg>
   </button>
 </div>
+
 
 <!-- Últimas Publicaciones -->
 <section class="mt-6 mb-10 px-2">
   <div class="relative w-full max-w-4xl mx-auto overflow-hidden">
-    <h2 class="text-base font-bold flex items-center gap-2 mb-3 border-b-2 w-[40%]">
+    <h2 class="text-base font-bold flex items-center gap-2 mb-3 border-b-2 w-[80%] sm:w-[40%]">
       📕 Últimas publicaciones
     </h2>
     <p class="text-sm text-[#007F6D] font-bold flex items-center gap-2 mb-4">
@@ -42,12 +57,19 @@
     <div class="space-y-4">
       <div
         *ngFor="let publicacion of publicaciones"
-        class="flex w-full border border-[#BFBCB2]"
+        class="flex flex-col sm:flex-row w-full border border-[#BFBCB2]"
+        [routerLink]="['/vistaconsulta', publicacion.id]"
       >
-        <div class="w-[30%] max-h-36 overflow-hidden" (click)="irAConsulta(publicacion.id)">
-          <img [src]="'assets/publicaciones_img/' + publicacion.imagen" class="w-full h-full object-cover" />
+        <div class="w-full sm:w-[30%] max-h-36 overflow-hidden" (click)="irAConsulta(publicacion.id)">
+          <img
+            [src]="'assets/publicaciones_img/' + publicacion.imagen"
+            class="w-full h-full object-cover"
+          />
         </div>
-        <div class="w-[70%] grid bg-[#FFF5CC] p-3 gap-y-1" (click)="irAConsulta(publicacion.id)">
+        <div
+          class="w-full sm:w-[70%] grid bg-[#FFF5CC] p-3 gap-y-1"
+          (click)="irAConsulta(publicacion.id)"
+        >
           <h2 class="text-[#007F6D] text-sm font-semibold truncate">{{ publicacion.titulo }}</h2>
           <p class="text-xs text-slate-500">Publicado el {{ publicacion.fecha }}</p>
           <span class="text-sm font-medium line-clamp-2">{{ publicacion.descripcion }}</span>
@@ -59,17 +81,16 @@
 
 <!-- Información de empresa -->
 <section class="mt-10 mb-20 px-4">
-  <div class="grid gap-y-4 w-[50%] mx-auto">
+  <div class="grid gap-y-4 w-full sm:w-[50%] mx-auto">
     <div class="text-center space-y-4">
       <img
         src="../../../assets/Logo_Megayuntas2.png"
         alt="megaweb"
-        class="mx-auto w-48 h-auto block"
+        class="mx-auto w-40 sm:w-48 h-auto block"
       />
       <div class="flex items-center gap-4">
         <div class="border-b-4 border-orange-500 flex-1"></div>
         <div class="text-orange-500 text-2xl">
-          <!-- Icono de apretón de manos -->
           <svg width="40" height="40" viewBox="0 0 24 24" fill="none"
             xmlns="http://www.w3.org/2000/svg">
             <path
@@ -85,11 +106,6 @@
 
       <div class="flex justify-center text-center">
         <div [innerHTML]="descripcionEmpresa" class="prose max-w-prose text-justify"></div>
-      </div>
-
-
-      <div class="flex justify-center">
-        <!-- Imagen de apretón de manos eliminada por estar vacía -->
       </div>
     </div>
   </div>

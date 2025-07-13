@@ -1,7 +1,7 @@
 import { Component, ElementRef, ViewChild, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
-import { Router } from '@angular/router'; // ✅ Importar Router
+import { Router, RouterModule } from '@angular/router';
 import { ProductoService } from '../../../service/pages/productos/productos.service';
 import { PublicacionesService } from '../../../service/pages/publicaciones/publicaciones.service';
 import { NosotrosService } from '../../../service/pages/nosotros/nosotros.service';
@@ -32,7 +32,7 @@ interface Nosotros {
 @Component({
   selector: 'app-inicio',
   standalone: true,
-  imports: [CommonModule, HttpClientModule],
+  imports: [CommonModule, HttpClientModule, RouterModule],
   templateUrl: './inicio.component.html',
   styleUrl: './inicio.component.css'
 })
@@ -44,19 +44,27 @@ export class InicioComponent implements OnInit, OnDestroy {
   descripcionEmpresa: string = '';
   intervalId: any;
   nosotros: any;
-consultas: any;
+  consultas: any;
+
+  // Variables para touch
+  touchStartX = 0;
+  touchEndX = 0;
 
   constructor(
     private productoService: ProductoService,
     private publicacionesService: PublicacionesService,
     private nosotrosService: NosotrosService,
-    private router: Router // ✅ Inyectar Router
+    private router: Router
   ) {}
 
   ngOnInit(): void {
     this.getProducto();
     this.getPublicacion();
     this.getNosotros();
+  }
+
+  ngOnDestroy(): void {
+    clearInterval(this.intervalId);
   }
 
   getProducto() {
@@ -108,10 +116,6 @@ consultas: any;
     });
   }
 
-  ngOnDestroy(): void {
-    clearInterval(this.intervalId);
-  }
-
   startAutoSlide() {
     this.intervalId = setInterval(() => {
       this.nextSlide();
@@ -140,5 +144,23 @@ consultas: any;
   // ✅ Método para redirigir a la consulta
   irAConsulta(id: number | string) {
     this.router.navigate(['/consultas', id]);
+  }
+
+  // ✅ Métodos de deslizamiento táctil
+  onTouchStart(event: TouchEvent) {
+    this.touchStartX = event.touches[0].clientX;
+  }
+
+  onTouchMove(event: TouchEvent) {
+    this.touchEndX = event.touches[0].clientX;
+  }
+
+  onTouchEnd() {
+    const deltaX = this.touchEndX - this.touchStartX;
+    if (deltaX > 50) {
+      this.prevSlide();
+    } else if (deltaX < -50) {
+      this.nextSlide();
+    }
   }
 }

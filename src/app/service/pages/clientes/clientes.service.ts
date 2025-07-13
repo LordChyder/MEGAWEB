@@ -4,20 +4,20 @@ import { Observable } from 'rxjs';
 import { environment } from '../../../environment';
 
 export interface Cliente {
-  idcliente: number;
+  id: number;
   nombreCliente: string;
-  nombreProducto: string;
+  imagenCliente: string;
 }
 
 @Injectable({
   providedIn: 'root'
 })
 export class ClientesService {
-  private baseUrl = environment.apiUrl + '/clientes/vista';
+  private url = environment.apiUrl + '/clientes';
 
-  constructor(private httpClient: HttpClient) {}
+  constructor(private http: HttpClient) {}
 
-  getCliente(): Observable<{ clientes: Cliente[] }> {
-    return this.httpClient.get<{ clientes: Cliente[] }>(this.baseUrl);
+  obtenerClientes(): Observable<Cliente[]> {
+    return this.http.get<Cliente[]>(this.url);
   }
 }

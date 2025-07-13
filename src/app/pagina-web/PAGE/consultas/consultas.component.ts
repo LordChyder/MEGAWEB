@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Router, RouterModule } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 
 interface Consulta {
   id: string | number;
@@ -17,12 +18,14 @@ export interface BusquedaReciente {
 @Component({
   selector: 'app-consultas',
   standalone: true,
-  imports: [CommonModule, HttpClientModule, RouterModule],
+  imports: [CommonModule, HttpClientModule, RouterModule, FormsModule],
   templateUrl: './consultas.component.html',
   styleUrls: ['./consultas.component.css']
 })
 export class ConsultasComponent implements OnInit {
+  searchQuery: string = '';
   consultas: Consulta[] = [];
+  consultasFiltradas: Consulta[] = [];
   consultasPorPagina = 6;
   paginaActual = 0;
 
@@ -32,9 +35,10 @@ export class ConsultasComponent implements OnInit {
 
   ngOnInit(): void {
     // Cargar consultas
-    this.http.get<Consulta[]>('http://pruebas.megayuntas.com:1901/api/consultas').subscribe({
+    this.http.get<Consulta[]>('api/consultas').subscribe({
       next: (data) => {
         this.consultas = data;
+        this.consultasFiltradas = data;
       },
       error: (err) => {
         console.error('Error al cargar consultas desde la API:', err);
@@ -42,7 +46,7 @@ export class ConsultasComponent implements OnInit {
     });
 
     // Cargar búsquedas recientes
-    this.http.get<BusquedaReciente[]>('http://pruebas.megayuntas.com:1901/api/busquedas/recientes').subscribe({
+    this.http.get<BusquedaReciente[]>('api/busquedas/recientes').subscribe({
       next: (data) => {
         this.busquedasRecientes = data;
       },
@@ -52,13 +56,27 @@ export class ConsultasComponent implements OnInit {
     });
   }
 
+  buscar(): void {
+    const query = this.searchQuery.trim().toLowerCase();
+    this.paginaActual = 0;
+
+    if (query === '') {
+      this.consultasFiltradas = this.consultas;
+    } else {
+      this.consultasFiltradas = this.consultas.filter(consulta =>
+        consulta.titulo.toLowerCase().includes(query) ||
+        consulta.producto.toLowerCase().includes(query)
+      );
+    }
+  }
+
   obtenerConsultasPaginadas(): Consulta[] {
     const inicio = this.paginaActual * this.consultasPorPagina;
-    return this.consultas.slice(inicio, inicio + this.consultasPorPagina);
+    return this.consultasFiltradas.slice(inicio, inicio + this.consultasPorPagina);
   }
 
   siguientePagina(): void {
-    if ((this.paginaActual + 1) * this.consultasPorPagina < this.consultas.length) {
+    if ((this.paginaActual + 1) * this.consultasPorPagina < this.consultasFiltradas.length) {
       this.paginaActual++;
     }
   }
@@ -79,5 +97,13 @@ export class ConsultasComponent implements OnInit {
     } else {
       alert('No se encontró una consulta que coincida con esta búsqueda.');
     }
+  }
+
+  resaltarCoincidencia(texto: string): string {
+    if (!this.searchQuery.trim()) return texto;
+
+    const query = this.searchQuery.trim();
+    const regex = new RegExp(`(${query})`, 'gi');
+    return texto.replace(regex, `<mark class="bg-yellow-200">$1</mark>`);
   }
 }
