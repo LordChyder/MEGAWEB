@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from '../../../environment';
 import { Observable } from 'rxjs';
 
@@ -23,18 +23,26 @@ export class AdministradorService {
     return this.http.post(`${this.apiUrl}/administradores`, null, { params: data });
   }
 
-  // Actualizar un administrador existente
-  actualizarAdministrador(adm: any): Observable<any> {
+actualizarAdministrador(adm: any): Observable<any> {
+  const headers = this.getAuthHeaders(); // Asegúrate que esto incluya el token válido
+
+  const params = new HttpParams()
+    .set('nombres', adm.nombre)
+    .set('apellidos', adm.apellido)
+    .set('username', adm.username)
+    .set('password', adm.password)
+    .set('email', adm.email)
+    .set('rolNuevoAdministrador', adm.rolNuevoAdministrador);
+
   return this.http.put(
     `${this.apiUrl}/administradores/${adm.id}`,
-    adm,
-    { headers: this.getAuthHeaders() }
+    null, // Body vacío porque los datos van como query
+    { headers, params }
   );
 }
-
   // Eliminar un administrador (usa POST en lugar de DELETE)
-  eliminarAdministrador(data: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/administradores/eliminar`, data);
+  eliminarAdministrador(id: number): Observable<any> {
+    return this.http.post(`${this.apiUrl}/administradores/eliminar?id=${id}`, {});
   }
 
   // Método para obtener los encabezados de autenticación

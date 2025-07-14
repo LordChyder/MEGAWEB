@@ -3,7 +3,7 @@
     <div class="max-w-screen mx-5">
       <!-- HEADER: Desktop version -->
         <div class="hidden md:block">
-          <div class="grid grid-cols-2 gap-4 mb-3">
+          <div class="grid grid-cols-2 gap-4 bg-[#00796B] px-2 py-1">
            <div class="flex-col md:flex-row flex items-center">
           <h1 class="text-2xl md:text-2xl font-bold text-gray-900">
               Administradores</h1>
@@ -16,14 +16,14 @@
                   type="text"
                   placeholder=""
                   class="border border-gray-300 rounded
-                        px-3 py-1 w-full max-w-xs
-                        focus:outline-none focus:ring-2 focus:ring-teal-500"
+                        px-3 w-full max-w-xs
+                        focus:outline-none"
                 />
                 <div class="text-right md:text-right flex items-center ml-5">
                     <button
                       (click)="abrirModalAgregar()"
                       class="flex items-center space-x-2 
-                            bg-teal-500 text-white
+                            bg-[#00796B] text-white
                             px-3 py-1 rounded
                             hover:bg-teal-600 transition "
                     >
@@ -77,25 +77,25 @@
               icon="mdi:account-plus-outline"
               class="text-xl"
             ></iconify-icon>
-            <span>Agregar Administrador</span>
+            <span>Agregar</span>
           </button>
         </div>
       </div>
   
       <!-- TABLA - Desktop only -->
       <div class="hidden md:block">
-      <div class="bg-white shadow rounded-lg overflow-hidden">
+      <div class="bg-[#00796B]  shadow overflow-hidden">
         <div class="overflow-x-auto">
-        <table class="w-full divide-y divide-gray-200">
-          <thead class="bg-gray-50">
+        <table class="w-full divide-y divide-gray-200 divide-x divide-gray-200">
+          <thead class=>
             <tr>
-              <th class="px-2 py-2 text-center text-xs font-medium text-gray-500 w-auto">ID</th>
-              <th class="px-3 md:px-6 py-2 text-center text-xs font-medium text-gray-500">Usuario</th>
-              <th class="px-3 md:px-6 py-2 text-center text-xs font-medium text-gray-500">Nombre</th>
-              <th class="px-3 md:px-6 py-2 text-center text-xs font-medium text-gray-500">Apellido</th>
-              <th class="px-3 md:px-6 py-2 text-center text-xs font-medium text-gray-500">Email</th>
-              <th class="px-3 md:px-6 py-2 text-center text-xs font-medium text-gray-500">Perfil</th>
-              <th class="px-3 md:px-6 py-2 text-center text-xs font-medium text-gray-500">Acciones</th>
+              <th class="px-2 py-2 text-center text-xs font-medium text-white w-auto">ID</th>
+              <th class="px-3 md:px-6 py-2 text-center text-xs font-medium text-white">Usuario</th>
+              <th class="px-3 md:px-6 py-2 text-center text-xs font-medium text-white">Nombre</th>
+              <th class="px-3 md:px-6 py-2 text-center text-xs font-medium text-white">Apellido</th>
+              <th class="px-3 md:px-6 py-2 text-center text-xs font-medium text-white">Email</th>
+              <th class="px-3 md:px-6 py-2 text-center text-xs font-medium text-white">Perfil</th>
+              <th class="px-3 md:px-6 py-2 text-center text-xs font-medium text-white">Acciones</th>
             </tr>
           </thead>
           <tbody class="bg-white divide-y divide-gray-200">

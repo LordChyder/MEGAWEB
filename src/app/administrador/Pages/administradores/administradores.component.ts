@@ -91,10 +91,21 @@ abrirModalEditar(admin: any): void {
     this.adminsIdAEliminar = null;
   }
 
-  eliminarAdministrador(id: number) {
-    // Implementar lógica de eliminación
-    this.cerrarModalEliminar();
-    // Recargar datos después de eliminar
-    this.cargarAdministradores();
+eliminarAdministrador(id: number): void {
+  if (id == null || id === undefined) {
+    console.error('ID inválido para eliminación');
+    return;
   }
+
+  this.administradorService.eliminarAdministrador(id).subscribe({
+    next: () => {
+      console.log(`Administrador con ID ${id} eliminado`);
+      this.cerrarModalEliminar();
+      this.cargarAdministradores();
+    },
+    error: (err) => {
+      console.error('Error al eliminar administrador:', err);
+    }
+  });
+}
 }

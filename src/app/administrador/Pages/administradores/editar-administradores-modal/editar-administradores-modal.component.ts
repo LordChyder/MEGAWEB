@@ -18,7 +18,7 @@ export class EditarAdministradoresModalComponent {
   email: '',
   passwordActual: '',
   password: '',
-  rolNuevoAdministrador: 1
+  rolNuevoAdministrador: ''
 }; // Recibe el administrador a editar
   @Output() cerrar = new EventEmitter<void>();
   @Output() actualizado = new EventEmitter<void>(); // Para refrescar la lista en el padre
@@ -34,6 +34,8 @@ export class EditarAdministradoresModalComponent {
 
   // Método para guardar los cambios en el administrador
   guardarAdministrador(): void {
+    console.log('Datos del administrador a actualizar:', this.administrador); // Debug
+    console.log('Confirmación de contraseña:', this.confirmPassword); // Debug
     if (this.administrador.password !== this.confirmPassword) {
       alert('Las contraseñas no coinciden');
       return;
