@@ -13,6 +13,13 @@
             type="text"
             class="border border-gray-300 rounded px-3 py-1 max-w-xs focus:ring-2 focus:ring-teal-500"
           />
+          <button (click)="descargarReporte()"           
+           class="flex items-center bg-[#00796B] text-white px-3 py-1 rounded hover:bg-teal-600 transition"
+          >
+          <iconify-icon icon="mdi:account-plus-outline" class="text-lg"></iconify-icon>
+           <span class="ml-1 text-sm">Excel</span>
+          </button>
+
           <button
             (click)="abrirModalAgregar()"
             class="flex items-center bg-[#00796B] text-white px-3 py-1 rounded hover:bg-teal-600 transition"
@@ -42,12 +49,12 @@
             <tbody class="bg-white divide-y divide-gray-200">
               <tr *ngFor="let cliente of clientes">
                 <td class="px-2 py-1 text-center text-xs">{{ cliente.id }}</td>
-                <td class="px-4 py-1 text-center text-sm break-words">{{ cliente.Empresa }}</td>
-                <td class="px-4 py-1 text-center text-xs">{{ cliente.Ruc }}</td>
-                <td class="px-4 py-1 text-center text-xs">{{ cliente.Telefono }}</td>
-                <td class="px-4 py-1 text-center text-xs">{{ cliente.Contacto }}</td>
-                <td class="px-4 py-1 text-center text-xs">{{ cliente.Grupo }}</td>
-                <td class="px-4 py-1 text-center text-xs">{{ cliente.Mostrar_en_Web }}</td>
+                <td class="px-4 py-1 text-center text-sm break-words">{{ cliente.nombreEmpresa }}</td>
+                <td class="px-4 py-1 text-center text-xs">{{ cliente.ruc }}</td>
+                <td class="px-4 py-1 text-center text-xs">{{ cliente.telefono }}</td>
+                <td class="px-4 py-1 text-center text-xs">{{ cliente.contacto }}</td>
+                <td class="px-4 py-1 text-center text-xs">{{ cliente.grupo }}</td>
+                <td class="px-4 py-1 text-center text-xs">{{ cliente.mostrarEnWeb ? 'Web' : 'No Web' }}</td>
                 <td class="px-2 py-1 text-center text-xs space-x-2">
                   <!-- Licencia -->
                   <button
@@ -130,10 +137,10 @@
               <div class="flex items-center justify-between">
                 <div class="flex items-center">
                   <iconify-icon icon="mdi:card-account-details-outline" class="text-white text-lg mr-2"></iconify-icon>
-                  <span class="text-white font-semibold">ID: {{ cliente.id }}</span>
+                  <span class="text-white font-semibold">Empresa: {{ cliente.nombreEmpresa }}</span>
                 </div>
                 <span class="bg-red-100 text-red-800 px-2 py-1 rounded-full text-xs font-medium">
-                  {{ cliente.Mostrar_en_Web === 'Si' ? 'Web' : 'No Web' }}
+                  {{ cliente.mostrarEnWeb ? 'Web' : 'No Web' }}
                 </span>
               </div>
             </div>
@@ -148,7 +155,7 @@
                     <iconify-icon icon="mdi:card-account-details" class="text-gray-400 text-lg mr-2 mt-0.5"></iconify-icon>
                     <div>
                       <p class="text-xs text-gray-500 mb-1">RUC</p>
-                      <p class="text-sm font-medium text-gray-900">{{ cliente.Ruc || 'N/A' }}</p>
+                      <p class="text-sm font-medium text-gray-900">{{ cliente.ruc || 'N/A' }}</p>
                     </div>
                   </div>
 
@@ -157,7 +164,7 @@
                     <iconify-icon icon="mdi:account" class="text-gray-400 text-lg mr-2 mt-0.5"></iconify-icon>
                     <div>
                       <p class="text-xs text-gray-500 mb-1">Contacto</p>
-                      <p class="text-sm font-medium text-gray-900">{{ cliente.Contacto || 'N/A' }}</p>
+                      <p class="text-sm font-medium text-gray-900">{{ cliente.contacto || 'N/A' }}</p>
                     </div>
                   </div>
                 </div>
@@ -169,7 +176,7 @@
                     <iconify-icon icon="mdi:phone" class="text-gray-400 text-lg mr-2 mt-0.5"></iconify-icon>
                     <div>
                       <p class="text-xs text-gray-500 mb-1">Teléfono</p>
-                      <p class="text-sm font-medium text-gray-900">{{ cliente.Telefono || 'N/A' }}</p>
+                      <p class="text-sm font-medium text-gray-900">{{ cliente.telefono || 'N/A' }}</p>
                     </div>
                   </div>
 
@@ -178,7 +185,7 @@
                     <iconify-icon icon="mdi:account-group" class="text-gray-400 text-lg mr-2 mt-0.5"></iconify-icon>
                     <div>
                       <p class="text-xs text-gray-500 mb-1">Grupo</p>
-                      <p class="text-sm font-medium text-gray-900">{{ cliente.Grupo || 'N/A' }}</p>
+                      <p class="text-sm font-medium text-gray-900">{{ cliente.grupo || 'N/A' }}</p>
                     </div>
                   </div>
                 </div>

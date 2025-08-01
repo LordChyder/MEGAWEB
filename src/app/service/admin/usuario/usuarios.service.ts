@@ -1,13 +1,16 @@
 // src/app/service/admin/usuario/usuario.service.ts
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environment';
 
 @Injectable({
+
   providedIn: 'root'
+
 })
-export class UsuarioService {
+export class UsuariosService {
+
   private apiUrl = environment.apiUrl;
 
   constructor(private http: HttpClient) {}
@@ -40,19 +43,28 @@ export class UsuarioService {
 
   /** Actualizar un usuario existente */
   actualizarUsuario(usuario: any): Observable<any> {
+    const headers = this.getAuthHeaders(); // Asegúrate que esto incluya el token válido
+
+    // Según el Swagger, el ID va en el body, no en la URL
+    const body = {
+      id: usuario.id,        // ← INCLUIR EL ID EN EL BODY
+      nombres: usuario.nombres,
+      apellidos: usuario.apellidos,
+      email: usuario.email
+    };
+
+    console.log('Datos a enviar:', body); 
+
+    // URL sin el ID al final
     return this.http.put(
-      `${this.apiUrl}/usuarios`,
-      usuario,
-      { headers: this.getAuthHeaders() }
+      `${this.apiUrl}/usuarios`,  // ← SIN /${usuario.id}
+      body,
+      { headers }
     );
   }
 
   /** Eliminar un usuario (usa POST) */
-  eliminarUsuario(usuarioId: number): Observable<any> {
-    return this.http.post(
-      `${this.apiUrl}/usuarios/eliminar`,
-      { id: usuarioId },
-      { headers: this.getAuthHeaders() }
-    );
+  eliminarUsuario(id: number): Observable<any> {
+      return this.http.post(`${this.apiUrl}/usuarios/eliminar?id=${id}`, {});
   }
 }

@@ -15,12 +15,12 @@ export interface Licencia {
 // Extendemos tu interfaz Cliente existente
 export interface ClienteConLicencias {
   id: number;
-  Empresa: string;
-  Ruc: string;
-  Telefono: string;
-  Contacto: string;
+  nombreEmpresa: string;
+  ruc: string;
+  telefono: string;
+  contacto: string;
   Grupo: string;
-  Mostrar_en_Web: string;
+  mostrarEnWeb: string;
   licencias?: Licencia[];
 }
 

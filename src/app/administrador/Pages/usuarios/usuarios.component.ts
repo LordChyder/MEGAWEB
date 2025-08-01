@@ -1,16 +1,18 @@
 import { CommonModule } from '@angular/common';
 import { Component, CUSTOM_ELEMENTS_SCHEMA, OnInit } from '@angular/core';
-import { EditarUsuariosModalComponent } from './editar-usuarios-modal/editar-usuarios-modal.component';
+
 import { EliminarUsuariosModalComponent } from './eliminar-usuarios-modal/eliminar-usuarios-modal.component';
-import { UsuarioService } from '../../../service/admin/usuario/usuarios.service';
+import { UsuariosService } from '../../../service/admin/usuario/usuarios.service';
+import { EditarUsuariosModalComponent } from './editar-usuarios-modal/editar-usuarios-modal.component';
+
 
 
 interface Usuario {
   id: number;
-  nombre: string;
-  apellido: string;
+  nombres: string;
+  apellidos: string;
   email: string;
-  perfil: string;
+  idRol: number;
 }
 
 @Component({
@@ -27,23 +29,34 @@ interface Usuario {
 })
 export class UsuariosComponent implements OnInit {
   usuarios: Usuario[] = [];
+  // Mapeo de roles para mostrar nombres legibles
+  readonly rolesMap: { [key: string]: string } = {
+    '3': 'Usuario',
+    // Puedes agregar más roles aquí si es necesario
+  };
   mostrarModalAgregar = false;
   mostrarModalEditar = false;
   mostrarModalEliminar = false;
   usuarioSeleccionado: Usuario | null = null;
   usuarioIdAEliminar: number | null = null;
+  idRol = "Usuario"; // Asignar el perfil por defecto
 
-  constructor(private usuarioService: UsuarioService) {}
+
+  constructor(private usuariosService: UsuariosService) {}
 
   ngOnInit(): void {
     this.cargarUsuarios();
   }
 
   private cargarUsuarios(): void {
-    this.usuarioService.getUsuarios().subscribe({
+    this.usuariosService.getUsuarios().subscribe({
       next: res => {
         console.log('Datos recibidos del servicio:', res); // Debug
-        this.usuarios = res;
+        // Mapear idRol a nombre legible si corresponde
+        this.usuarios = res.map((usuario: Usuario) => ({
+          ...usuario,
+          idRol: this.rolesMap[usuario.idRol] || usuario.idRol
+        }));
         console.log('Usuarios procesados:', this.usuarios); // Debug
       },
       error: err => console.error('Error al cargar usuarios', err)
@@ -84,13 +97,21 @@ export class UsuariosComponent implements OnInit {
     this.mostrarModalEliminar = false;
     this.usuarioIdAEliminar = null;
   }
-  eliminarUsuario(usuarioId: number): void {
-    this.usuarioService.eliminarUsuario(usuarioId).subscribe({
-      next: () => {
-        this.cerrarModalEliminar();
-        this.cargarUsuarios();
-      },
-      error: err => console.error('Error eliminando usuario', err)
-    });
+  eliminarUsuario(id: number): void {
+    if (id == null || id === undefined) {
+    console.error('ID inválido para eliminación');
+    return;
   }
+
+  this.usuariosService.eliminarUsuario(id).subscribe({
+    next: () => {
+      console.log(`Usuario con ID ${id} eliminado`);
+      this.cerrarModalEliminar();
+      this.cargarUsuarios();
+    },
+    error: (err) => {
+      console.error('Error al eliminar Usuario:', err);
+    }
+  });
+}
 }

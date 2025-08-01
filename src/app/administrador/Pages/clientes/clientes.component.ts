@@ -15,7 +15,7 @@ import { ClientesService, Cliente } from '../../../service/admin/clientes/client
     AgregarClienteModalComponent,
     EditarClienteModalComponent,
     EliminarClienteModalComponent,
-    LicenciaModalComponent // Importar tu componente modal
+    LicenciaModalComponent
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   templateUrl: './clientes.component.html',
@@ -25,12 +25,15 @@ export class ClientesComponent implements OnInit {
   mostrarModalAgregar = false;
   mostrarModalEditar = false;
   mostrarModalEliminar = false;
-  mostrarModalLicencias = false; // Nueva propiedad
+  mostrarModalLicencias = false;
   clienteIdAEliminar: number | null = null;
 
+  // Estado del componente
   clientes: Cliente[] = [];
   clienteSeleccionado: Cliente | null = null;
-  clienteConLicencias: ClienteConLicencias | null = null; // Para el modal de licencias
+  clienteConLicencias: ClienteConLicencias | null = null;
+  cargandoClientes = false;
+  errorCarga = false;
 
   constructor(private clientesSvc: ClientesService) {}
 
@@ -38,31 +41,57 @@ export class ClientesComponent implements OnInit {
     this.cargarClientes();
   }
 
-  // Público para que pueda llamarse desde los modales
+  // Método corregido para cargar clientes
   cargarClientes(): void {
+    this.cargandoClientes = true;
+    this.errorCarga = false;
+    
     this.clientesSvc.getClientes().subscribe({
-      next: data => this.clientes = data,
-      error: err => console.error('Error al cargar clientes', err)
+      next: (data: Cliente[]) => {
+        console.log('Clientes cargados:', data);
+        this.clientes = data;
+        this.cargandoClientes = false;
+      },
+      error: (err) => {
+        console.error('Error al cargar clientes:', err);
+        this.errorCarga = true;
+        this.cargandoClientes = false;
+        
+        // Opcional: Mostrar mensaje de error al usuario
+        // this.mostrarMensajeError('No se pudieron cargar los clientes');
+      },
+      complete: () => {
+        console.log('Carga de clientes completada');
+      }
     });
+  }
+
+  // Método para recargar clientes (útil para botón de recarga)
+  recargarClientes(): void {
+    this.cargarClientes();
   }
 
   // —————————— AGREGAR ——————————
   abrirModalAgregar(): void {
     this.mostrarModalAgregar = true;
   }
+
   cerrarModalAgregar(): void {
     this.mostrarModalAgregar = false;
+    // Recargar clientes después de agregar
     this.cargarClientes();
   }
 
   // —————————— EDITAR ——————————
   abrirModalEditar(cliente: Cliente): void {
-    this.clienteSeleccionado = { ...cliente };
+    this.clienteSeleccionado = { ...cliente }; // Crear copia para evitar mutaciones
     this.mostrarModalEditar = true;
   }
+
   cerrarModalEditar(): void {
     this.mostrarModalEditar = false;
     this.clienteSeleccionado = null;
+    // Recargar clientes después de editar
     this.cargarClientes();
   }
 
@@ -71,21 +100,37 @@ export class ClientesComponent implements OnInit {
     this.clienteIdAEliminar = clienteId;
     this.mostrarModalEliminar = true;
   }
+
   cerrarModalEliminar(): void {
     this.mostrarModalEliminar = false;
     this.clienteIdAEliminar = null;
   }
+
+  // Método corregido para eliminar cliente
   eliminarCliente(clienteId: number): void {
-    this.clientes = this.clientes.filter(c => c.id !== clienteId);
-    this.cerrarModalEliminar();
+    this.clientesSvc.eliminarCliente(clienteId).subscribe({
+      next: () => {
+        console.log('Cliente eliminado correctamente');
+        // Actualizar la lista local
+        this.clientes = this.clientes.filter(c => c.id !== clienteId);
+        this.cerrarModalEliminar();
+      },
+      error: (err) => {
+        console.error('Error al eliminar cliente:', err);
+        // Opcional: mostrar mensaje de error
+      }
+    });
   }
 
-  // —————————— LICENCIAS —————————— (NUEVO)
+  // —————————— LICENCIAS ——————————
   abrirModalLicencias(cliente: Cliente): void {
-    // Convertir Cliente a ClienteConLicencias y cargar licencias
+    // Convertir Cliente a ClienteConLicencias
     this.clienteConLicencias = {
       ...cliente,
-      licencias: this.obtenerLicenciasCliente(cliente.id)
+      licencias: this.obtenerLicenciasCliente(cliente.id),
+      // Mapear propiedades si tienen nombres diferentes
+      Grupo: cliente.grupo,
+      mostrarEnWeb: String(cliente.mostrarEnWeb)
     };
     this.mostrarModalLicencias = true;
   }
@@ -98,7 +143,7 @@ export class ClientesComponent implements OnInit {
   guardarLicencias(cliente: ClienteConLicencias): void {
     console.log('Guardando licencias para cliente:', cliente);
     
-    // Aquí harías la llamada al servicio para actualizar las licencias
+    // Implementar cuando tengas el endpoint
     // this.clientesSvc.actualizarLicencias(cliente.id, cliente.licencias).subscribe({
     //   next: () => {
     //     console.log('Licencias actualizadas correctamente');
@@ -110,12 +155,22 @@ export class ClientesComponent implements OnInit {
     this.cerrarModalLicencias();
   }
 
-  // Método para obtener licencias del cliente (simulado)
+  descargarReporte(): void {
+  this.clientesSvc.reporteClientes().subscribe(blob => {
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'reporte_clientes.xlsx';
+    a.click();
+    window.URL.revokeObjectURL(url);
+  });
+  }
+
+  // —————————— MÉTODOS AUXILIARES ——————————
+  
+  // Método para obtener licencias del cliente (temporal)
   private obtenerLicenciasCliente(clienteId: number) {
-    // Aquí harías la llamada real al servicio para obtener las licencias
-    // return this.clientesSvc.getLicenciasCliente(clienteId);
-    
-    // Por ahora, datos de ejemplo basados en el clienteId
+    // Datos de ejemplo mientras implementas el servicio real
     const licenciasEjemplo = [
       {
         sistema: 'YUPAY',
@@ -140,5 +195,21 @@ export class ClientesComponent implements OnInit {
     ];
 
     return licenciasEjemplo;
+  }
+
+  // Método para buscar cliente por ID
+  obtenerClientePorId(id: number): Cliente | undefined {
+    return this.clientes.find(cliente => cliente.id === id);
+  }
+
+  // Método para filtrar clientes (útil para implementar búsqueda)
+  filtrarClientes(termino: string): Cliente[] {
+    if (!termino) return this.clientes;
+    
+    return this.clientes.filter(cliente =>
+      cliente.nombreEmpresa.toLowerCase().includes(termino.toLowerCase()) ||
+      cliente.ruc.includes(termino) ||
+      cliente.contacto.toLowerCase().includes(termino.toLowerCase())
+    );
   }
 }
